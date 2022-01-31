@@ -10,13 +10,13 @@ als erstes einen Workspace Ordner erstellen
 
 Terminal öffnen mit STRG+ALT+T. Hinter dem Prompt $ die Befehle eingeben
 
->$ cd ~
+- >$ cd ~
 
->$ mkdir ws_moveit
+- >$ mkdir ws_moveit
 
->$ cd ws_moveit
+- >$ cd ws_moveit
 
->$ mkdir src
+- >$ mkdir src
 
 Klone das Repositorium nach catkin_ws/src
 >$ cd ~/ws_moveit/src/
