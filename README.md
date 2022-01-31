@@ -23,7 +23,7 @@ Klone das Repositorium nach catkin_ws/src
 
 >$ git clone https://github.com/ProfJust/emr22.git
 
-ggf. ist es vorher erforderlich noch git zu installieren:
+_ggf. ist es vorher erforderlich noch git zu installieren:_
 >$ sudo apt install git
 
 Jetzt sollte der Ordner emr22 geclont worden sein.
