@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # =================================================
-# p01_pand_move_box.py
+# p01_panda_move_box.py
 # ################################################################################
 # edited WHS, OJ , 31.1.2022 #
 #
@@ -14,7 +14,7 @@
 
 # Python 2/3 compatibility imports
 from __future__ import print_function
-from six.moves import input
+# from six.moves import input
 
 import sys
 import copy
@@ -22,10 +22,11 @@ import rospy
 import moveit_commander
 import moveit_msgs.msg
 import geometry_msgs.msg
+import random
 
 try:
     from math import pi, tau, dist, fabs, cos
-except:  # For Python 2 compatibility
+except Exception:  # For Python 2 compatibility
     from math import pi, fabs, cos, sqrt
 
     tau = 2.0 * pi
@@ -33,12 +34,7 @@ except:  # For Python 2 compatibility
     def dist(p, q):
         return sqrt(sum((p_i - q_i) ** 2.0 for p_i, q_i in zip(p, q)))
 
-
-from std_msgs.msg import String
 from moveit_commander.conversions import pose_to_list
-
-## END_SUB_TUTORIAL
-
 
 def all_close(goal, actual, tolerance):
     """
@@ -76,8 +72,6 @@ class MoveGroupPythonInterfaceTutorial(object):
     def __init__(self):
         super(MoveGroupPythonInterfaceTutorial, self).__init__()
 
-        ## BEGIN_SUB_TUTORIAL setup
-        ##
         ## First initialize `moveit_commander`_ and a `rospy`_ node:
         moveit_commander.roscpp_initialize(sys.argv)
         rospy.init_node("move_group_python_interface_tutorial", anonymous=True)
@@ -108,10 +102,6 @@ class MoveGroupPythonInterfaceTutorial(object):
             queue_size=20,
         )
 
-        ## END_SUB_TUTORIAL
-
-        ## BEGIN_SUB_TUTORIAL basic_info
-        ##
         ## Getting Basic Information
         ## ^^^^^^^^^^^^^^^^^^^^^^^^^
         # We can get the name of the reference frame for this robot:
@@ -178,39 +168,67 @@ class MoveGroupPythonInterfaceTutorial(object):
         # For testing:
         current_joints = move_group.get_current_joint_values()
         return all_close(joint_goal, current_joints, 0.01)
-
-    def go_to_pose_goal(self):
-        # Copy class variables to local variables to make the web tutorials more clear.
-        # In practice, you should use the class variables directly unless you have a good
-        # reason not to.
+    
+    def go_to_desired_joint_state(self, joint_goal):
         move_group = self.move_group
+ 
+        move_group.go(joint_goal, wait=True)
 
-        ## BEGIN_SUB_TUTORIAL plan_to_pose
-        ##
-        ## Planning to a Pose Goal
-        ## ^^^^^^^^^^^^^^^^^^^^^^^
-        ## We can plan a motion for this group to a desired pose for the
-        ## end-effector:
+        # Calling ``stop()`` ensures that there is no residual movement
+        move_group.stop()
+        # For testing:
+        current_joints = move_group.get_current_joint_values()
+        return all_close(joint_goal, current_joints, 0.01)
+        
+    def go_to_pose_goal(self, x, y, z):
+        print(" Going to ", x, y, z)
+        # Planning to a Pose Goal
+        # print(self.move_group.get_current_pose())
+        # To get a valid position
+        
+        # We can plan a motion for this group to a desired pose for the
+        # end-effector:
         pose_goal = geometry_msgs.msg.Pose()
         pose_goal.orientation.w = 1.0
-        pose_goal.position.x = 0.4
-        pose_goal.position.y = 0.1
-        pose_goal.position.z = 0.4
+        pose_goal.position.x = x
+        pose_goal.position.y = y
+        pose_goal.position.z = z
 
-        move_group.set_pose_target(pose_goal)
+        #joint_goal = self.move_group.get_current_position()
+        
+        #get_current_joint_values()
+        ### joint_goal[0] = random.randrange(-10, 10, 1)/10
+        # joint_goal[1] = random.randrange(-10, 10, 1)/10
+        # joint_goal[2] = random.randrange(-10, 10, 1)/10
+        # joint_goal[3] = random.randrange(-10, 10, 1)/10 
 
-        ## Now, we call the planner to compute the plan and execute it.
-        plan = move_group.go(wait=True)
+        self.move_group.go(pose_goal, wait=True)
+        #self.move_group.execute(pose_goal, wait=True)
+
+        # erstelle plan
+        # plan = self.move_group.plan()
+        # plan = self.move_group.setPlanningTime(10)
+        # plan = self.move_group.set_pose_target(pose_goal)
+
+        # Prüfe Erreichbarkeit
+        # if not plan.joint_trajectory.points:
+            # Error
+          #  print("Error, Goal not reachable !!")
+        # else:
+        #  print(" Goal is reachable => OK ")
+
+        # GO
+        #plan = self.move_group.go(wait=True)
+
         # Calling `stop()` ensures that there is no residual movement
-        move_group.stop()
+        self.move_group.stop()
         # It is always good to clear your targets after planning with poses.
         # Note: there is no equivalent function for clear_joint_value_targets()
-        move_group.clear_pose_targets()
-
-        ## END_SUB_TUTORIAL
+        # self.move_group.clear_pose_targets()
 
         # For testing:
-        # Note that since this section of code will not be included in the tutorials
+        # Note that since this section of code
+        # will not be included in the tutorials
         # we use the class variable rather than the copied state variable
         current_pose = self.move_group.get_current_pose().pose
         return all_close(pose_goal, current_pose, 0.01)
@@ -344,54 +362,23 @@ class MoveGroupPythonInterfaceTutorial(object):
         ## END_SUB_TUTORIAL
 
     def add_box(self, timeout=4):
-        # Copy class variables to local variables to make the web tutorials more clear.
-        # In practice, you should use the class variables directly unless you have a good
-        # reason not to.
-        box_name = self.box_name
-        scene = self.scene
-
-        ## BEGIN_SUB_TUTORIAL add_box
-        ##
-        ## Adding Objects to the Planning Scene
-        ## ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-        ## First, we will create a box in the planning scene between the fingers:
+        # Adding Objects to the Planning Scene
         box_pose = geometry_msgs.msg.PoseStamped()
-        box_pose.header.frame_id = "panda_hand"
+        box_pose.header.frame_id = "world"
         box_pose.pose.orientation.w = 1.0
-        box_pose.pose.position.z = 0.11  # above the panda_hand frame
-        box_name = "box"
-        scene.add_box(box_name, box_pose, size=(0.075, 0.075, 0.075))
-
-        ## END_SUB_TUTORIAL
-        # Copy local variables back to class variables. In practice, you should use the class
-        # variables directly unless you have a good reason not to.
-        self.box_name = box_name
+        box_pose.pose.position.x = 0.3
+        box_pose.pose.position.y = 0.3
+        box_pose.pose.position.z = 0.0
+        self.box_name = "mybox"
+        self.scene.add_box(self.box_name, box_pose, size=(0.075, 0.075, 0.075))
         return self.wait_for_state_update(box_is_known=True, timeout=timeout)
 
     def attach_box(self, timeout=4):
-        # Copy class variables to local variables to make the web tutorials more clear.
-        # In practice, you should use the class variables directly unless you have a good
-        # reason not to.
-        box_name = self.box_name
-        robot = self.robot
-        scene = self.scene
-        eef_link = self.eef_link
-        group_names = self.group_names
-
-        ## BEGIN_SUB_TUTORIAL attach_object
-        ##
-        ## Attaching Objects to the Robot
-        ## ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-        ## Next, we will attach the box to the Panda wrist. Manipulating objects requires the
-        ## robot be able to touch them without the planning scene reporting the contact as a
-        ## collision. By adding link names to the ``touch_links`` array, we are telling the
-        ## planning scene to ignore collisions between those links and the box. For the Panda
-        ## robot, we set ``grasping_group = 'hand'``. If you are using a different robot,
-        ## you should change this value to the name of your end effector group name.
         grasping_group = "hand"
-        touch_links = robot.get_link_names(group=grasping_group)
-        scene.attach_box(eef_link, box_name, touch_links=touch_links)
-        ## END_SUB_TUTORIAL
+        touch_links = self.robot.get_link_names(group=grasping_group)
+        self.scene.attach_box(self.eef_link,
+                              self.box_name,
+                              touch_links=touch_links)
 
         # We wait for the planning scene to update.
         return self.wait_for_state_update(
@@ -450,51 +437,46 @@ def main():
         print("----------------------------------------------------------")
         print("Press Ctrl-D to exit at any time")
         print("")
-        input(
-            "============ Press `Enter` to begin the tutorial by setting up the moveit_commander ..."
-        )
+        print(" set up the moveit_commander ...")
         tutorial = MoveGroupPythonInterfaceTutorial()
 
-        input(
-            "============ Press `Enter` to execute a movement using a joint state goal ..."
-        )
-        tutorial.go_to_joint_state()
-
-        input("============ Press `Enter` to execute a movement using a pose goal ...")
-        tutorial.go_to_pose_goal()
-
-        input("============ Press `Enter` to plan and display a Cartesian path ...")
-        cartesian_plan, fraction = tutorial.plan_cartesian_path()
-
-        input(
-            "============ Press `Enter` to display a saved trajectory (this will replay the Cartesian path)  ..."
-        )
-        tutorial.display_trajectory(cartesian_plan)
-
-        input("============ Press `Enter` to execute a saved path ...")
-        tutorial.execute_plan(cartesian_plan)
-
-        input("============ Press `Enter` to add a box to the planning scene ...")
+        input("=== Press `Enter` to to add a box ")
         tutorial.add_box()
 
-        input("============ Press `Enter` to attach a Box to the Panda robot ...")
+        print(" going to the box position")
+        desired_joint_state = [-0.46792755134265235, -0.21042362942424445, 0.6304853442522458, -1.3331179442026733, 0.1307530260280359, 1.1813074845190936, 2.516553923467504, 0.035, 0.035]
+        
+        """
+         [-0.7029110007254243,
+                               -1.7624441323100954,
+                                1.669561687306458,
+                               -2.398704388371597,
+                                1.7721003054333067,
+                                1.512120046678285,
+                                2.3506492457104984,
+                                0.035,
+                                0.035]
+                                """
+
+        tutorial.go_to_desired_joint_state(desired_joint_state)
+        
+        #tutorial.go_to_pose_goal(0.338, 0.338, 0.5)
+
+        print(" attaching the Box to the Panda robot ...")
         tutorial.attach_box()
 
-        input(
-            "============ Press `Enter` to plan and execute a path with an attached collision object ..."
-        )
+        input("= Plan and execute a path with an attached collision object..")
         cartesian_plan, fraction = tutorial.plan_cartesian_path(scale=-1)
         tutorial.execute_plan(cartesian_plan)
 
-        input("============ Press `Enter` to detach the box from the Panda robot ...")
+        input("=== Press `Enter` to detach the box from the Panda robot ...")
         tutorial.detach_box()
 
-        input(
-            "============ Press `Enter` to remove the box from the planning scene ..."
-        )
-        tutorial.remove_box()
+        print("Execute a movement using a joint state goal ...")
+        tutorial.go_to_joint_state()
 
-        print("============ Python tutorial demo complete!")
+        print("=== complete!")
+
     except rospy.ROSInterruptException:
         return
     except KeyboardInterrupt:
@@ -504,38 +486,3 @@ def main():
 if __name__ == "__main__":
     main()
 
-## BEGIN_TUTORIAL
-## .. _moveit_commander:
-##    http://docs.ros.org/noetic/api/moveit_commander/html/namespacemoveit__commander.html
-##
-## .. _MoveGroupCommander:
-##    http://docs.ros.org/noetic/api/moveit_commander/html/classmoveit__commander_1_1move__group_1_1MoveGroupCommander.html
-##
-## .. _RobotCommander:
-##    http://docs.ros.org/noetic/api/moveit_commander/html/classmoveit__commander_1_1robot_1_1RobotCommander.html
-##
-## .. _PlanningSceneInterface:
-##    http://docs.ros.org/noetic/api/moveit_commander/html/classmoveit__commander_1_1planning__scene__interface_1_1PlanningSceneInterface.html
-##
-## .. _DisplayTrajectory:
-##    http://docs.ros.org/noetic/api/moveit_msgs/html/msg/DisplayTrajectory.html
-##
-## .. _RobotTrajectory:
-##    http://docs.ros.org/noetic/api/moveit_msgs/html/msg/RobotTrajectory.html
-##
-## .. _rospy:
-##    http://docs.ros.org/noetic/api/rospy/html/
-## CALL_SUB_TUTORIAL imports
-## CALL_SUB_TUTORIAL setup
-## CALL_SUB_TUTORIAL basic_info
-## CALL_SUB_TUTORIAL plan_to_joint_state
-## CALL_SUB_TUTORIAL plan_to_pose
-## CALL_SUB_TUTORIAL plan_cartesian_path
-## CALL_SUB_TUTORIAL display_trajectory
-## CALL_SUB_TUTORIAL execute_plan
-## CALL_SUB_TUTORIAL add_box
-## CALL_SUB_TUTORIAL wait_for_scene_update
-## CALL_SUB_TUTORIAL attach_object
-## CALL_SUB_TUTORIAL detach_object
-## CALL_SUB_TUTORIAL remove_object
-## END_TUTORIAL
