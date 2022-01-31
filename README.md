@@ -45,7 +45,7 @@ Pakete installieren
 
 >$ ./Install_MoveIt_on_ROS1.sh
 
-ggf. noch die .bahsrc konfigurieren
+ggf. noch die .bashrc - Datei konfigurieren
 >$ gedit ~/.bashrc
 
 Ergänze die Zeile
