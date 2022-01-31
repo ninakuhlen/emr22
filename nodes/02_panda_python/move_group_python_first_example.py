@@ -130,16 +130,16 @@ waypoints.append(copy.deepcopy(wpose))
 wpose.position.y -= 0.2  # Third move sideways (y)
 waypoints.append(copy.deepcopy(wpose))
 
-wpose.orientation.x += pi  # Turn 
+wpose.orientation.x += pi  # Turn
 waypoints.append(copy.deepcopy(wpose))
 
-wpose.orientation.y += pi  # Turn 
+wpose.orientation.y += pi  # Turn
 waypoints.append(copy.deepcopy(wpose))
 
-wpose.orientation.z += pi # Turn 
+wpose.orientation.z += pi  # Turn
 waypoints.append(copy.deepcopy(wpose))
 
-wpose.orientation.w += pi  # Turn 
+wpose.orientation.w += pi  # Turn
 waypoints.append(copy.deepcopy(wpose))
 
 # We want the Cartesian path to be interpolated at a resolution of 1 cm
@@ -147,7 +147,7 @@ waypoints.append(copy.deepcopy(wpose))
 # translation.  We will disable the jump threshold
 # by setting it to 0.0 disabling:
 (plan, fraction) = group.compute_cartesian_path(
-                                                waypoints,   
+                                                waypoints,
                                                 0.01,        # eef_step
                                                 0.0)         # jump_threshold
 # Displaying a Trajectory
