@@ -34,21 +34,22 @@ Erstellen des Moveit-Workspace mit Shellskript
 
 Nun ggf. erstmal ROS-Noetic installieren, dazu dem Skript 
 die Ausführungsrechte geben und dann ausführen
->$ chmod +x ROS_Noetic_Installation_auf_Remote_PC.sh
+>$ chmod +x ros_noetic_install_skript.sh
 
->$ ./ROS_Noetic_Installation_auf_Remote_PC.sh 
+>$ ./ros_noetic_install_skript.sh 
 
 Danach sämtliche für unseren Roboter benötigte Software-
 Pakete installieren
 
->$ chmod +x   xxxxxxxxxxx.sh
+>$ chmod +x  Install_MoveIt_on_ROS1.sh
 
->$ ./xxxxxxxxxxxxxxx.sh
+>$ ./Install_MoveIt_on_ROS1.sh
 
 ggf. noch die .bahsrc konfigurieren
->$ chmod +x edit_bashrc_for_emr22.sh 
+>$ gedit ~/.bashrc
 
->$ ./edit_bashrc_for_emr.sh 
+Ergänze die Zeile
+source ~/ws_moveit/devel/setup.bash
 
 Kompilieren mit dem catkin-Build-System
 >cd ~/ws_moveit
