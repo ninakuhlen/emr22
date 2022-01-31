@@ -1,6 +1,19 @@
 #!/usr/bin/env python
-
+# move_group_python_first_example.py
+# ------------------------------------
+# edited WHS, OJ , 31.1.2022 #
+# -------------------------------------
+# Erste einfache Bewegungen des Panda-Arms
+# unter Nutzung des
+# move_group_python_interface
+# -----------------------------------------
+# basiert auf dem Code 
 # https://www.fatalerrors.org/a/moveit-learning-notes-move-group-python-interface.html
+# -----------------------------------------
+# usage
+#   $1 roslaunch panda_moveit_config demo.launch rviz_tutorial:=true
+#   $2 rosrun emr22 move_group_python_first_example.py
+# ------------------------------------------------------------------
 import sys
 import copy
 import rospy
@@ -8,7 +21,7 @@ import moveit_commander
 import moveit_msgs.msg
 import geometry_msgs.msg
 from math import pi
-import numpy as np
+import numpy as np  # für deg2rad
 
 # First initialize moveit_ Command and rospy nodes:
 moveit_commander.roscpp_initialize(sys.argv)
