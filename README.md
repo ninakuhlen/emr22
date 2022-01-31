@@ -2,7 +2,7 @@
 Repsitorium zum Modul "Embedded Robotics" - EMR22 ab dem SS22.
 Stichworte:  ROS1 - Noetic, Python, openCV, Gazebo, MoveIt!, UR3, UR5e
 
-Wird in den ~/ws_moveit/src geclont und mit catkin build kompiliert
+Wird in den **~/ws_moveit/src** geclont und mit catkin build kompiliert
 
 
 Nachdem Ubuntu Focal Fossa 20.4 (LTS) installiert wurde 
