@@ -31,7 +31,7 @@ find_package(PythonLibs 3 REQUIRED)
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
 #  INCLUDE_DIRS include
-#  LIBRARIES rtc
+#  LIBRARIES emr22
 #  CATKIN_DEPENDS rospy std_msgs
 #  DEPENDS system_lib
   CATKIN_DEPENDS roscpp std_msgs sensor_msgs diagnostic_msgs 
