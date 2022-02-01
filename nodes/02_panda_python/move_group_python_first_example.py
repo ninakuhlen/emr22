@@ -7,12 +7,12 @@
 # unter Nutzung des
 # move_group_python_interface
 # -----------------------------------------
-# basiert auf dem Code 
+# basiert auf dem Code
 # https://www.fatalerrors.org/a/moveit-learning-notes-move-group-python-interface.html
 # -----------------------------------------
 # usage
 #   $1 roslaunch panda_moveit_config demo.launch rviz_tutorial:=true
-#       use moveit_panda_demo.rviz 
+#       use moveit_panda_demo.rviz
 # 
 #   $2 rosrun emr22 move_group_python_first_example.py
 # ----------------------------------------------------------------
