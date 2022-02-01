@@ -1,4 +1,4 @@
-# EMR22
+# EMR22 - ROS und MoveIt!
 Repsitorium zum Modul "Embedded Robotics" - EMR22 ab dem SS22.
 Stichworte:  ROS1 - Noetic, Python, openCV, Gazebo, MoveIt!, UR3, UR5e
 
