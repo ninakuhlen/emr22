@@ -8,8 +8,9 @@
 
   <node name="spawn_gazebo_model" pkg="gazebo_ros" 
         type="spawn_model" 
-        args="-file $(find emr22)/urdf/ur5_jnt_pos_ctrl.urdf\
-             -urdf -x 0 -y 0 -z 0.1 -model ur5 -J shoulder_lift_joint -1.5 -J elbow_joint 1.0" />
+        args="-file $(find emr22)/urdf/ur5_jnt_pos_ctrl.urdf
+             -urdf -x 0 -y 0 -z 0.1 -model ur5 -J 
+             shoulder_lift_joint -1.5 -J elbow_joint 1.0" />
 
   <!--statt  <include file="$(find emr22)/launch/ur5_joint_position_control.launch" /> -->
     <!-- Load joint controller configurations from YAML file to parameter server -->
