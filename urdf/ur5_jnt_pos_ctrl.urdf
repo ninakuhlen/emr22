@@ -1,9 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--http://roboticscasual.com/files/ur5_gazebo.txt-->
-<!-- Beschreinung der Geometrie des UR5 in Gazebo-->
+<!-- ur5_jnt_pos_ctrl.urdf -->
+<!-- https://raw.githubusercontent.com/dairal/ur5-joint-position-control/main/urdf/ur5_jnt_pos_ctrl.urdf -->
+<!-- Konfiguration der Aktoren (ros_control) des UR5 in Gazebo-->
 <!-- usage -->
-<!-- rosrun gazebo_ros spawn_model -file ~/ws_moveit/src/emr22/urdf/ur5_gazebo.urdf -urdf -x 0 -y 0 -z 0.1 -model ur5 -->
+<!-- rosrun XXXX -->
 <robot name="ur5">
+  <gazebo>
+    <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
+    </plugin>
+  </gazebo>
   <link name="base_link">
     <visual>
       <geometry>
@@ -21,9 +26,7 @@
     <inertial>
       <mass value="4.0"/>
       <origin rpy="0 0 0" xyz="0.0 0.0 0.0"/>
-      <inertia ixx="0.00443333156" ixy="0.0" 
-               ixz="0.0" iyy="0.00443333156" 
-               iyz="0.0" izz="0.0072"/>
+      <inertia ixx="0.00443333156" ixy="0.0" ixz="0.0" iyy="0.00443333156" iyz="0.0" izz="0.0072"/>
     </inertial>
   </link>
   <joint name="shoulder_pan_joint" type="revolute">
@@ -191,9 +194,7 @@
     <inertial>
       <mass value="0.1879"/>
       <origin rpy="0 0 0" xyz="0.0 0.0 0.0"/>
-      <inertia ixx="0.0171364731454" ixy="0.0"
-               ixz="0.0" iyy="0.0171364731454"
-               iyz="0.0" izz="0.033822"/>
+      <inertia ixx="0.0171364731454" ixy="0.0" ixz="0.0" iyy="0.0171364731454" iyz="0.0" izz="0.033822"/>
     </inertial>
   </link>
   <joint name="ee_fixed_joint" type="fixed">
@@ -209,6 +210,60 @@
       <origin rpy="0 0 0" xyz="-0.01 0 0"/>
     </collision>
   </link>
+  <transmission name="shoulder_pan_trans">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="shoulder_pan_joint">
+      <hardwareInterface>EffortJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="shoulder_pan_motor">
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+  </transmission>
+  <transmission name="shoulder_lift_trans">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="shoulder_lift_joint">
+      <hardwareInterface>EffortJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="shoulder_lift_motor">
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+  </transmission>
+  <transmission name="elbow_trans">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="elbow_joint">
+      <hardwareInterface>EffortJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="elbow_motor">
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+  </transmission>
+  <transmission name="wrist_1_trans">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="wrist_1_joint">
+      <hardwareInterface>EffortJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="wrist_1_motor">
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+  </transmission>
+  <transmission name="wrist_2_trans">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="wrist_2_joint">
+      <hardwareInterface>EffortJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="wrist_2_motor">
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+  </transmission>
+  <transmission name="wrist_3_trans">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="wrist_3_joint">
+      <hardwareInterface>EffortJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="wrist_3_motor">
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+  </transmission>
   <!-- define the ur5's position and orientation in the world coordinate system -->
   <link name="world"/>
   <joint name="world_joint" type="fixed">

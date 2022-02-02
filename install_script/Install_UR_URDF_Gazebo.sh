@@ -16,6 +16,12 @@ cd ~/ws_moveit/src
 git clone https://github.com/ros-industrial/universal_robot.git -b melodic-devel
 # Laut Issue #537 https://github.com/ros-industrial/universal_robot/issues/537 soll diese Paket auch für ROS-Noetic funktionieren. 
 
+# --- ros_control --- 
+# UR5 Package
+git clone https://github.com/dairal/ur5-joint-position-control.git
+# ROS Pakete, Regler für ros_control 
+sudo apt-get install ros-$ROS_DISTRO-ros-control ros-$ROS_DISTRO-ros-controllers
+
 rosdep update
 rosdep install --rosdistro $ROS_DISTRO --ignore-src --from-paths src
 
