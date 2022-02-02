@@ -1,0 +1,34 @@
+<!-- ur5_gazebo.launch -->
+<!-- Launches Gazebo and UR5-control -->
+<launch>
+
+  <include file="$(find gazebo_ros)/launch/empty_world.launch" >
+    <arg name="paused" value="true" />
+  </include>
+
+  <node name="spawn_gazebo_model" pkg="gazebo_ros" 
+        type="spawn_model" 
+        args="-file $(find emr22)/urdf/ur5_jnt_pos_ctrl.urdf\
+             -urdf -x 0 -y 0 -z 0.1 -model ur5 -J shoulder_lift_joint -1.5 -J elbow_joint 1.0" />
+
+  <!--statt  <include file="$(find emr22)/launch/ur5_joint_position_control.launch" /> -->
+    <!-- Load joint controller configurations from YAML file to parameter server -->
+    <rosparam file="$(find emr22)/config/ur5_jnt_pos_ctrl.yaml" 
+              command="load"/>
+
+    <param name="robot_description" textfile="$(find emr22)/urdf/ur5_jnt_pos_ctrl.urdf"/>
+    
+    <!-- load the controllers -->
+    <node name="controller_spawner" pkg="controller_manager" 
+          type="spawner" respawn="false"
+          output="screen" 
+          args="shoulder_pan_joint_position_controller shoulder_lift_joint_position_controller elbow_joint_position_controller wrist_1_joint_position_controller wrist_2_joint_position_controller wrist_3_joint_position_controller joint_state_controller"/>
+
+    <!-- convert joint states to TF transforms for rviz, etc -->
+    <node name="robot_state_publisher" pkg="robot_state_publisher" 
+        type="robot_state_publisher"
+        respawn="false" output="screen">
+        <remap from="/joint_states" to="/ur5/joint_states" />
+    </node>
+
+</launch>
