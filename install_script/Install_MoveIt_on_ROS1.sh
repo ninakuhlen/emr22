@@ -1,4 +1,4 @@
-#### Install MoveIt! on ROS 1 ###
+#### Install MoveIt! and Tutorial on ROS 1 ###
 
 # Install_MoveIt_on_ROS1.sh
 # ------------------------------------------------------------------
