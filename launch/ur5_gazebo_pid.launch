@@ -1,5 +1,9 @@
-<!-- ur5_gazebo.launch -->
-<!-- Launches Gazebo and UR5-control -->
+<!-- ur5_gazebo_pid.launch -->
+<!-- Launches Gazebo and UR5-control 
+used for Optimizing PIDs, see
+https://roboticscasual.com/ros-tutorial-control-the-ur5-robot-with-ros_control-tuning-a-pid-controller/
+  
+-->
 <launch>
 
   <include file="$(find gazebo_ros)/launch/empty_world.launch" >
