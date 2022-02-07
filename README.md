@@ -2,6 +2,9 @@
 Repsitorium zum Modul "Embedded Robotics" - EMR22 ab dem SS22.
 Stichworte:  ROS1 - Noetic, Python, openCV, Gazebo, MoveIt!, UR3, UR5e
 
+![rviz_plugin](https://moveit.picknik.ai/galactic/_images/rviz_plugin_head.png)
+
+
 ## Usage - Start der Umgebung mit UR5 ohne Gripper ##
 $1 roslaunch ur_gazebo ur5.launch
 $2 roslaunch ur5_moveit_config ur5_moveit_planing_execution.launch sim:=true 
