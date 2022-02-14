@@ -36,7 +36,7 @@ robot = moveit_commander.RobotCommander()
 scene = moveit_commander.PlanningSceneInterface()
 
 # Instantiate the MoveGroupCommander object.
-group_name = "panda_arm"
+group_name = "ur5_arm"
 group = moveit_commander.MoveGroupCommander(group_name)
 
 # Create a Publisher.
@@ -72,7 +72,7 @@ joint_goal[2] = 0
 joint_goal[3] = -pi/2
 joint_goal[4] = 0
 joint_goal[5] = pi/3
-joint_goal[6] = 0
+# nur 6 Joints joint_goal[6] = 0
 
 # The go command can be called with joint values, poses, or without any
 # parameters if you have already set the pose or joint target for the group
@@ -86,13 +86,13 @@ input(" Joint Goal reached ")
 # ============== Plan to a joint goal  =============
 # Gelenkwinkel in DEG (Joints 1..7)
 joint_goal = group.get_current_joint_values()
-joint_goal[0] = np.deg2rad(42)
-joint_goal[1] = np.deg2rad(34)
-joint_goal[2] = np.deg2rad(29)
-joint_goal[3] = np.deg2rad(-87)
-joint_goal[4] = np.deg2rad(-12)
-joint_goal[5] = np.deg2rad(134)
-joint_goal[6] = np.deg2rad(148)
+joint_goal[0] = np.deg2rad(-32)
+joint_goal[1] = np.deg2rad(-82)
+joint_goal[2] = np.deg2rad(-96)
+joint_goal[3] = np.deg2rad(-178)
+joint_goal[4] = np.deg2rad(-9)
+joint_goal[5] = np.deg2rad(-3)
+# joint_goal[6] = np.deg2rad(148)
 
 # The go command can be called with joint values, poses, or without any
 # parameters if you have already set the pose or joint target for the group
