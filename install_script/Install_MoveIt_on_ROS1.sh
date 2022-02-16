@@ -46,6 +46,3 @@ cd ~/ws_moveit
 catkin clean
 catkin config --extend /opt/ros/${ROS_DISTRO} --cmake-args -DCMAKE_BUILD_TYPE=Release
 catkin build
-
-echo -e "\033[34m -- Bei erfolgreiccher Kompilation startet nun die Panda Demo starten-- \033[0m "
-roslaunch panda_moveit_config demo.launch rviz_tutorial:=true
