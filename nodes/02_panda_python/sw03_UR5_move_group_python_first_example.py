@@ -79,7 +79,7 @@ joint_goal[5] = pi/3
 # nur 6 Joints joint_goal[6] = 0
 
 joint_gripper = group_gripper.get_current_joint_values()
-joint_gripper[0] = 0.2  # nealy closed
+joint_gripper[0] = 0.2  # nearly closed
 
 # The go command can be called with joint values, poses, or without any
 # parameters if you have already set the pose or joint target for the group

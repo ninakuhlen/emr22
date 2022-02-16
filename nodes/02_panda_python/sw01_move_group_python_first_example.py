@@ -35,6 +35,12 @@ robot = moveit_commander.RobotCommander()
 
 # Create an object for PlanningSceneInterface.
 scene = moveit_commander.PlanningSceneInterface()
+box_pose = geometry_msgs.msg.PoseStamped()
+box_pose.header.frame_id = "world"
+box_pose.pose.orientation.w = 1.0
+box_pose.pose.position.z = -0.2
+box_name = "desktop"
+scene.add_box(box_name, box_pose, size=(2.0, 2.0, 0.05))
 
 # Instantiate the MoveGroupCommander object.
 group_name = "panda_arm"
