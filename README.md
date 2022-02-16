@@ -42,7 +42,7 @@ Jetzt sollte der Ordner emr22 geclont worden sein.
 
 
 3. Erstellen des Moveit-Workspace mit Shellskript
->$ cd ~/ws_moveit/src/emr22/_install_script/
+>$ cd ~/ws_moveit/src/emr22/install_script
 
 Nun ggf. erstmal ROS-Noetic installieren, dazu dem Skript 
 die Ausführungsrechte geben und dann ausführen
