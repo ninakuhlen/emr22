@@ -89,7 +89,6 @@ box_name = "desktop"
 scene.add_box(box_name, box_pose, size=(2.0, 2.0, 0.05))
 rospy.loginfo(wait_for_state_update(box_name, scene, box_is_known=True))
 
-
 # ---- 1. Move to home position ----
 # input(" Go to Home Position => Enter")
 joint_goal = group.get_current_joint_values()
