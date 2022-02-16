@@ -36,3 +36,5 @@ catkin build
 
 echo -e "\033[34m --- Spawn UR5 with Gripper & MoveIt in Gazebo :  \033[0m "
 echo -e "\033[34m --- roslaunch ur5_gripper_moveit_config demo_gazebo.launch --- \033[0m "
+
+source ~/ws_moveit/devel/setup.bash
