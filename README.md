@@ -85,7 +85,7 @@ In RViz ggf. ADD Diplay <moveit_ros_visualization>, damit man den Panda Arm auch
 
 >$ cd ~/ws_moveit/src/emr22/install_script
 
->$ chmod +x Install_UR_URDF_Gazebo.sh
+>$ chmod +x Install_UR5_Gripper_MoveIt _Config_4_Gazebo.sh
 
->$ ./Install_UR_URDF_Gazebo.sh
+>$ ./Install_UR5_Gripper_MoveIt _Config_4_Gazebo.sh
 
