@@ -16,6 +16,10 @@ cd ~/ws_moveit/src
 git clone https://github.com/ProfJust/universal_robot.git -b melodic-devel
 # Laut Issue #537 https://github.com/ros-industrial/universal_robot/issues/537 soll diese Paket auch für ROS-Noetic funktionieren. 
 
+# Gripper Robotiq
+git clone https://github.com/filesmuggler/robotiq.git
+
+
 # --- fertige MoveIt Config aus dem Assitenten --
 git clone https://github.com/dairal/ur5_gripper_moveit_config
 
