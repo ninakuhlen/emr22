@@ -14,6 +14,8 @@
 #   $1 roslaunch ur5_gripper_moveit_config demo_gazebo.launch
 # 
 #   $2 rosrun emr22 sw03_UR5_move_group_python_first_example.py
+#
+#  No rospy()-loop used so there are many Warnings "TF_REPEATED_DATA ignoring data with redundant timestamp"
 # ----------------------------------------------------------------
 import sys
 import copy
@@ -38,6 +40,8 @@ scene = moveit_commander.PlanningSceneInterface()
 # Instantiate the MoveGroupCommander object.
 group_name = "ur5_arm"
 group = moveit_commander.MoveGroupCommander(group_name)
+group_name_gripper = "gripper"
+group_gripper = moveit_commander.MoveGroupCommander(group_name_gripper)
 
 # Create a Publisher.
 display_trajectory_publisher = rospy.Publisher('/move_group/display_planned_path',
@@ -74,10 +78,15 @@ joint_goal[4] = 0
 joint_goal[5] = pi/3
 # nur 6 Joints joint_goal[6] = 0
 
+joint_gripper = group_gripper.get_current_joint_values()
+joint_gripper[0] = 0.2  # nealy closed
+
 # The go command can be called with joint values, poses, or without any
 # parameters if you have already set the pose or joint target for the group
-print("Going to Joint Goal Angles", joint_goal)
+print("Going to Joint Goal Angles with Gripper", joint_goal)
 group.go(joint_goal, wait=True)
+print("Going to Gripper Angles", joint_gripper)
+# group.go(joint_gripper, wait=True)
 
 # Calling ``stop()`` ensures that there is no residual movement
 group.stop()
@@ -109,7 +118,7 @@ input(" Joint Goal reached ")
 pose_goal = geometry_msgs.msg.Pose()
 pose_goal.orientation.x = 0.77
 pose_goal.orientation.y = 00.61
-pose_goal.orientation.z = -0.09
+pose_goal.orientation.z = 0.09
 pose_goal.orientation.w = -0.12
 pose_goal.position.x = 0.4
 pose_goal.position.y = 0.1
