@@ -161,7 +161,7 @@ group.execute(plan, wait=True)
 input("\n Close Gripper => Enter")
 joint_gripper = group_gripper.get_current_joint_values()
 print("Gripper Angle is", joint_gripper)
-joint_gripper[0] = pi/10  # complete open is 0.0007  closed is pi/4
+joint_gripper[0] = pi/11  # complete open is 0.0007  closed is pi/4
 group_gripper.go(joint_gripper, wait=True)
 group_gripper.stop()
 
