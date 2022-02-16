@@ -79,9 +79,13 @@ Falls catkin build während der Kompilation abstürzt, prüfen Sie bitte, ob Ihr
 
 In RViz ggf. ADD Diplay <moveit_ros_visualization>, damit man den Panda Arm auch sieht.
 
+### UR5 und Gripper ###
+
 8. Zum Schluss noch die URDFs für den UR5, den Gripper und die MoveIt-Konfiguaration installieren.
 
 >$ cd ~/ws_moveit/src/emr22/install_script
+
 >$ chmod +x Install_UR_URDF_Gazebo.sh
+
 >$ ./Install_UR_URDF_Gazebo.sh
 
