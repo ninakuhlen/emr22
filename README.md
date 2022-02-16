@@ -77,6 +77,8 @@ Falls catkin build während der Kompilation abstürzt, prüfen Sie bitte, ob Ihr
 
 >$ roslaunch panda_moveit_config demo.launch rviz_tutorial:=true
 
+In RViz ggf. ADD Diplay <moveit_ros_visualization>, damit man den Panda Arm auch sieht.
+
 8. Zum Schluss noch die URDFs für den UR5, den Gripper und die MoveIt-Konfiguaration installieren.
 
 >$ cd ~/ws_moveit/src/emr22/install_script
