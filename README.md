@@ -66,8 +66,12 @@ Ergänze die Zeile
 
 > catkin build
 
+> source ~/ws_moveit/devel/setup.bash
+
 Falls catkin build nicht bekannt ist, 
 versuchen Sie den Befehl in einem neuen Terminal zu starten.
+
+Falls catkin build während der Kompilation abstürzt, prüfen Sie bitte, ob Ihr Speicher bzw. Sawp-Speicher ausreicht, da die Kompilation von MoveIt hier sehr anspruchsvoll ist. Ggf. den Swap Buffer vergrößern.
 
 7. Nun sollte man die Panda Arm - Demo in RViZ starten können
 
