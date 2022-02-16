@@ -12,8 +12,8 @@
 echo -e "\033[34m ----- robotik.bocholt@w-hs.de -- SS22 - MoveIt! installieren.. ----- \033[0m "
 echo -e "\033[34m ----- ..und Workspace ws_moveit (catkin build) einrichten ---------- \033[0m "
 
-ws_moveit
-cd ~
+cd ~/ws_moveit
+
 # rosdep update
 # sudo apt update
 # sudo apt dist-upgrade

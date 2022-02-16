@@ -1,12 +1,12 @@
 #### Install the neede URDF for the UR5-Robot and Gazebo ###
 
-# Install_UR_URDF_Gazebo.sh
+# Install_UR5_Gripper_MoveIt _Config_4_Gazebo.sh
 # ------------------------------------------------------------------
 # Installing 
 # auf einem Rechner mit Ubuntu 20.04 Focal Fossa  
 # OJ fuer robotik.bocholt@w-hs.de
 # SS2022
-# geaendert am 2.2.2022
+# geaendert am 16.2.2022
 # vgl. https://ros-planning.github.io/moveit_tutorials/doc/getting_started/getting_started.html 
 
 echo -e "\033[34m ----- robotik.bocholt@w-hs.de -- SS22 - UR5 für Gazebo installieren.. ----- \033[0m "
@@ -21,7 +21,7 @@ git clone https://github.com/filesmuggler/robotiq.git
 
 
 # --- fertige MoveIt Config aus dem Assitenten --
-git clone https://github.com/ProfJust/ur5_gripper_moveit_config.git
+git clone https://github.com/dairal/ur5_gripper_moveit_config
 
 # --- ros_control --- 
 # UR5 Package

@@ -5,10 +5,8 @@ Stichworte:  ROS1 - Noetic, Python, openCV, Gazebo, MoveIt!, UR3, UR5e
 ![rviz_plugin](https://jaspereb.github.io/UR5_With_ROS_Moveit_Tutorial/media/frontImg.png)
 
 
-## Usage - Start der Umgebung mit UR5 ohne Gripper ##
-$1 roslaunch ur_gazebo ur5.launch
-$2 roslaunch ur5_moveit_config ur5_moveit_planing_execution.launch sim:=true 
-$3 roslaunch ur5_moveit_config demo.launch rviz_tutorial:=true
+## Usage - Start der Umgebung mit UR5 mit Gripper ##
+>$1 roslaunch ur5_moveit_config demo_gazebo.launch 
 
 
 
@@ -42,7 +40,7 @@ Jetzt sollte der Ordner emr22 geclont worden sein.
 
 
 3. Erstellen des Moveit-Workspace mit Shellskript
->$ cd ~/ws_moveit/emr22/_install_script/
+>$ cd ~/ws_moveit/src/emr22/install_script
 
 Nun ggf. erstmal ROS-Noetic installieren, dazu dem Skript 
 die Ausführungsrechte geben und dann ausführen
@@ -68,12 +66,26 @@ Ergänze die Zeile
 
 > catkin build
 
+> source ~/ws_moveit/devel/setup.bash
+
 Falls catkin build nicht bekannt ist, 
 versuchen Sie den Befehl in einem neuen Terminal zu starten.
+
+Falls catkin build während der Kompilation abstürzt, prüfen Sie bitte, ob Ihr Speicher bzw. Sawp-Speicher ausreicht, da die Kompilation von MoveIt hier sehr anspruchsvoll ist. Ggf. den Swap Buffer vergrößern.
 
 7. Nun sollte man die Panda Arm - Demo in RViZ starten können
 
 >$ roslaunch panda_moveit_config demo.launch rviz_tutorial:=true
 
+In RViz ggf. ADD Diplay <moveit_ros_visualization>, damit man den Panda Arm auch sieht.
 
+### UR5 und Gripper ###
+
+8. Zum Schluss noch die URDFs für den UR5, den Gripper und die MoveIt-Konfiguration installieren.
+
+>$ cd ~/ws_moveit/src/emr22/install_script
+
+>$ chmod +x Install_UR5_Gripper_MoveIt _Config_4_Gazebo.sh
+
+>$ ./Install_UR5_Gripper_MoveIt _Config_4_Gazebo.sh
 
