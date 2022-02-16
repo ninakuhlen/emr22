@@ -6,9 +6,9 @@ Stichworte:  ROS1 - Noetic, Python, openCV, Gazebo, MoveIt!, UR3, UR5e
 
 
 ## Usage - Start der Umgebung mit UR5 ohne Gripper ##
-$1 roslaunch ur_gazebo ur5.launch
-$2 roslaunch ur5_moveit_config ur5_moveit_planing_execution.launch sim:=true 
-$3 roslaunch ur5_moveit_config demo.launch rviz_tutorial:=true
+>$1 roslaunch ur_gazebo ur5.launch
+>$2 roslaunch ur5_moveit_config ur5_moveit_planing_execution.launch sim:=true 
+>$3 roslaunch ur5_moveit_config demo.launch rviz_tutorial:=true
 
 
 
@@ -42,7 +42,7 @@ Jetzt sollte der Ordner emr22 geclont worden sein.
 
 
 3. Erstellen des Moveit-Workspace mit Shellskript
->$ cd ~/ws_moveit/emr22/_install_script/
+>$ cd ~/ws_moveit/src/emr22/_install_script/
 
 Nun ggf. erstmal ROS-Noetic installieren, dazu dem Skript 
 die Ausführungsrechte geben und dann ausführen
