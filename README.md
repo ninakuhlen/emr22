@@ -73,5 +73,9 @@ versuchen Sie den Befehl in einem neuen Terminal zu starten.
 
 >$ roslaunch panda_moveit_config demo.launch rviz_tutorial:=true
 
+8. Zum Schluss noch die URDFs für den UR5, den Gripper und die MoveIt-Konfiguaration installieren.
 
+>$ cd ~/ws_moveit/src/emr22/install_script
+>$ chmod +x Install_UR_URDF_Gazebo.sh
+>$ ./Install_UR_URDF_Gazebo.sh
 
