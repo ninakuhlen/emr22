@@ -81,7 +81,7 @@ In RViz ggf. ADD Diplay <moveit_ros_visualization>, damit man den Panda Arm auch
 
 ### UR5 und Gripper ###
 
-8. Zum Schluss noch die URDFs für den UR5, den Gripper und die MoveIt-Konfiguaration installieren.
+8. Zum Schluss noch die URDFs für den UR5, den Gripper und die MoveIt-Konfiguration installieren.
 
 >$ cd ~/ws_moveit/src/emr22/install_script
 
