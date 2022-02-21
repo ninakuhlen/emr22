@@ -135,7 +135,7 @@ current_pose = group.get_current_pose()  # hole pose vom Arm
 # Arm TCP Goal setzen, !nicht für den Gripper
 current_pose = group.get_current_pose()  # hole pose vom Arm
 pose_goal = current_pose  # aktuelle Werte
-pose_goal.pose.position.z = pose_goal.pose.position.z - 0.08  # 5cm tiefer geht
+pose_goal.pose.position.z = pose_goal.pose.position.z - 0.07  # 5cm tiefer geht
 # -25cm, -20cm -8cm => ABORTED: No motion plan found. No execution attempted.
 # wegen Tischplatte? Ja, von -0,2 auf -0,22 gesetzt (Z89) => 8cm geht
 # 
@@ -155,7 +155,8 @@ group.clear_pose_targets()
 input("\n Close Gripper => Enter")
 joint_gripper = group_gripper.get_current_joint_values()
 print("Gripper Angle is", joint_gripper)
-joint_gripper[0] = pi/11  # complete open is 0.0007  closed is pi/4
+# complete open is 0.0007  closed is pi/4 =0.7854
+joint_gripper[0] = pi/11  # 0.07
 group_gripper.go(joint_gripper, wait=True)
 group_gripper.stop()
 
