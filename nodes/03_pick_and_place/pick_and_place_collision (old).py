@@ -1,6 +1,6 @@
 #!/usr/bin/env python
-# pick_and_place_collision_v2.py
-# V2 ohne TCP-Goal und IK
+# pick_and_place_collision.py
+# mit TCP-Goal und IK
 # ------------------------------------
 # edited WHS, OJ , 20.2.2022 #
 # -------------------------------------
@@ -25,22 +25,6 @@ import geometry_msgs.msg
 from math import pi
 import numpy as np  # für deg2rad
 
-
-def wait_for_state_update(box_name, scene, box_is_known=False,
-                          box_is_attached=False, timeout=4):
-    start = rospy.get_time()
-    seconds = rospy.get_time()
-    while (seconds - start < timeout) and not rospy.is_shutdown():
-        attached_objects = scene.get_attached_objects([box_name])
-        is_attached = len(attached_objects.keys()) > 0
-        is_known = box_name in scene.get_known_object_names()
-        if (box_is_attached == is_attached) and (box_is_known == is_known):
-            return True
-        rospy.sleep(0.1)
-        seconds = rospy.get_time()
-    return False
-
-
 # First initialize moveit_ Command and rospy nodes:
 moveit_commander.roscpp_initialize(sys.argv)
 rospy.init_node('move_group_python_interface_tutorial',
@@ -48,6 +32,20 @@ rospy.init_node('move_group_python_interface_tutorial',
 # Instantiate the robot commander object,
 # which is used to control the whole robot
 robot = moveit_commander.RobotCommander()
+
+print("=== Adding Obstacle to Planning Scene  ===")
+# Create an object for PlanningSceneInterface.
+scene = moveit_commander.PlanningSceneInterface()
+# Add a cube to the scene
+box_pose = geometry_msgs.msg.PoseStamped()
+box_pose.header.frame_id = "world"
+box_pose.pose.orientation.w = 1.0
+box_pose.pose.position.x = 0.0
+box_pose.pose.position.y = 0.5
+box_pose.pose.position.z = 1.23-1.21
+box_name = "box1"
+scene.add_box(box_name, box_pose, size=(0.2, 0.4, 0.4))
+
 
 # Instantiate the MoveGroupCommander object.
 group_name = "ur5_arm"
@@ -59,6 +57,9 @@ group_gripper = moveit_commander.MoveGroupCommander(group_name_gripper)
 display_trajectory_publisher = rospy.Publisher('/move_group/display_planned_path',
                                                moveit_msgs.msg.DisplayTrajectory,
                                                queue_size=20)
+
+print("============ Waiting for RVIZ...")
+rospy.sleep(2)
 
 # ##### Getting Basic Information ###############
 # We can get the name of the reference frame for this robot:
@@ -78,18 +79,6 @@ print("= Robot Groups:", robot.get_group_names())
 print("= Printing robot state")
 # print(robot.get_current_state())
 print("")
-
-# Create an object for PlanningSceneInterface.
-print("=== Adding Desktop-Plate to Planning Scene  ===")
-scene = moveit_commander.PlanningSceneInterface()
-rospy.sleep(2.0)
-box_pose = geometry_msgs.msg.PoseStamped()
-box_pose.header.frame_id = robot.get_planning_frame() 
-box_pose.pose.orientation.w = 1.0
-box_pose.pose.position.z = -0.2
-box_name = "desktop"
-scene.add_box(box_name, box_pose, size=(2.0, 2.0, 0.05))
-rospy.loginfo(wait_for_state_update(box_name, scene, box_is_known=True))
 
 # ---- 1. Move to home position ----
 # input(" Go to Home Position => Enter")
@@ -112,7 +101,7 @@ group_gripper.go(joint_gripper, wait=True)
 group_gripper.stop()
 
 # --- 3. Place the TCP above the blue box
-# input(" Go close to blue box => Enter")
+input(" Go close to blue box => Enter")
 # ---> Goal with Jointangles
 # abgelesen nach Handfahrt
 joint_goal = group.get_current_joint_values()
@@ -127,78 +116,38 @@ print("Reached TCP Goal above blue box", joint_goal)
 
 
 # --- 4. Move the TCP close to the object 0.2m down
-# ============== Cartesian Paths ==============
-print("plan a cartesion path")
-# The Cartesian path is directly planned by specifying
-# the waypoints list through which the end effector passes
-waypoints = []
-
-wpose = group.get_current_pose().pose
-wpose.position.z = -0.13  # First move down (z)
-waypoints.append(copy.deepcopy(wpose))
-
-# We want the Cartesian path to be interpolated at a resolution of 1 cm
-# which is why we will specify 0.01 as the eef_step in Cartesian
-# translation.  We will disable the jump threshold
-# by setting it to 0.0 disabling:
-(plan, fraction) = group.compute_cartesian_path(
-                                                waypoints,
-                                                0.01,        # eef_step
-                                                0.0)         # jump_threshold
-# Displaying a Trajectory
-display_trajectory = moveit_msgs.msg.DisplayTrajectory()
-display_trajectory.trajectory_start = robot.get_current_state()
-display_trajectory.trajectory.append(plan)
-
-# Publish
-display_trajectory_publisher.publish(display_trajectory)
-
-# ==== Execute the calculated path:
-# print("the plan is", plan)
-print("execute plan ")
-group.execute(plan, wait=True)
-
+# ---> TCP Goal with Orientation
+input(" Go to grip-position => Enter")
+pose_goal = geometry_msgs.msg.Pose()
+print(" pose goal in ", pose_goal)
+pose_goal.orientation.x = 0
+pose_goal.orientation.y = 0
+pose_goal.orientation.z = 1
+pose_goal.orientation.w = 1
+pose_goal.position.x = pose_goal.position.x
+pose_goal.position.y = pose_goal.position.y
+pose_goal.position.z = pose_goal.position.z - 0.1
+print(" pose goal set", pose_goal)
+group.set_pose_target(pose_goal)
+plan = group.go(wait=True)
+group.stop()
+group.clear_pose_targets()
 
 # --- 5. Close the gripper
 input("\n Close Gripper => Enter")
 joint_gripper = group_gripper.get_current_joint_values()
 print("Gripper Angle is", joint_gripper)
-joint_gripper[0] = pi/11  # complete open is 0.0007  closed is pi/4
+joint_gripper[0] = pi/4  # complete open is 0.0007  closed is pi/4
 group_gripper.go(joint_gripper, wait=True)
 group_gripper.stop()
 
 # --- 6. Move the TCP close to the object 0.2m up
 input(" Lift blue box => Enter")
-# ============== Cartesian Paths ==============
-print("plan a cartesion path")
-# The Cartesian path is directly planned by specifying
-# the waypoints list through which the end effector passes
-waypoints = []
-
-wpose = group.get_current_pose().pose
-wpose.position.z = 0.2  # First move down (z)
-waypoints.append(copy.deepcopy(wpose))
-
-# We want the Cartesian path to be interpolated at a resolution of 1 cm
-# which is why we will specify 0.01 as the eef_step in Cartesian
-# translation.  We will disable the jump threshold
-# by setting it to 0.0 disabling:
-(plan, fraction) = group.compute_cartesian_path(
-                                                waypoints,
-                                                0.01,        # eef_step
-                                                0.0)         # jump_threshold
-# Displaying a Trajectory
-display_trajectory = moveit_msgs.msg.DisplayTrajectory()
-display_trajectory.trajectory_start = robot.get_current_state()
-display_trajectory.trajectory.append(plan)
-
-# Publish
-display_trajectory_publisher.publish(display_trajectory)
-
-# ==== Execute the calculated path:
-# print("the plan is", plan)
-print("execute plan ")
-group.execute(plan, wait=True)
+pose_goal = geometry_msgs.msg.Pose()
+pose_goal.position.z = pose_goal.position.z + 0.1
+group.set_pose_target(pose_goal)
+plan = group.go(wait=True)
+group.stop()
 
 # --- 7. Move the TCP above the plate
 # input(" Go to Home Position => Enter")
@@ -221,5 +170,5 @@ group_gripper.go(joint_gripper, wait=True)
 group_gripper.stop()
 
 # --- at the end -----
-#input("Remove Box")  # Otherwise it will stay
+input("Remove Box")  # Otherwise it will stay
 scene.remove_world_object(box_name)
