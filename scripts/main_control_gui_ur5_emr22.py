@@ -24,6 +24,12 @@ class MainWindow(QWidget):
         self.myPb_gazebo_ur5.setGeometry(10, 50, 300, 40)  # x,y,w,h
         self.myPb_gazebo_ur5.clicked.connect(self.slot_ur5)
 
+        # --- roslaunch ---
+        self.myPb_pick_place = QPushButton(self)
+        self.myPb_pick_place.setText('PyMoveItAPI - Pick & Place')
+        self.myPb_pick_place.setGeometry(10, 90, 300, 40)  # x,y,w,h
+        self.myPb_pick_place.clicked.connect(self.slot_pick_place)
+
         # --- Window konfigurieren und starten
         self.setGeometry(300, 300, 600, 400)
         self.setWindowTitle('EMR22 - main-control-gui')
@@ -35,8 +41,9 @@ class MainWindow(QWidget):
 
     def slot_ur5(self):
         os.system('gnome-terminal -- bash -c "roslaunch ur5_gripper_moveit_config demo_gazebo_pick_and_place.launch; exec bash"')
-        
 
+    def slot_pick_place(self):
+        os.system('gnome-terminal -- bash -c "rosrun emr22 pick_and_place_collision.py; exec bash"')
 
 if __name__ == '__main__':
 
