@@ -24,11 +24,17 @@ class MainWindow(QWidget):
         self.myPb_gazebo_ur5.setGeometry(10, 50, 300, 40)  # x,y,w,h
         self.myPb_gazebo_ur5.clicked.connect(self.slot_ur5)
 
-        # --- roslaunch ---
+        # --- Pick and Places Sript ---
         self.myPb_pick_place = QPushButton(self)
-        self.myPb_pick_place.setText('PyMoveItAPI - Pick & Place')
+        self.myPb_pick_place.setText('PyScript: MoveItAPI - Pick + Place')
         self.myPb_pick_place.setGeometry(10, 90, 300, 40)  # x,y,w,h
         self.myPb_pick_place.clicked.connect(self.slot_pick_place)
+
+        # --- Pick and Place Script ---
+        self.myPb_pick_place_dc = QPushButton(self)
+        self.myPb_pick_place_dc.setText('PyScript: PP with Depth Cam')
+        self.myPb_pick_place_dc.setGeometry(10, 130, 300, 40)  # x,y,w,h
+        self.myPb_pick_place_dc.clicked.connect(self.slot_pick_place_depth_cam)
 
         # --- Window konfigurieren und starten
         self.setGeometry(300, 300, 600, 400)
@@ -44,6 +50,9 @@ class MainWindow(QWidget):
 
     def slot_pick_place(self):
         os.system('gnome-terminal -- bash -c "rosrun emr22 pick_and_place_collision.py; exec bash"')
+
+    def slot_pick_place_depth_cam(self):
+        os.system('gnome-terminal -- bash -c "rosrun emr22 pick_and_place_collision_depth_cam.py; exec bash"')
 
 if __name__ == '__main__':
 
