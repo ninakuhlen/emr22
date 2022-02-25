@@ -1,6 +1,6 @@
 # https://github.com/jonathanfoster/ball-tracking
 # Farben finden
-# $ python color_picker.py -i Prof_mit_Kugel.jpeg
+# $ python color_picker.py -i left0000.jpg
 import argparse
 import cv2
 import imutils
@@ -40,10 +40,10 @@ cv2.namedWindow('image')
 # Set mouse callback to capture HSV value on click
 cv2.setMouseCallback("image", on_mouse_click, hsv)
 cv2.createTrackbar("Min H", "image", int(lower[0]), 255, on_trackbar_change)
-cv2.createTrackbar("Min S", "image", int(lower[1]), 255, on_trackbar_change)
-cv2.createTrackbar("Min V", "image", int(lower[2]), 255, on_trackbar_change)
 cv2.createTrackbar("Max H", "image", int(upper[0]), 255, on_trackbar_change)
+cv2.createTrackbar("Min S", "image", int(lower[1]), 255, on_trackbar_change)
 cv2.createTrackbar("Max S", "image", int(upper[1]), 255, on_trackbar_change)
+cv2.createTrackbar("Min V", "image", int(lower[2]), 255, on_trackbar_change)
 cv2.createTrackbar("Max V", "image", int(upper[2]), 255, on_trackbar_change)
 
 # Show HSV image
