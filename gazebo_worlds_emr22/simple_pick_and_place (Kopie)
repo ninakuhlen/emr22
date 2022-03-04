@@ -461,7 +461,7 @@
           </geometry>
           <material>
             <script>
-              <name>Gazebo/Bricks</name>  <!-- OJ: was grey-->
+              <name>Gazebo/Grey</name>
               <uri>file://media/materials/scripts/gazebo.material</uri>
             </script>
             <ambient>0 0 1 1</ambient>

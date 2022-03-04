@@ -1,0 +1,23 @@
+ <!-- https://github.com/introlab/find-object/blob/master/launch/find_object_2d.launch
+ https://stackoverflow.com/questions/37969527/add-arg-to-launch-file -->
+ <!-- usage $ roslaunch emr22 find_object_2d.launch -->
+<launch>
+    <arg name="gui" default="true"/>
+    <arg name="settings_path" default="~/.ros/find_object_2d.ini"/>
+    <arg name="objects_path" default="~/ws_moveit/src/emr22/find_object_pic"/>
+
+    <node name="find_object_3d" pkg="find_object_2d" 
+          type="find_object_2d" args="image:=camera1/rgb/image_raw" output="screen">
+        <param name="image" value="camera1/rgb/image_raw"/>
+        <param name="gui" value="$(arg gui)" type="bool"/>
+        <param name="settings_path" value="$(arg settings_path)" type="str"/>
+        <param name="session_path" value="$(find emr22)/find_object_pic/blue_box_session.bin"/>
+        <param name="objects_path" value="$(arg objects_path)" type="str"/>
+        <param name="objects_prefix" value="object" type="str"/>
+
+        <remap from="camera1/rgb/image_raw" to="/camera/rgb/image_raw/"/>
+        <remap from="camera1/depth/image_raw" to="/camera/depth/image_raw/"/>
+        <remap from="camera1/depth/camera_info" to="/camera/depth/camera_info/"/>
+
+	</node>
+</launch>

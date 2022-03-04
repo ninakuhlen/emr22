@@ -29,6 +29,12 @@ git clone https://github.com/dairal/ur5-joint-position-control.git
 # ROS Pakete, Regler für ros_control 
 sudo apt-get install ros-$ROS_DISTRO-ros-control ros-$ROS_DISTRO-ros-controllers
 
+# ROS USB-Camera-Driver (real camera at your PC)
+git clone https://github.com/ros-drivers/libuvc_ros.git
+# starting 
+# get camera vendor $ lsusb -v
+# start $ sudo -E rosrun libuvc_camera camera_node vendor:=...
+
 rosdep update
 rosdep install --rosdistro $ROS_DISTRO --ignore-src --from-paths src
 
