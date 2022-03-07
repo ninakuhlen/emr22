@@ -1,23 +1,39 @@
- <!-- https://github.com/introlab/find-object/blob/master/launch/find_object_2d.launch
- https://stackoverflow.com/questions/37969527/add-arg-to-launch-file -->
- <!-- usage $ roslaunch emr22 find_object_2d.launch -->
+ <!-- Launch file für einen Knoten der das Objetc_7 findet 
+      $ rosrun find_object_2d print_objects_detected
+  und das tf-publisht
+      $  rosrun tf tf_echo world object_7
+ 
+  => nutze tf um Gripper zum Objekt zu bringen
+ 
+  usage $ roslaunch emr22 find_object_2d.launch -->
+
+
+ 
 <launch>
-    <arg name="gui" default="true"/>
+    <arg name="depth" default="true"/>  <!-- needed for publshing tf-->
+    <arg name="gui" default="true"/> <!-- launch the GUI ?-->-->
+     <!-- Path to folder containing objects to detect. -->
+     <arg name="objects_path" default="~/ws_moveit/src/emr22/find_object_pic"/> 
+
+    <!-- Path to a session file to load. objects_path ignored if set. -->
+    <arg name="session_path" default="~/.ros/find_object_2d.ini"/>
+
+    <!-- Path to settings file (*.ini). -->
     <arg name="settings_path" default="~/.ros/find_object_2d.ini"/>
-    <arg name="objects_path" default="~/ws_moveit/src/emr22/find_object_pic"/>
+   
 
-    <node name="find_object_3d" pkg="find_object_2d" 
+    <node name="find_object_2d" pkg="find_object_2d" 
           type="find_object_2d" args="image:=camera1/rgb/image_raw" output="screen">
-        <param name="image" value="camera1/rgb/image_raw"/>
-        <param name="gui" value="$(arg gui)" type="bool"/>
-        <param name="settings_path" value="$(arg settings_path)" type="str"/>
-        <param name="session_path" value="$(find emr22)/find_object_pic/blue_box_session.bin"/>
+        <param name="subscribe_depth" value="$(arg depth)" type="bool"/>  
+        <param name="gui" value="$(arg gui)" type="bool"/> 
         <param name="objects_path" value="$(arg objects_path)" type="str"/>
-        <param name="objects_prefix" value="object" type="str"/>
+        <param name="session_path" value="$(find emr22)/find_object_pic/texture_box_session.bin"/>
+        <param name="settings_path" value="$(arg settings_path)" type="str"/>
+        <param name="objects_prefix" value="object" type="str"/>  <!-- Object's prefix for tf. -->
 
-        <remap from="camera1/rgb/image_raw" to="/camera/rgb/image_raw/"/>
-        <remap from="camera1/depth/image_raw" to="/camera/depth/image_raw/"/>
-        <remap from="camera1/depth/camera_info" to="/camera/depth/camera_info/"/>
-
-	</node>
+        <!-- vom Node erwartetes Topic, tatsächliches Topic -->
+        <remap from="/rgb/image_rect_color" to="/camera1/rgb/image_raw/"/>
+        <remap from="/depth_registered/image_raw" to="/camera1/depth/image_raw/"/>
+        <remap from="/depth_registered/camera_info" to="/camera1/depth/camera_info/"/>
+  	</node>
 </launch>

@@ -461,9 +461,14 @@
           </geometry>
           <material>
             <script>
-              <name>Gazebo/Bricks</name>  <!-- OJ: was grey-->
-              <uri>file://media/materials/scripts/gazebo.material</uri>
+              <uri>model://textured_shapes/materials/scripts</uri>
+              <uri>model://textured_shapes/materials/textures</uri>
+              <name>TexturedShape/Squares</name>
             </script>
+               <!-- OJ changed Material 
+              <name>Gazebo/Grey</name>  
+              <uri>file://media/materials/scripts/gazebo.material</uri> -->
+           
             <ambient>0 0 1 1</ambient>
             <shader type='vertex'>
               <normal_map>__default__</normal_map>
