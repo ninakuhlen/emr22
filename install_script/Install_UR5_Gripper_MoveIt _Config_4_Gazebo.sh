@@ -24,11 +24,16 @@ git clone https://github.com/filesmuggler/robotiq.git
 git clone https://github.com/dairal/ur5_gripper_moveit_config
 
 # --- ros_control --- 
+sudo apt-get install ros-$ROS_DISTRO-ros-control ros-$ROS_DISTRO-ros-controllers
 # UR5 Package
 git clone https://github.com/dairal/ur5-joint-position-control.git
-# ROS Pakete, Regler für ros_control 
-sudo apt-get install ros-$ROS_DISTRO-ros-control ros-$ROS_DISTRO-ros-controllers
 
+# Gripper hält Box in Gazebo fest:
+git clone https://github.com/JenniferBuehler/gazebo-pkgs.git -b noetic
+git clone https://github.com/JenniferBuehler/general-message-pkgs.git
+
+
+# fehlende ROS Pakete installieren
 rosdep update
 rosdep install --rosdistro $ROS_DISTRO --ignore-src --from-paths src
 

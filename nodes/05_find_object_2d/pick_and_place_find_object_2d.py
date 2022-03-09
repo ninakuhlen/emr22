@@ -123,6 +123,7 @@ lst = tf.TransformListener()
 pose_goal = group.get_current_pose()
 # print(pose_goal)
 
+# hole die Position der Box von der Camera detektiert
 rate = rospy.Rate(10.0)
 while not rospy.is_shutdown():
     try:
@@ -136,6 +137,11 @@ while not rospy.is_shutdown():
     except (tf.LookupException, tf.ConnectivityException):
         continue
 
+# verbleibendes Problem: tf springt hin und her, ggf. Mittelwert von mehreren?
+# => Gripper trifft nicht so exakt wie gewünscht
+# Arm verdeckt ggf. Box, so Camera keine Pose mehr ermittelt
+# Beleuchtung? Box ist an den anderen Tischecken nicht zu detektieren
+# Camera Pose: kinect.urdf.xacro
 pose_goal.pose.position.x = trans[0]
 pose_goal.pose.position.y = trans[1]
 pose_goal.pose.position.z = trans[2] + 0.16  # 16cm above pose of box
