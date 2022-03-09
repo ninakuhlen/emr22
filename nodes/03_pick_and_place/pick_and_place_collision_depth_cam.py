@@ -119,7 +119,7 @@ input(" Move TCP above the blue box => Enter")
 pose_goal = group.get_current_pose()
 pose_goal.pose.position.x = 0.3
 pose_goal.pose.position.y = 0.5
-pose_goal.pose.position.z = 0.1
+pose_goal.pose.position.z = 0.18
 group.set_pose_target(pose_goal)
 plan = group.plan()
 sucess = group.go(wait=True)
@@ -134,7 +134,7 @@ input(" Move TCP to grip blue box => Enter")
 # ============== Cartesian Paths ==============
 waypoints = []
 wpose = group.get_current_pose().pose
-wpose.position.z = -0.1  # First move down (z)
+wpose.position.z = -0.04  # First move down (z)
 waypoints.append(copy.deepcopy(wpose))
 
 # We want the Cartesian path to be interpolated at a resolution of 1 cm
@@ -143,7 +143,7 @@ waypoints.append(copy.deepcopy(wpose))
 # by setting it to 0.0 disabling:
 (plan, fraction) = group.compute_cartesian_path(
                                                 waypoints,
-                                                0.01,        # eef_step
+                                                0.005,       # eef_step
                                                 0.0)         # jump_threshold
 group.execute(plan, wait=True)
 
@@ -157,7 +157,7 @@ input("\n Close Gripper => Enter")
 joint_gripper = group_gripper.get_current_joint_values()
 print("Gripper Angle is", joint_gripper)
 # complete open is 0.0007  closed is pi/4 =0.7854
-joint_gripper[0] = pi/12  # 0.07
+joint_gripper[0] = 0.28  # 0.28 found with rqt 
 group_gripper.go(joint_gripper, wait=True)
 group_gripper.stop()
 
