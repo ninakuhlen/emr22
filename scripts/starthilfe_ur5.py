@@ -36,8 +36,14 @@ class MainWindow(QWidget):
         self.myPb_pick_place_dc.setGeometry(10, 130, 300, 40)  # x,y,w,h
         self.myPb_pick_place_dc.clicked.connect(self.slot_pick_place_depth_cam)
 
+        # --- find_object_2D ---
+        self.myPb_find_object_2D = QPushButton(self)
+        self.myPb_find_object_2D.setText('find_object_2D')
+        self.myPb_find_object_2D.setGeometry(10, 170, 300, 40)  # x,y,w,h
+        self.myPb_find_object_2D.clicked.connect(self.slot_find_object_2D)
+
         # --- Window konfigurieren und starten
-        self.setGeometry(300, 300, 600, 400)
+        self.setGeometry(300, 300, 400, 300)
         self.setWindowTitle('EMR22 - Starthilfe UR5e ')
         self.show()
 
@@ -53,6 +59,9 @@ class MainWindow(QWidget):
 
     def slot_pick_place_depth_cam(self):
         os.system('gnome-terminal -- bash -c "rosrun emr22 pick_and_place_collision_depth_cam.py; exec bash"')
+    
+    def slot_find_object_2D(self):
+        os.system('gnome-terminal -- bash -c "roslaunch emr22 find_object_2d.launch"')
 
 
 if __name__ == '__main__':
