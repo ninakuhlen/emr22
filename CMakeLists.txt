@@ -3,6 +3,8 @@ project(emr22)
 
 ## Compile as C++11, supported in ROS Kinetic and newer
 # add_compile_options(-std=c++11)
+## Use C++11
+add_definitions(--std=c++11)
 
 ## Find catkin macros and libraries
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
@@ -13,6 +15,7 @@ find_package(catkin REQUIRED COMPONENTS
   std_msgs
   sensor_msgs
   diagnostic_msgs
+  geometry_msgs
 )
 
 ## System dependencies are found with CMake's conventions
@@ -34,20 +37,27 @@ catkin_package(
 #  LIBRARIES emr22
 #  CATKIN_DEPENDS rospy std_msgs
 #  DEPENDS system_lib
-  CATKIN_DEPENDS roscpp std_msgs sensor_msgs diagnostic_msgs 
+  CATKIN_DEPENDS roscpp std_msgs sensor_msgs diagnostic_msgs geometry_msgs
 )
 
 ###########
 ## Build ##
 ###########
 
-## Specify additional locations of header files
+
+## Specify additional locations of header files and C++ - Files
 ## Your package locations should be listed before other locations
 include_directories(
-# include
-  ${catkin_INCLUDE_DIRS}
+  include
+   ${catkin_INCLUDE_DIRS}/emr22/src
 )
 
+## Declare  C++ executables
+add_executable(hello    src/hello_ros_node.cpp  )
+add_executable(hello2   src/hello_ros_node2.cpp  )
+## Specify libraries to link a library or executable target against
+target_link_libraries(hello ${catkin_LIBRARIES})
+target_link_libraries(hello2 ${catkin_LIBRARIES})
 
 #############
 ## Install ##
