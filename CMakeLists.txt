@@ -54,11 +54,13 @@ include_directories(
 
 ## Declare  C++ executables
 add_executable(hello    src/hello_ros_node.cpp  )
-add_executable(hello2   src/hello_ros_node2.cpp  )
+add_executable(turtle_pub  src/turtle_publisher.cpp  )
+add_executable(turtle_sub  src/turtle_subscriber.cpp )
 ## Specify libraries to link a library or executable target against
-target_link_libraries(hello ${catkin_LIBRARIES})
-target_link_libraries(hello2 ${catkin_LIBRARIES})
-
+target_link_libraries(hello ${catkin_LIBRARIES} )
+target_link_libraries(turtle_pub ${catkin_LIBRARIES} )
+target_link_libraries(turtle_sub ${catkin_LIBRARIES} )
+# 
 #############
 ## Install ##
 #############
