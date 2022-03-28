@@ -56,12 +56,12 @@ include_directories(
 add_executable(hello    src/hello_ros_node.cpp  )
 add_executable(turtle_pub  src/turtle_publisher.cpp  )
 add_executable(turtle_sub  src/turtle_subscriber.cpp )
-add_executable(hello_qt    src/sw01_qt_hello.cpp )
+#add_executable(hello_qt    src/sw01_qt_hello.cpp )
 ## Specify libraries to link a library or executable target against
 target_link_libraries(hello ${catkin_LIBRARIES} )
 target_link_libraries(turtle_pub ${catkin_LIBRARIES} )
 target_link_libraries(turtle_sub ${catkin_LIBRARIES} )
-target_link_libraries(hello_qt ${catkin_LIBRARIES} )
+#target_link_libraries(hello_qt ${catkin_LIBRARIES} )
 # 
 #############
 ## Install ##
