@@ -11,6 +11,7 @@
 
 echo -e "\033[34m ----- robotik.bocholt@w-hs.de -- SS22 - UR5 für Gazebo installieren.. ----- \033[0m "
 # echo -e "\033[34m ----- ..und Workspace ws_moveit (catkin build) einrichten ---------- \033[0m "
+sudo apt-get-install ros-noetic-libuvc-ros
 
 cd ~/ws_moveit/src
 git clone https://github.com/ProfJust/universal_robot.git -b melodic-devel
