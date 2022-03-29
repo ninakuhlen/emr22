@@ -58,6 +58,8 @@ int main (int argc, char **argv){
 //-----------------------------------------------------------
 // Funktion zum holen eine Taste ohne Enter 
 // https://stackoverflow.com/questions/7469139/what-is-the-equivalent-to-getch-getche-in-linux
+// ggf. ncurses.h nutzen #include <ncurses.h>  c = getch();
+// siehe https://stackoverflow.com/questions/905060/non-blocking-getch-ncurses
 //-----------------------------------------------------------
 char getch(void){
     char buf = 0;
