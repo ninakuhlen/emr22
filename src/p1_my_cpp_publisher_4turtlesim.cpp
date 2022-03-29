@@ -22,7 +22,11 @@
 #include <stdlib.h> //wegen rand() und srand()
 
 // Funktion zum lesen einer Taste ohne Enter - s.u.
-int getch(void);
+// getch() https://stackoverflow.com/questions/7469139/what-is-the-equivalent-to-getch-getche-in-linux
+#include <unistd.h>
+#include <termios.h>
+char getch(void);
+
 
 //---------------------------------------------
 int main (int argc, char **argv){
@@ -35,6 +39,7 @@ int main (int argc, char **argv){
 	ros::Rate rate(2); // Senderate 2Hz
 
 	srand(time(0)); //Zufallsgenerator seeden
+	//printf("\n Nutzen Sie wasd ein, um die Turtle zu steuern, q = quit \n");
 
 	while(ros::ok()){  //Endlosschleife bis rosshutdown
 		// Instanziere Message
@@ -44,13 +49,7 @@ int main (int argc, char **argv){
 		myMsg.angular.z = 2 * double(rand())/double(RAND_MAX);
 
 		// senden der msg
-		myPub.publish(myMsg);
-
-		//Konsolen-Ausgabe von rosout (wie printf())
-		ROS_INFO("Sende Zufalls-Werte für velocity linear %f angular %f",
-			myMsg.linear.x , 
-			myMsg.angular.z);
-		
+		myPub.publish(myMsg);		
 		// Warte bis zur nächsten Sendung
 		rate.sleep();
 	}
@@ -58,27 +57,26 @@ int main (int argc, char **argv){
 
 //-----------------------------------------------------------
 // Funktion zum holen eine Taste ohne Enter 
-//vgl. https://www.c-plusplus.net/forum/272087-full
+// https://stackoverflow.com/questions/7469139/what-is-the-equivalent-to-getch-getche-in-linux
 //-----------------------------------------------------------
-#include <termio.h>
-int getch(void){
-  struct termios term, oterm;
-  int fd = 0;
-  int c = 0;
-  // Attribute holen
-  tcgetattr(fd, &oterm);
-  memcpy(&term, &oterm, sizeof(term));
-  term.c_lflag = term.c_lflag & (!ICANON);
-  term.c_cc[VMIN] = 0;
-  term.c_cc[VTIME] = 1;
-  // neue Attribute setzen
-  tcsetattr(fd, TCSANOW, &term);
-
-  // Zeichen holen
-  c = getchar(); 
-
-  // alte Attribute setzen
-  tcsetattr(fd, TCSANOW, &oterm);
-  return c; // gibt -1 zurück, wenn kein Zeichen gelesen wurde
-}
-		
+char getch(void){
+    char buf = 0;
+    struct termios old = {0};
+    fflush(stdout);
+    if(tcgetattr(0, &old) < 0)
+        perror("tcsetattr()");
+    old.c_lflag &= ~ICANON;
+    old.c_lflag &= ~ECHO;
+    old.c_cc[VMIN] = 1;
+    old.c_cc[VTIME] = 0;
+    if(tcsetattr(0, TCSANOW, &old) < 0)
+        perror("tcsetattr ICANON");
+    if(read(0, &buf, 1) < 0)
+        perror("read()");
+    old.c_lflag |= ICANON;
+    old.c_lflag |= ECHO;
+    if(tcsetattr(0, TCSADRAIN, &old) < 0)
+        perror("tcsetattr ~ICANON");
+    //printf("%c\n", buf);
+    return buf;
+ }
