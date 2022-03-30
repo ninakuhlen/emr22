@@ -3,6 +3,9 @@
 # Qt-Gui with Slider to move UR5 in Gazebo
 # Version vom 30.3.2022 by OJ
 # ----------------------------
+# usage:
+# $ roslaunch emr22 ur5_gazebo_pid.launch
+# ----------------------------
 
 import sys
 import rospy
