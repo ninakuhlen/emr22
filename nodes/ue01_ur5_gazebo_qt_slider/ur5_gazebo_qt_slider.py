@@ -8,7 +8,7 @@ import sys
 import rospy
 
 # Qt -------------------------------
-from PyQt5.QtCore import Qt, QTimer
+from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import (QWidget, QLCDNumber, QSlider,
                              QPushButton, QVBoxLayout,
                              QHBoxLayout, QApplication,
@@ -35,8 +35,8 @@ class UIClass(QWidget):
         self.lcdX.display(LCDstartWert)
 
         self.sldX = QSlider(Qt.Horizontal, self)
-        self.sldX.setMaximum(6)
-        self.sldX.setMinimum(-6)
+        self.sldX.setMaximum(30)
+        self.sldX.setMinimum(-30)
         self.sldX.setValue(LCDstartWert)
         self.pbLessX = QPushButton('<')
         self.pbMoreX = QPushButton('>')
@@ -80,7 +80,7 @@ class UIClass(QWidget):
         self.setLayout(vbox)
 
         # Fenster Konfigurieren
-        self.setGeometry(300, 300, 250, 150)
+        self.setGeometry(300, 300, 500, 150)
         self.setWindowTitle('EMR22 - UR5 - Gazebo Steering')
         self.show()
 
@@ -89,9 +89,8 @@ class UIClass(QWidget):
         self.sldX.valueChanged.connect(self.SlotPublish)  # publish to ROS
         self.pbLessX.clicked.connect(self.SlotKlickX)
         self.pbMoreX.clicked.connect(self.SlotKlickX)
-        self.pbGo.clicked.connect(self.SlotGo)
-        self.pbStop.clicked.connect(self.SlotStop)
-
+        self.pbGo.clicked.connect(self.SlotGoHome)
+       
     def SlotKlickX(self):
         sender = self.sender()
         self.lblStatus.setText(' X ' + sender.text() + ' was pressed')
@@ -104,19 +103,14 @@ class UIClass(QWidget):
             wert = wert+1
             self.sldX.setValue(wert)
 
-    def SlotGo(self):
+    def SlotGoHome(self):
         self.lblStatus.setText(' Go Home Button klicked ')
-        self.wrist1_msg = self.sldX.value()
-        self.pos_wrist1_pub.publish(float(self.wrist1_msg)/10.0)
+        self.pos_wrist1_pub.publish(0.0)
 
     def SlotPublish(self):
         self.wrist1_msg = self.sldX.value()
         self.pos_wrist1_pub.publish(float(self.wrist1_msg)/10.0)
-
-    def SlotStop(self):
-        self.lblStatus.setText(' Stop Button klicked ')
-        self.timer.stop()
-
+ 
 
 if __name__ == '__main__':
     try:
