@@ -31,6 +31,7 @@ source ~/.bashrc
 
 echo -e "\033[34m ---------- Dependencies for building packages ------------ \033[0m "
 sudo apt install python3-rosdep python3-rosinstall python3-rosinstall-generator python3-wstool build-essential
+sudo apt-get install ros-noetic-joint-trajectory-controller
 sudo rosdep init
 rosdep update
 
