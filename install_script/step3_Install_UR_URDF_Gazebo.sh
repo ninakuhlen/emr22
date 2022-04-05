@@ -29,6 +29,7 @@ git clone https://github.com/ProfJust/ur5_gripper_moveit_config.git
 git clone https://github.com/dairal/ur5-joint-position-control.git
 # ROS Pakete, Regler für ros_control 
 sudo apt-get install ros-$ROS_DISTRO-ros-control ros-$ROS_DISTRO-ros-controllers
+sudo apt-get install ros-noetic-libuvc-ros
 
 # ROS USB-Camera-Driver (real camera at your PC)
 git clone https://github.com/ros-drivers/libuvc_ros.git
