@@ -6,7 +6,7 @@
 # auf einem Rechner mit Ubuntu 20.04 Focal Fossa  
 # OJ fuer robotik.bocholt@w-hs.de
 # SS2022
-# geaendert am 2.2.2022
+# geaendert am 11.4.2022
 # vgl. https://ros-planning.github.io/moveit_tutorials/doc/getting_started/getting_started.html 
 
 echo -e "\033[34m ----- robotik.bocholt@w-hs.de -- SS22 - UR5 für Gazebo installieren.. ----- \033[0m "
@@ -28,7 +28,8 @@ git clone https://github.com/ProfJust/ur5_gripper_moveit_config.git
 # UR5 Package
 git clone https://github.com/dairal/ur5-joint-position-control.git
 # ROS Pakete, Regler für ros_control 
-sudo apt-get install ros-$ROS_DISTRO-ros-control ros-$ROS_DISTRO-ros-controllers
+sudo apt-get install ros-noetic-libuvc-ros
+sudo apt-get install ros-noetic-ros-control ros-noetic-ros-controllers 
 
 # ROS USB-Camera-Driver (real camera at your PC)
 git clone https://github.com/ros-drivers/libuvc_ros.git
