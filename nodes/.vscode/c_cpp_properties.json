@@ -1,0 +1,53 @@
+{
+  "configurations": [
+    {
+      "browse": {
+        "databaseFilename": "${workspaceFolder}/.vscode/browse.vc.db",
+        "limitSymbolsToIncludedHeaders": false
+      },
+      "includePath": [
+        "/opt/ros/noetic/include/**",
+        "/home/oj/ws_moveit/devel/include/**",
+        "/home/oj/ws_moveit/src/moveit/moveit_planners/chomp/chomp_motion_planner/include/**",
+        "/home/oj/ws_moveit/src/common-sensors/common_sensors/include/**",
+        "/home/oj/ws_moveit/src/gazebo-pkgs/gazebo_grasp_plugin/include/**",
+        "/home/oj/ws_moveit/src/gazebo-pkgs/gazebo_state_plugins/include/**",
+        "/home/oj/ws_moveit/src/gazebo-pkgs/gazebo_test_tools/include/**",
+        "/home/oj/ws_moveit/src/gazebo-pkgs/gazebo_version_helpers/include/**",
+        "/home/oj/ws_moveit/src/gazebo-pkgs/gazebo_world_plugin_loader/include/**",
+        "/home/oj/ws_moveit/src/geometric_shapes/include/**",
+        "/home/oj/ws_moveit/src/libuvc_ros/libuvc_camera/include/**",
+        "/home/oj/ws_moveit/src/moveit/moveit_planners/chomp/chomp_interface/include/**",
+        "/home/oj/ws_moveit/src/moveit_resources/prbt_ikfast_manipulator_plugin/include/**",
+        "/home/oj/ws_moveit/src/moveit/moveit_ros/benchmarks/include/**",
+        "/home/oj/ws_moveit/src/moveit/moveit_plugins/moveit_ros_control_interface/include/**",
+        "/home/oj/ws_moveit/src/moveit/moveit_ros/move_group/include/**",
+        "/home/oj/ws_moveit/src/moveit/moveit_ros/occupancy_map_monitor/include/**",
+        "/home/oj/ws_moveit/src/moveit/moveit_ros/robot_interaction/include/**",
+        "/home/oj/ws_moveit/src/moveit/moveit_ros/moveit_servo/include/**",
+        "/home/oj/ws_moveit/src/moveit/moveit_setup_assistant/include/**",
+        "/home/oj/ws_moveit/src/moveit/moveit_plugins/moveit_simple_controller_manager/include/**",
+        "/home/oj/ws_moveit/src/moveit_task_constructor/core/include/**",
+        "/home/oj/ws_moveit/src/moveit_task_constructor/demo/include/**",
+        "/home/oj/ws_moveit/src/moveit_visual_tools/include/**",
+        "/home/oj/ws_moveit/src/general-message-pkgs/object_msgs_tools/include/**",
+        "/home/oj/ws_moveit/src/openni_camera/openni_camera/include/**",
+        "/home/oj/ws_moveit/src/moveit/moveit_planners/pilz_industrial_motion_planner/include/**",
+        "/home/oj/ws_moveit/src/moveit/moveit_planners/pilz_industrial_motion_planner_testutils/include/**",
+        "/home/oj/ws_moveit/src/robotiq/robotiq_gazebo/include/**",
+        "/home/oj/ws_moveit/src/rqt-turtle/rqt_turtle/include/**",
+        "/home/oj/ws_moveit/src/moveit_task_constructor/rviz_marker_tools/include/**",
+        "/home/oj/ws_moveit/src/rviz_visual_tools/include/**",
+        "/home/oj/ws_moveit/src/srdfdom/include/**",
+        "/home/oj/ws_moveit/src/universal_robot/ur_kinematics/include/**",
+        "/usr/include/**"
+      ],
+      "name": "ROS",
+      "intelliSenseMode": "gcc-x64",
+      "compilerPath": "/usr/bin/gcc",
+      "cStandard": "gnu11",
+      "cppStandard": "c++14"
+    }
+  ],
+  "version": 4
+}

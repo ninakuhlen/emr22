@@ -24,22 +24,27 @@ class MainWindow(QWidget):
         self.myPb_gazebo_ur5.setGeometry(10, 50, 300, 40)  # x,y,w,h
         self.myPb_gazebo_ur5.clicked.connect(self.slot_ur5)
 
-        # --- Pick and Places Sript ---
+        self.myPb_depth = QPushButton(self)
+        self.myPb_depth.setText('Starte UR5, Gazebo, Moveit mit Depth-Cam')
+        self.myPb_depth.setGeometry(10, 90, 300, 40)  # x,y,w,h
+        self.myPb_depth.clicked.connect(self.slot_ur5_depth)
+
+        # --- Pick and Place Script ---
         self.myPb_pick_place = QPushButton(self)
         self.myPb_pick_place.setText('PyScript: MoveItAPI - Pick + Place')
-        self.myPb_pick_place.setGeometry(10, 90, 300, 40)  # x,y,w,h
+        self.myPb_pick_place.setGeometry(10, 130, 300, 40)  # x,y,w,h
         self.myPb_pick_place.clicked.connect(self.slot_pick_place)
 
         # --- Pick and Place Script ---
         self.myPb_pick_place_dc = QPushButton(self)
         self.myPb_pick_place_dc.setText('PyScript: PP with Depth Cam')
-        self.myPb_pick_place_dc.setGeometry(10, 130, 300, 40)  # x,y,w,h
+        self.myPb_pick_place_dc.setGeometry(10, 170, 300, 40)  # x,y,w,h
         self.myPb_pick_place_dc.clicked.connect(self.slot_pick_place_depth_cam)
 
         # --- find_object_2D ---
         self.myPb_find_object_2D = QPushButton(self)
         self.myPb_find_object_2D.setText('find_object_2D')
-        self.myPb_find_object_2D.setGeometry(10, 170, 300, 40)  # x,y,w,h
+        self.myPb_find_object_2D.setGeometry(10, 210, 300, 40)  # x,y,w,h
         self.myPb_find_object_2D.clicked.connect(self.slot_find_object_2D)
 
         # --- Window konfigurieren und starten
@@ -53,6 +58,9 @@ class MainWindow(QWidget):
 
     def slot_ur5(self):
         os.system('gnome-terminal -- bash -c "roslaunch ur5_gripper_moveit_config demo_gazebo_pick_and_place.launch; exec bash"')
+
+    def slot_ur5_depth(self):
+        os.system('gnome-terminal -- bash -c "roslaunch ur5_gripper_moveit_config demo_gazebo_pick_and_place_depth.launch; exec bash"')
 
     def slot_pick_place(self):
         os.system('gnome-terminal -- bash -c "rosrun emr22 pick_and_place_collision.py; exec bash"')
