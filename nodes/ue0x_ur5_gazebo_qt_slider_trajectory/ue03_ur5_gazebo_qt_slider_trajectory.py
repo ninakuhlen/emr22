@@ -1,13 +1,19 @@
 #!/usr/bin/env python3
 # --- ue03_ur5_gazebo_qt_slider_trajectory.py ------
 # Qt-Gui with Slider to move UR5 in Gazebo
-# uses trajectory controller
+# uses trajectory controller 
+# like rqt 
 # Version vom 25.4.2022 by OJ
 # ----------------------------
 # usage:
 # $ rosrun emr22 starthilfe_ur5  => UR5 in Gazebo und MoveIt!
 # $ rosrun emr22 ue03_ur5_gazebo_qt_slider_trajectory.py
 # ----------------------------
+
+# !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+# for more explications
+# see http://wiki.ros.org/pr2_controllers/Tutorials/Moving%20the%20arm%20using%20the%20Joint%20Trajectory%20Action
+# !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 import sys
 import rospy
