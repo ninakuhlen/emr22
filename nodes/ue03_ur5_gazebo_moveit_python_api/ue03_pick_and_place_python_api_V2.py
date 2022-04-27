@@ -91,6 +91,20 @@ box_name = "desktop"
 scene.add_box(box_name, box_pose, size=(2.0, 2.0, 0.05))
 rospy.loginfo(wait_for_state_update(box_name, scene, box_is_known=True))
 
+# Create an Collision object for PlanningSceneInterface.
+print("=== Adding Green Box to Planning Scene  ===")
+scene = moveit_commander.PlanningSceneInterface()
+rospy.sleep(2.0)
+green_box_pose = geometry_msgs.msg.PoseStamped()
+green_box_pose.header.frame_id = robot.get_planning_frame() 
+green_box_pose.pose.orientation.w = 1.0
+green_box_pose.pose.position.z = 0.0  # siehe Gazebo unit_box_2
+green_box_pose.pose.position.x = 0.0
+green_box_pose.pose.position.y = 0.5
+green_box_name = "green box"
+scene.add_box(green_box_name, green_box_pose, size=(0.2, 0.34, 0.45))
+rospy.loginfo(wait_for_state_update(box_name, scene, box_is_known=True))
+
 # ---- 1. Move to home position ----
 # input(" Go to Home Position => Enter")
 joint_goal = group.get_current_joint_values()
