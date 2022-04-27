@@ -89,3 +89,4 @@ In RViz ggf. ADD Diplay <moveit_ros_visualization>, damit man den Panda Arm auch
 
 >$ ./Install_UR5_Gripper_MoveIt _Config_4_Gazebo.sh
 
+TEST
