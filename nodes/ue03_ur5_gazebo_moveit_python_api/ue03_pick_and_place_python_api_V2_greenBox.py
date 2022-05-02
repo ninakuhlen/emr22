@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # ue03_pick_and_place_python_api.py
-# V2 OHNE  TCP-Goal und IK - veraltet
+# V2 mit zusätzlicher grüner Collisisons-BOX
 # ------------------------------------
 # edited WHS, OJ , 20.2.2022 #
 # -------------------------------------
@@ -98,7 +98,7 @@ rospy.sleep(2.0)
 green_box_pose = geometry_msgs.msg.PoseStamped()
 green_box_pose.header.frame_id = robot.get_planning_frame() 
 green_box_pose.pose.orientation.w = 1.0
-green_box_pose.pose.position.z = 0.0  # siehe Gazebo unit_box_2
+green_box_pose.pose.position.z = -0.05  # siehe Gazebo unit_box_2
 green_box_pose.pose.position.x = 0.0
 green_box_pose.pose.position.y = 0.5
 green_box_name = "green box"
@@ -235,5 +235,5 @@ group_gripper.go(joint_gripper, wait=True)
 group_gripper.stop()
 
 # --- at the end -----
-#input("Remove Box")  # Otherwise it will stay
+# input("Remove Box")  # Otherwise it will stay
 scene.remove_world_object(box_name)
