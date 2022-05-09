@@ -37,7 +37,7 @@ class MainWindow(QWidget):
 
         # --- Pick and Place Script ---
         self.myPb_pick_place_dc = QPushButton(self)
-        self.myPb_pick_place_dc.setText('PyScript: PP with Depth Cam')
+        self.myPb_pick_place_dc.setText('C++ PickPlace Blaue Box mit DepthCam')
         self.myPb_pick_place_dc.setGeometry(10, 170, 300, 40)  # x,y,w,h
         self.myPb_pick_place_dc.clicked.connect(self.slot_pick_place_depth_cam)
 
@@ -66,7 +66,8 @@ class MainWindow(QWidget):
         os.system('gnome-terminal -- bash -c "rosrun emr22 pick_and_place_collision.py; exec bash"')
 
     def slot_pick_place_depth_cam(self):
-        os.system('gnome-terminal -- bash -c "rosrun emr22 pick_and_place_collision_depth_cam.py; exec bash"')
+        # os.system('gnome-terminal -- bash -c "rosrun emr22 pick_and_place_collision_depth_cam.py; exec bash"')
+        os.system('gnome-terminal -- bash -c "rosrun emr22 adaim_pick_place_depth; exec bash"')
     
     def slot_find_object_2D(self):
         os.system('gnome-terminal -- bash -c "roslaunch emr22 find_object_2d.launch"')

@@ -126,13 +126,42 @@ int main(int argc, char** argv)
     move_group_interface_gripper.move();
 
     // 4. Move the TCP close to the object
-    /* Variante 1: schiebt oft die Box weg */
-    target_pose1.position.z = target_pose1.position.z - 0.2;
+    /* Variante 1: schiebt oft die Box weg target_pose1.position.z = target_pose1.position.z - 0.2;
     move_group_interface_arm.setPoseTarget(target_pose1);
+
     success = (move_group_interface_arm.plan(my_plan) == moveit::planning_interface::MoveItErrorCode::SUCCESS);
+
     ROS_INFO_NAMED("tutorial", "Visualizing plan 1 (pose goal) %s", success ? "" : "FAILED");
-    move_group_interface_arm.move();
-    
+
+    move_group_interface_arm.move();*/
+    // Variante 2: cartesian path
+    ROS_INFO("cartesian path");
+    std::string inputString;
+    std::cout << "Press Key";
+    std::getline(std::cin, inputString);
+
+   if(inputString.compare("something") == 0)
+   {
+    //send a request to the node serving out the messages
+    //print out recieved messages.
+   }
+    std::vector<geometry_msgs::Pose> waypoints; //Liste von Posen
+    geometry_msgs::Pose start_pose2;
+    start_pose2.orientation.w = 1.0;
+    start_pose2.position.x = 0.3;
+    start_pose2.position.y = 0.5;
+    start_pose2.position.z = 0.2; 
+    geometry_msgs::Pose target_pose = start_pose2; //move_group_interface_arm.getCurrentState();
+    target_pose.position.z -= 0.2;
+    waypoints.push_back(target_pose);  // up and left
+
+    moveit_msgs::RobotTrajectory trajectory;
+    const double jump_threshold = 0.0;
+    const double eef_step = 0.01;
+    double fraction = move_group_interface_arm.computeCartesianPath(waypoints, eef_step, jump_threshold, trajectory);
+    ROS_INFO_NAMED("tutorial", "Visualizing plan 4 (Cartesian path) (%.2f%% achieved)", fraction * 100.0);
+
+    move_group_interface_arm.execute(trajectory);
 
     // 5. Close the  gripper
     move_group_interface_gripper.setJointValueTarget(move_group_interface_gripper.getNamedTargetValues("closed"));
