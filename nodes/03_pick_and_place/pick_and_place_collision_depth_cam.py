@@ -20,6 +20,13 @@
 #
 #   $2 rosrun emr22 pick_and_place.....py
 # ----------------------------------------------------------------
+# Ergänzung 9.5.22
+# joint_gripper = group_gripper.get_named_target_values("closed")
+# group_gripper.go(joint_gripper, wait=True)
+# Blue Box fällt immernoch aus dem Gripper
+
+
+
 import sys
 import copy
 import rospy
@@ -110,16 +117,18 @@ group.go(joint_goal, wait=True)
 # input("\n Open Gripper => Enter")
 joint_gripper = group_gripper.get_current_joint_values()
 print("Gripper Angle is", joint_gripper)
-joint_gripper[0] = 0.001  # complete open is 0.0007  closed is pi/4
+# joint_gripper[0] = 0.001  # complete open is 0.0007  closed is pi/4
+joint_gripper = group_gripper.get_named_target_values("open")
 group_gripper.go(joint_gripper, wait=True)
 group_gripper.stop()
+
 
 # --- 3. Place the TCP above the blue box
 input(" Move TCP above the blue box => Enter")
 pose_goal = group.get_current_pose()
 pose_goal.pose.position.x = 0.3
 pose_goal.pose.position.y = 0.5
-pose_goal.pose.position.z = 0.18
+pose_goal.pose.position.z = 0.2
 group.set_pose_target(pose_goal)
 plan = group.plan()
 sucess = group.go(wait=True)
@@ -128,13 +137,24 @@ group.stop()
 group.clear_pose_targets()
 # print("Reached TCP Goal above blue box", joint_goal)
 
-
 # --- 4. Move the TCP close to the object 0.2m down
 input(" Move TCP to grip blue box => Enter")
+
+"""pose_goal = group.get_current_pose()
+pose_goal.pose.position.x = 0.3
+pose_goal.pose.position.y = 0.5
+pose_goal.pose.position.z = 0.0
+group.set_pose_target(pose_goal)
+plan = group.plan()
+sucess = group.go(wait=True)
+print("suc?", sucess)
+group.stop()
+group.clear_pose_targets()"""
+
 # ============== Cartesian Paths ==============
 waypoints = []
 wpose = group.get_current_pose().pose
-wpose.position.z = -0.04  # First move down (z)
+wpose.position.z = -0.15  # First move down (z)
 waypoints.append(copy.deepcopy(wpose))
 
 # We want the Cartesian path to be interpolated at a resolution of 1 cm
@@ -147,19 +167,28 @@ waypoints.append(copy.deepcopy(wpose))
                                                 0.0)         # jump_threshold
 group.execute(plan, wait=True)
 
+
+
 # Attaching Blue Box
 grasping_group = "gripper"
 touch_links = robot.get_link_names(group=grasping_group)
 scene.attach_box(eef_link, box_name, touch_links=touch_links)
 
 # --- 5. Close the gripper
+# C++
+# move_group_interface_gripper.setJointValueTarget(move_group_interface_gripper.getNamedTargetValues("closed"));
+# python
+# joint_gripper = group_gripper.get_named_target_values("closed")
+
 input("\n Close Gripper => Enter")
 joint_gripper = group_gripper.get_current_joint_values()
 print("Gripper Angle is", joint_gripper)
 # complete open is 0.0007  closed is pi/4 =0.7854
-joint_gripper[0] = 0.28  # 0.28 found with rqt 
+# joint_gripper[0] = 0.28  # 0.28 found with rqt
+joint_gripper = group_gripper.get_named_target_values("closed")
 group_gripper.go(joint_gripper, wait=True)
 group_gripper.stop()
+
 
 # --- 6. Move the TCP close to the object 0.2m up
 input(" Lift blue box => Enter")
