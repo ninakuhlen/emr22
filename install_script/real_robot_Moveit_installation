@@ -4,3 +4,5 @@ git clone -b calibration_devel https://github.com/fmauch/universal_robot.git src
 
 
 doppeltes universal_robot Directory löschen (gibt es jetzt untzer fmauch)
+
+catkin clean
