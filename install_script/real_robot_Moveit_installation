@@ -7,15 +7,19 @@ doppeltes universal_robot Directory löschen (gibt es jetzt untzer fmauch)
 
 catkin clean
 
-$1 roscore
 
 Kallibrieren (nur bei Neuinstallation)
 $2  roslaunch ur_calibration calibration_correction.launch robot_ip:=192.168.0.100  target_filename:="${HOME}/ur5e_robot_calibration.yaml"
 =>> Calibration correction done  
 Kopieren in   Universal_Robots_ROS_Driver/ur_calibration/etc/ur5e_robot_calibration.yaml
 
+
+
+$1 roscore
+
+
 dann Roboter Bringup 
-$2 roslaunch ur_robot_driver ur5e_bringup.launch robot_ip:=192.168.56.100 kinematics_config:=$(rospack find ur_calibration)/etc/ur5e_robot_calibration.yaml
+$2 roslaunch ur_robot_driver ur5e_bringup.launch robot_ip:=192.168.0.100 kinematics_config:=$(rospack find ur_calibration)/etc/ur5e_robot_calibration.yaml
 
 
 dann MOveIt
