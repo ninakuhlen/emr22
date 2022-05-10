@@ -19,7 +19,10 @@ $2 roslaunch ur_robot_driver ur5e_bringup.launch robot_ip:=192.168.56.100 kinema
 
 
 dann MOveIt
-$3
+$3  roslaunch ur5e_moveit_config ur5e_moveit_planning_execution.launch
+
+
+$4  roslaunch ur5e_moveit_config moveit_rviz.launch rviz_config:=$(rospack find ur5e_moveit_config)/launch/moveit.rviz
 
 
 
