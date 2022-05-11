@@ -37,5 +37,5 @@ $4  roslaunch ur5_gripper_moveit_config moveit_rviz.launch rviz_config:=$(rospac
 Fmauch
 $4  roslaunch ur5e_moveit_config moveit_rviz.launch rviz_config:=$(rospack find ur5e_moveit_config)/launch/moveit.rviz
 
-
-
+siehe auch
+http://wiki.ros.org/Industrial/Tutorials/Create_a_MoveIt_Pkg_for_an_Industrial_Robot
