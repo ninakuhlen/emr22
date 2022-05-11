@@ -26,7 +26,7 @@ dann MOveIt!-Config von fmauch (ohne Gripper)
 $3  roslaunch ur5e_moveit_config ur5e_moveit_planning_execution.launch
 
 in Arbeit: unsere Version von DAIRAL  https://github.com/dairal
- $3 roslaucnh ur5_gripper_moveit_config ur5e_emr22_moveiz_planning_execution.launch sim:=false limited:=true
+ $3 roslaucnh ur5_gripper_moveit_config ur5e_emr22_moveit_planning_execution.launch sim:=false limited:=true
  
  => move_group.launch
 
