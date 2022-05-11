@@ -22,8 +22,13 @@ dann Roboter Bringup
 $2 roslaunch ur_robot_driver ur5e_bringup.launch robot_ip:=192.168.0.100 kinematics_config:=$(rospack find ur_calibration)/etc/ur5e_robot_calibration.yaml
 
 
-dann MOveIt
+dann MOveIt!-Config von fmauch (ohne Gripper)
 $3  roslaunch ur5e_moveit_config ur5e_moveit_planning_execution.launch
+
+in Arbeit: unsere Version von DAIRAL  https://github.com/dairal
+ $3 roslaucnh ur5_gripper_moveit_config ur5e_emr22_moveiz_planning_execution.launch sim:=false limited:=true
+ 
+ => move_group.launch
 
 
 $4  roslaunch ur5e_moveit_config moveit_rviz.launch rviz_config:=$(rospack find ur5e_moveit_config)/launch/moveit.rviz
