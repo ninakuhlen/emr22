@@ -29,8 +29,10 @@ sudo apt-get install ros-$ROS_DISTRO-ros-control ros-$ROS_DISTRO-ros-controllers
 git clone https://github.com/dairal/ur5-joint-position-control.git
 
 # Gripper hält Box in Gazebo fest:
+git clone https://github.com/PickNikRobotics/graph_msgs.git
 git clone https://github.com/JenniferBuehler/gazebo-pkgs.git -b noetic
 git clone https://github.com/JenniferBuehler/general-message-pkgs.git
+git clone https://github.com/PickNikRobotics/rosparam_shortcuts.git -b noetic-devel
 
 
 # fehlende ROS Pakete installieren
