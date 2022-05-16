@@ -28,7 +28,8 @@ sudo apt-get install ros-$ROS_DISTRO-ros-control ros-$ROS_DISTRO-ros-controllers
 # UR5 Package
 git clone https://github.com/dairal/ur5-joint-position-control.git
 # depth camera
-git clone  https://github.com/ProfJust/common-sensors.git
+git clone https://github.com/ProfJust/common-sensors.git
+git clone https://github.com/ros-drivers/openni_camera.git
 
 
 # Gripper hält Box in Gazebo fest:
