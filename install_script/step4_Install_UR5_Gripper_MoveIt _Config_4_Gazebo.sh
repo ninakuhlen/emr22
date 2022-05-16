@@ -27,6 +27,9 @@ git clone https://github.com/dairal/ur5_gripper_moveit_config
 sudo apt-get install ros-$ROS_DISTRO-ros-control ros-$ROS_DISTRO-ros-controllers
 # UR5 Package
 git clone https://github.com/dairal/ur5-joint-position-control.git
+# depth camera
+git clone  https://github.com/ProfJust/common-sensors.git
+
 
 # Gripper hält Box in Gazebo fest:
 git clone https://github.com/PickNikRobotics/graph_msgs.git
