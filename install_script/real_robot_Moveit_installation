@@ -24,6 +24,7 @@ ur5.urdf.xacro
 
 
 catkin clean
+catkin build
 
 
 Kallibrieren (nur bei Neuinstallation)
@@ -31,30 +32,39 @@ $  roslaunch ur_calibration calibration_correction.launch robot_ip:=192.168.0.10
 =>> Calibration correction done  
 Kopieren in   Universal_Robots_ROS_Driver/ur_calibration/etc/ur5e_robot_calibration.yaml
 
+Ändern des Typen des ur5_arm_controller in der ws_moveit_real_ur5e/src/ur5_gripper_moveit_config/config/ros_controllers.yaml Datei
+
+ur5_arm_controller:
+  # was type: effort_controllers/JointTrajectoryController  
+  type: position_controllers/JointTrajectoryController
+  joints:
+    - shoulder_pan_joint
+    - shoulder_lift_joint
+    - elbow_joint
+    - wrist_1_joint
+    - wrist_2_joint
+    - wrist_3_joint
+
 
 
 $1 roscore
 
-
 dann Roboter Bringup 
 $2 roslaunch ur_robot_driver ur5e_bringup.launch robot_ip:=192.168.0.100 kinematics_config:=$(rospack find ur_calibration)/etc/ur5e_robot_calibration.yaml
 
-
-dann MOveIt!-Config von fmauch (ohne Gripper)
-$3  roslaunch ur5e_moveit_config ur5e_moveit_planning_execution.launch
-
-in Arbeit- not tested yet: unsere Version von DAIRAL  https://github.com/dairal
+ unsere Version von DAIRAL  https://github.com/dairal
  $3 roslaunch ur5_gripper_moveit_config demo_real_ur5e.launch sim:=false limited:=true
  
  => move_group.launch
 
 
-NICHT MEHR notwendig, wird in $3 ur5e_real_robot_emr22_moveit_bringup.launch  mitgestartet
-$4  roslaunch ur5_gripper_moveit_config moveit_rviz.launch rviz_config:=$(rospack find ur5_gripper_moveit_config)/launch/moveit.rviz
-
-Fmauch
-$4  roslaunch ur5e_moveit_config moveit_rviz.launch rviz_config:=$(rospack find ur5e_moveit_config)/launch/moveit.rviz
 
 siehe auch
 http://wiki.ros.org/Industrial/Tutorials/Create_a_MoveIt_Pkg_for_an_Industrial_Robot
 https://industrial-training-master.readthedocs.io/en/melodic/_source/session3/Build-a-Moveit!-Package.html#using-moveit-with-physical-hardware
+
+
+
+
+################################
+To Do: UR3 und Gripper
