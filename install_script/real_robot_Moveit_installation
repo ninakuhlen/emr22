@@ -3,13 +3,31 @@ git clone https://github.com/UniversalRobots/Universal_Robots_ROS_Driver
 git clone -b calibration_devel https://github.com/fmauch/universal_robot.git fmauch_universal_robot
 
 
-doppeltes universal_robot Directory löschen (gibt es jetzt untzer fmauch)
+
+doppeltes universal_robot Directory löschen (gibt es jetzt unter fmauch)
+vorher die UR5 URDFs und Xacros mit dem Gripper  nach src/fmauch_universal_robot/ur_description/urdf  kopieren
+
+common.gazebo.xacro   
+ur5.xacro                
+ur5e.xacro                          
+ur.gazebo.xacro
+ur5_joint_limited_robot.urdf.xacro 
+ur.transmission.xacro
+ur5_robotiq85_gripper.urdf.xacro   
+ur.xacro
+ur5_robot.urdf.xacro
+ur5.urdf.xacro
+
+...
+
+
+
 
 catkin clean
 
 
 Kallibrieren (nur bei Neuinstallation)
-$2  roslaunch ur_calibration calibration_correction.launch robot_ip:=192.168.0.100  target_filename:="${HOME}/ur5e_robot_calibration.yaml"
+$  roslaunch ur_calibration calibration_correction.launch robot_ip:=192.168.0.100  target_filename:="${HOME}/ur5e_robot_calibration.yaml"
 =>> Calibration correction done  
 Kopieren in   Universal_Robots_ROS_Driver/ur_calibration/etc/ur5e_robot_calibration.yaml
 
