@@ -1,10 +1,14 @@
 Der MoveIt!-Assistant erlaubt es nicht, das URDF einer Konfiguration zu ändern
 Daher machen wir das von Hand.
-* Die URDFs mit dem Gripper müssen in den fmauch - Ordner ur_description/urdf/ kopiert werden
+Wir nutzen die geforkte MoveIt!-Konfiguration
+ur5_gripper_moveit_config vonProfJust, ursprünglich von DAIRAL
+
+* Die URDFs mit dem Gripper aus dem bisherigen universal robot - Paket müssen in den fmauch - Ordner ur_description/urdf/ kopiert werden (s.u,)
+
 * Der Name des Controllers muss in "scaled_trajectory_controller" geändert werden, 
   siehe ros_controllers.yaml
 * Kontrolle der Verbindung mit rosnode info /ur_hardware_driver
-* rqt - Trajectory-Tool müsste dann auch funktionieren
+* rqt - Trajectory-Tool müsste nun auch funktionieren
 
 
 
