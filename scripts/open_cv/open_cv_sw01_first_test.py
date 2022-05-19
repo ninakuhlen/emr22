@@ -7,7 +7,7 @@ import cv2
 print(cv2.__version__)
 
 # lese Bild von Festplatte
-image = cv2.imread('/home/oj/catkin_ws/src/rtc/scripts/open_cv/test.png')
+image = cv2.imread('/home/oj/ws_moveit/src/emr22/scripts/open_cv/test.png')
 
 # zeige Bild in Fenster an
 cv2.imshow("Bild", image)
