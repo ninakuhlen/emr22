@@ -1,5 +1,8 @@
-<!-- emr22 - launcht Astra Orbbec  und find_object_2D
+<!-- emr22 - launcht Astra Orbbec, find_object_2D
+und den tf-Broascaster für den world-Frame
      OJ 19.5.22
+usage
+     $ roslaunch emr22 astra_find_object_2d.launch
 -->
 
 <!-- Entry point for using OpenNI2 devices -->

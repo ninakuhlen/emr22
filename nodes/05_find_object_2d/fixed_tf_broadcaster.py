@@ -8,27 +8,36 @@
 #import roslib
 import rospy
 import tf
-import numpy as np # Scientific computing library for Python
- 
+import numpy as np  # Scientific computing library for Python
+
+
 def eul2quat(roll, pitch, yaw):
-  """
-  https://automaticaddison.com/how-to-convert-euler-angles-to-quaternions-using-python/
-  Convert an Euler angle to a quaternion.
-   
-  Input
-    :param roll: The roll (rotation around x-axis) angle in radians.
-    :param pitch: The pitch (rotation around y-axis) angle in radians.
-    :param yaw: The yaw (rotation around z-axis) angle in radians.
+    """
+        https://automaticaddison.com/how-to-convert-euler-angles-to-quaternions-using-python/
+        Convert an Euler angle to a quaternion.
+
+        Input
+            :param roll: The roll (rotation around x-axis) angle in radians.
+            :param pitch: The pitch (rotation around y-axis) angle in radians.
+            :param yaw: The yaw (rotation around z-axis) angle in radians.
+
+        Output
+            :return qx, qy, qz, qw: The orientation in quaternion
+            [x,y,z,w] format
+    """
+    qx = np.sin(roll/2) * np.cos(pitch/2) * np.cos(yaw/2)
+    - np.cos(roll/2) * np.sin(pitch/2) * np.sin(yaw/2)
+
+    qy = np.cos(roll/2) * np.sin(pitch/2) * np.cos(yaw/2)
+    + np.sin(roll/2) * np.cos(pitch/2) * np.sin(yaw/2)
+
+    qz = np.cos(roll/2) * np.cos(pitch/2) * np.sin(yaw/2)
+    - np.sin(roll/2) * np.sin(pitch/2) * np.cos(yaw/2)
+
+    qw = np.cos(roll/2) * np.cos(pitch/2) * np.cos(yaw/2)
+    + np.sin(roll/2) * np.sin(pitch/2) * np.sin(yaw/2)
  
-  Output
-    :return qx, qy, qz, qw: The orientation in quaternion [x,y,z,w] format
-  """
-  qx = np.sin(roll/2) * np.cos(pitch/2) * np.cos(yaw/2) - np.cos(roll/2) * np.sin(pitch/2) * np.sin(yaw/2)
-  qy = np.cos(roll/2) * np.sin(pitch/2) * np.cos(yaw/2) + np.sin(roll/2) * np.cos(pitch/2) * np.sin(yaw/2)
-  qz = np.cos(roll/2) * np.cos(pitch/2) * np.sin(yaw/2) - np.sin(roll/2) * np.sin(pitch/2) * np.cos(yaw/2)
-  qw = np.cos(roll/2) * np.cos(pitch/2) * np.cos(yaw/2) + np.sin(roll/2) * np.sin(pitch/2) * np.sin(yaw/2)
- 
-  return [qx, qy, qz, qw]
+    return [qx, qy, qz, qw]
 
 
 if __name__ == '__main__':
