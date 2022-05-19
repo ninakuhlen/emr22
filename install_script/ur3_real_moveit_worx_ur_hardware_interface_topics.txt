@@ -1,0 +1,140 @@
+robolab-user@robolab04:~/ws_moveit$ rosnode info /ur_hardware_interface
+--------------------------------------------------------------------------------
+Node [/ur_hardware_interface]
+Publications: 
+ * /joint_states [sensor_msgs/JointState]
+ * /pos_joint_traj_controller/follow_joint_trajectory/feedback [control_msgs/FollowJointTrajectoryActionFeedback]
+ * /pos_joint_traj_controller/follow_joint_trajectory/result [control_msgs/FollowJointTrajectoryActionResult]
+ * /pos_joint_traj_controller/follow_joint_trajectory/status [actionlib_msgs/GoalStatusArray]
+ * /pos_joint_traj_controller/state [control_msgs/JointTrajectoryControllerState]
+ * /rosout [rosgraph_msgs/Log]
+ * /scaled_pos_joint_traj_controller/follow_joint_trajectory/feedback [control_msgs/FollowJointTrajectoryActionFeedback]
+ * /scaled_pos_joint_traj_controller/follow_joint_trajectory/result [control_msgs/FollowJointTrajectoryActionResult]
+ * /scaled_pos_joint_traj_controller/follow_joint_trajectory/status [actionlib_msgs/GoalStatusArray]
+ * /scaled_pos_joint_traj_controller/state [control_msgs/JointTrajectoryControllerState]
+ * /speed_scaling_factor [std_msgs/Float64]
+ * /tf [tf2_msgs/TFMessage]
+ * /ur_hardware_interface/io_states [ur_msgs/IOStates]
+ * /ur_hardware_interface/robot_mode [ur_dashboard_msgs/RobotMode]
+ * /ur_hardware_interface/robot_program_running [std_msgs/Bool]
+ * /ur_hardware_interface/safety_mode [ur_dashboard_msgs/SafetyMode]
+ * /ur_hardware_interface/tool_data [ur_msgs/ToolDataMsg]
+ * /wrench [geometry_msgs/WrenchStamped]
+
+Subscriptions: 
+ * /joint_group_vel_controller/command [unknown type]
+ * /pos_joint_traj_controller/command [unknown type]
+ * /pos_joint_traj_controller/follow_joint_trajectory/cancel [unknown type]
+ * /pos_joint_traj_controller/follow_joint_trajectory/goal [unknown type]
+ * /scaled_pos_joint_traj_controller/command [trajectory_msgs/JointTrajectory]
+ * /scaled_pos_joint_traj_controller/follow_joint_trajectory/cancel [actionlib_msgs/GoalID]
+ * /scaled_pos_joint_traj_controller/follow_joint_trajectory/goal [control_msgs/FollowJointTrajectoryActionGoal]
+ * /ur_hardware_interface/script_command [unknown type]
+
+Services: 
+ * /controller_manager/list_controller_types
+ * /controller_manager/list_controllers
+ * /controller_manager/load_controller
+ * /controller_manager/reload_controller_libraries
+ * /controller_manager/switch_controller
+ * /controller_manager/unload_controller
+ * /pos_joint_traj_controller/query_state
+ * /scaled_pos_joint_traj_controller/query_state
+ * /ur_hardware_interface/dashboard/add_to_log
+ * /ur_hardware_interface/dashboard/brake_release
+ * /ur_hardware_interface/dashboard/clear_operational_mode
+ * /ur_hardware_interface/dashboard/close_popup
+ * /ur_hardware_interface/dashboard/close_safety_popup
+ * /ur_hardware_interface/dashboard/connect
+ * /ur_hardware_interface/dashboard/get_loaded_program
+ * /ur_hardware_interface/dashboard/get_robot_mode
+ * /ur_hardware_interface/dashboard/get_safety_mode
+ * /ur_hardware_interface/dashboard/load_installation
+ * /ur_hardware_interface/dashboard/load_program
+ * /ur_hardware_interface/dashboard/pause
+ * /ur_hardware_interface/dashboard/play
+ * /ur_hardware_interface/dashboard/popup
+ * /ur_hardware_interface/dashboard/power_off
+ * /ur_hardware_interface/dashboard/power_on
+ * /ur_hardware_interface/dashboard/program_running
+ * /ur_hardware_interface/dashboard/program_saved
+ * /ur_hardware_interface/dashboard/program_state
+ * /ur_hardware_interface/dashboard/quit
+ * /ur_hardware_interface/dashboard/raw_request
+ * /ur_hardware_interface/dashboard/restart_safety
+ * /ur_hardware_interface/dashboard/shutdown
+ * /ur_hardware_interface/dashboard/stop
+ * /ur_hardware_interface/dashboard/unlock_protective_stop
+ * /ur_hardware_interface/get_loggers
+ * /ur_hardware_interface/hand_back_control
+ * /ur_hardware_interface/set_io
+ * /ur_hardware_interface/set_logger_level
+ * /ur_hardware_interface/set_payload
+ * /ur_hardware_interface/set_speed_slider
+ * /ur_hardware_interface/zero_ftsensor
+
+
+contacting node http://192.168.56.1:34123/ ...
+Pid: 25808
+Connections:
+ * topic: /rosout
+    * to: /rosout
+    * direction: outbound (36219 - 192.168.56.1:46592) [15]
+    * transport: TCPROS
+ * topic: /ur_hardware_interface/robot_program_running
+    * to: /controller_stopper
+    * direction: outbound (36219 - 192.168.56.1:46596) [11]
+    * transport: TCPROS
+ * topic: /tf
+    * to: /move_group
+    * direction: outbound (36219 - 192.168.56.1:46650) [32]
+    * transport: TCPROS
+ * topic: /tf
+    * to: /rviz_robolab04_26583_4040767111226219340
+    * direction: outbound (36219 - 192.168.56.1:46660) [34]
+    * transport: TCPROS
+ * topic: /ur_hardware_interface/robot_mode
+    * to: /ur_hardware_interface/ur_robot_state_helper
+    * direction: outbound (36219 - 192.168.56.1:46604) [29]
+    * transport: TCPROS
+ * topic: /ur_hardware_interface/safety_mode
+    * to: /ur_hardware_interface/ur_robot_state_helper
+    * direction: outbound (36219 - 192.168.56.1:46606) [30]
+    * transport: TCPROS
+ * topic: /joint_states
+    * to: /robot_state_publisher
+    * direction: outbound (36219 - 192.168.56.1:46634) [27]
+    * transport: TCPROS
+ * topic: /joint_states
+    * to: /move_group
+    * direction: outbound (36219 - 192.168.56.1:46652) [37]
+    * transport: TCPROS
+ * topic: /scaled_pos_joint_traj_controller/state
+    * to: /rqt_gui_py_node_26843
+    * direction: outbound (36219 - 192.168.56.1:46694) [36]
+    * transport: TCPROS
+ * topic: /scaled_pos_joint_traj_controller/follow_joint_trajectory/result
+    * to: /move_group
+    * direction: outbound (36219 - 192.168.56.1:46658) [40]
+    * transport: TCPROS
+ * topic: /scaled_pos_joint_traj_controller/follow_joint_trajectory/feedback
+    * to: /move_group
+    * direction: outbound (36219 - 192.168.56.1:46654) [38]
+    * transport: TCPROS
+ * topic: /scaled_pos_joint_traj_controller/follow_joint_trajectory/status
+    * to: /move_group
+    * direction: outbound (36219 - 192.168.56.1:46656) [39]
+    * transport: TCPROS
+ * topic: /scaled_pos_joint_traj_controller/command
+    * to: /rqt_gui_py_node_26843 (http://192.168.56.1:39915/)
+    * direction: inbound (41878 - 192.168.56.1:35091) [44]
+    * transport: TCPROS
+ * topic: /scaled_pos_joint_traj_controller/follow_joint_trajectory/goal
+    * to: /move_group (http://192.168.56.1:40807/)
+    * direction: inbound (49588 - 192.168.56.1:60613) [28]
+    * transport: TCPROS
+ * topic: /scaled_pos_joint_traj_controller/follow_joint_trajectory/cancel
+    * to: /move_group (http://192.168.56.1:40807/)
+    * direction: inbound (49590 - 192.168.56.1:60613) [33]
+    * transport: TCPROS
+

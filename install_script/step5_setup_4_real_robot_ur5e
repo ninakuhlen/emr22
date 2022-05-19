@@ -1,0 +1,46 @@
+hier soll noch ein Shell Script entstehen für den realen UR5e
+
+cd ~/ws_moveit/src/
+git clone https://github.com/UniversalRobots/Universal_Robots_ROS_Driver
+git clone -b calibration_devel https://github.com/fmauch/universal_robot.git fmauch_universal_robot
+
+
+doppeltes universal_robot Directory löschen (gibt es jetzt untzer fmauch)
+
+catkin clean
+
+
+Kallibrieren (nur bei Neuinstallation)
+$2  roslaunch ur_calibration calibration_correction.launch robot_ip:=192.168.0.100  target_filename:="${HOME}/ur5e_robot_calibration.yaml"
+=>> Calibration correction done  
+Kopieren in   Universal_Robots_ROS_Driver/ur_calibration/etc/ur5e_robot_calibration.yaml
+
+
+
+$1 roscore
+
+
+dann Roboter Bringup 
+$2 roslaunch ur_robot_driver ur5e_bringup.launch robot_ip:=192.168.0.100 kinematics_config:=$(rospack find ur_calibration)/etc/ur5e_robot_calibration.yaml
+
+
+dann MOveIt!-Config von fmauch (ohne Gripper)
+$3  roslaunch ur5e_moveit_config ur5e_moveit_planning_execution.launch
+
+in Arbeit- not tested yet: unsere Version von DAIRAL  https://github.com/dairal
+ $3 roslaucnh ur5_gripper_moveit_config ur5e_real_robot_emr22_moveit_bringup.launch sim:=false limited:=true
+ 
+ => move_group.launch
+
+
+NICHT MEHR notwendig, wird in $3 ur5e_real_robot_emr22_moveit_bringup.launch  mitgestartet
+$4  roslaunch ur5_gripper_moveit_config moveit_rviz.launch rviz_config:=$(rospack find ur5_gripper_moveit_config)/launch/moveit.rviz
+
+Fmauch
+$4  roslaunch ur5e_moveit_config moveit_rviz.launch rviz_config:=$(rospack find ur5e_moveit_config)/launch/moveit.rviz
+
+siehe auch
+http://wiki.ros.org/Industrial/Tutorials/Create_a_MoveIt_Pkg_for_an_Industrial_Robot
+https://industrial-training-master.readthedocs.io/en/melodic/_source/session3/Build-a-Moveit!-Package.html#using-moveit-with-physical-hardware
+
+
