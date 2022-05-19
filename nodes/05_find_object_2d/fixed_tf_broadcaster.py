@@ -3,9 +3,6 @@
 # http://wiki.ros.org/tf/Tutorials/Adding%20a%20frame%20%28Python%29
 # usage:   $ rosrun tf tf_echo world object_8
 
-
-
-#import roslib
 import rospy
 import tf
 import numpy as np  # Scientific computing library for Python
