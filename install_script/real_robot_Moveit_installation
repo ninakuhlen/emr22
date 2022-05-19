@@ -1,10 +1,21 @@
+Der MoveIt!-Assistant erlaubt es nicht, das URDF einer Konfiguration zu ändern
+Daher machen wir das von Hand.
+* Die URDFs mit dem Gripper müssen in den fmauch - Ordner ur_description/urdf/ kopiert werden
+* Der Name des Controllers muss in "scaled_trajectory_controller" geändert werden, 
+  siehe ros_controllers.yaml
+* Kontrolle der Verbindung mit rosnode info /ur_hardware_driver
+* rqt - Trajectory-Tool müsste dann auch funktionieren
+
+
+
+
 cd ~/ws_moveit/src/
 git clone https://github.com/UniversalRobots/Universal_Robots_ROS_Driver
 git clone -b calibration_devel https://github.com/fmauch/universal_robot.git fmauch_universal_robot
 
 
 
-doppeltes universal_robot Directory löschen (gibt es jetzt unter fmauch)
+doppeltes universal_robot Directory löschen (Die URDFs liegen jetzt unter fmauch)
 vorher die UR5 URDFs und Xacros mit dem Gripper  nach src/fmauch_universal_robot/ur_description/urdf  kopieren
 
 common.gazebo.xacro   
@@ -20,14 +31,14 @@ ur5.urdf.xacro
 
 ...
 
-
-
-
+komplett neu Übersetzen 
 catkin clean
 catkin build
 
 
-Kallibrieren (nur bei Neuinstallation)
+Kallibrieren (nur bei Neuinstallation notwendig)
+Erstellt ein calibration-File, dieses dann beim Starten des ROS_Drivers als Parameter übergeben
+
 $  roslaunch ur_calibration calibration_correction.launch robot_ip:=192.168.0.100  target_filename:="${HOME}/ur5e_robot_calibration.yaml"
 =>> Calibration correction done  
 Kopieren in   Universal_Robots_ROS_Driver/ur_calibration/etc/ur5e_robot_calibration.yaml
@@ -49,10 +60,12 @@ ur5_arm_controller:
 
 $1 roscore
 
-dann Roboter Bringup 
+dann Roboter Bringup  mit calibration-yaml (s.o.)
 $2 roslaunch ur_robot_driver ur5e_bringup.launch robot_ip:=192.168.0.100 kinematics_config:=$(rospack find ur_calibration)/etc/ur5e_robot_calibration.yaml
 
- unsere Version von DAIRAL  https://github.com/dairal
+ unsere Version von DAIRAL  https://github.com/dairal  
+ => https://github.com/ProfJust/ur5_gripper_moveit_config
+
  $3 roslaunch ur5_gripper_moveit_config demo_real_ur5e.launch sim:=false limited:=true
  
  => move_group.launch
