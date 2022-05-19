@@ -86,6 +86,11 @@ https://industrial-training-master.readthedocs.io/en/melodic/_source/session3/Bu
 ################################
 To Do: UR3 und Gripper
 
+Umwandlung des ur5_gripper_moveit_config in ein ur3_gripper_moveit_config
+=> Github
+
+
+
 Die URDF-Files für den UR3 mit Gripper erstellen, hier zunächst mit dem robotiq-85-Gripper
 => Fmauch ur_description/urdf/
 
