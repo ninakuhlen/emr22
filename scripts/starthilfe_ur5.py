@@ -43,9 +43,15 @@ class MainWindow(QWidget):
 
         # --- find_object_2D ---
         self.myPb_find_object_2D = QPushButton(self)
-        self.myPb_find_object_2D.setText('find_object_2D')
+        self.myPb_find_object_2D.setText('find_object_2D - gazebo')
         self.myPb_find_object_2D.setGeometry(10, 210, 300, 40)  # x,y,w,h
         self.myPb_find_object_2D.clicked.connect(self.slot_find_object_2D)
+
+        # --- find_object_2D und Astra---
+        self.myPb_astra = QPushButton(self)
+        self.myPb_astra.setText(' Astra Orbbec und find_object_2D - real')
+        self.myPb_astra.setGeometry(10, 250, 300, 40)  # x,y,w,h
+        self.myPb_astra.clicked.connect(self.slot_astra_cam)
 
         # --- Window konfigurieren und starten
         self.setGeometry(300, 300, 400, 300)
@@ -71,6 +77,9 @@ class MainWindow(QWidget):
     
     def slot_find_object_2D(self):
         os.system('gnome-terminal -- bash -c "roslaunch emr22 find_object_2d.launch"')
+
+    def slot_astra_cam(self):
+        os.system('gnome-terminal -- bash -c "roslaunch emr22 astra_find_object_2d.launch"')
 
 
 if __name__ == '__main__':
