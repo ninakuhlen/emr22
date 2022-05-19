@@ -85,3 +85,10 @@ https://industrial-training-master.readthedocs.io/en/melodic/_source/session3/Bu
 
 ################################
 To Do: UR3 und Gripper
+
+Die URDF-Files für den UR3 mit Gripper erstellen, hier zunächst mit dem robotiq-85-Gripper
+=> Fmauch ur_description/urdf/
+
+Für den UR3 alle ur5 - Vorkommen in ur3 umbennenen, insbesondere im SDF-File der MoveIt Config
+
+Habe ein eigenes Starthilfe-Tool für den UR3 erstellt
