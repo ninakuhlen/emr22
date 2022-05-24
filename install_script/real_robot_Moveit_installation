@@ -67,6 +67,12 @@ $1 roscore
 dann Roboter Bringup  mit calibration-yaml (s.o.)
 $2 roslaunch ur_robot_driver ur5e_bringup.launch robot_ip:=192.168.0.100 kinematics_config:=$(rospack find ur_calibration)/etc/ur5e_robot_calibration.yaml
 
+mit Gripper
+
+$2 roslaunch ur_robot_driver ur5e_bringup.launch robot_ip:=192.168.0.100 use_tool_communication:=true kinematics_config:=$(rospack find ur_calibration)/etc/ur5e_robot_calibration.yaml 
+
+
+
  unsere Version von DAIRAL  https://github.com/dairal  
  => https://github.com/ProfJust/ur5_gripper_moveit_config
 
