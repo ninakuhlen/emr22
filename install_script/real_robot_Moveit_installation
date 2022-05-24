@@ -61,14 +61,14 @@ ur5_arm_controller:
     - wrist_3_joint
 
 
-
+###########################################################
 $1 roscore
 
 dann Roboter Bringup  mit calibration-yaml (s.o.)
+
 $2 roslaunch ur_robot_driver ur5e_bringup.launch robot_ip:=192.168.0.100 kinematics_config:=$(rospack find ur_calibration)/etc/ur5e_robot_calibration.yaml
 
-mit Gripper
-
+???? mit Gripper
 $2 roslaunch ur_robot_driver ur5e_bringup.launch robot_ip:=192.168.0.100 use_tool_communication:=true kinematics_config:=$(rospack find ur_calibration)/etc/ur5e_robot_calibration.yaml 
 
 
@@ -80,7 +80,7 @@ $2 roslaunch ur_robot_driver ur5e_bringup.launch robot_ip:=192.168.0.100 use_too
  
  => move_group.launch
 
-
+###################################################################################
 
 siehe auch
 http://wiki.ros.org/Industrial/Tutorials/Create_a_MoveIt_Pkg_for_an_Industrial_Robot
