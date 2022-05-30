@@ -102,8 +102,11 @@ UR3: $2 roslaunch ur_robot_driver ur3_bringup.launch robot_ip:=192.168.56.11 kin
  unsere Version von DAIRAL  https://github.com/dairal  
  => https://github.com/ProfJust/ur5_gripper_moveit_config
 
- $3 roslaunch ur5_gripper_moveit_config demo_real_ur5e.launch sim:=false limited:=true
+UR5e: $3 roslaunch ur5_gripper_moveit_config demo_real_ur5e.launch sim:=false limited:=true
  
+ 
+ UR3: $3 roslaunch ur3_gripper_moveit_config demo_real_ur3.launch 
+
  => move_group.launch
 
 ###################################################################################
