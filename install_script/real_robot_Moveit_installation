@@ -94,7 +94,7 @@ dann Roboter Bringup  mit calibration-yaml (s.o.)
 
 UR5e: $2 roslaunch ur_robot_driver ur5e_bringup.launch robot_ip:=192.168.0.100 kinematics_config:=$(rospack find ur_calibration)/etc/ur5e_robot_calibration.yaml
 
-UR3: $2 roslaunch ur3_gripper_moveit_config demo_real_ur3.launch  kinematics_config:=$(rospack find ur_calibration)/etc/ur3_robot_calibration.yaml
+UR3: $2 roslaunch ur_robot_driver ur3_bringup.launch robot_ip:=192.168.56.11 kinematics_config:=$(rospack find ur3_gripper_moveit_config)/callibration/ur3_robot_calibration.yaml 
 
 
 
