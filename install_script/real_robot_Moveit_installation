@@ -92,10 +92,9 @@ $1 roscore
 
 dann Roboter Bringup  mit calibration-yaml (s.o.)
 
-$2 roslaunch ur_robot_driver ur5e_bringup.launch robot_ip:=192.168.0.100 kinematics_config:=$(rospack find ur_calibration)/etc/ur5e_robot_calibration.yaml
+UR5e: $2 roslaunch ur_robot_driver ur5e_bringup.launch robot_ip:=192.168.0.100 kinematics_config:=$(rospack find ur_calibration)/etc/ur5e_robot_calibration.yaml
 
-???? mit Gripper
-$2 roslaunch ur_robot_driver ur5e_bringup.launch robot_ip:=192.168.0.100 use_tool_communication:=true kinematics_config:=$(rospack find ur_calibration)/etc/ur5e_robot_calibration.yaml 
+UR3: $2 roslaunch ur_robot_driver ur3_bringup.launch robot_ip:=192.168.56.11 kinematics_config:=$(rospack find ur_calibration)/etc/ur3_robot_calibration.yaml 
 
 
 
