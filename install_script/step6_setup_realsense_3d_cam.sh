@@ -28,6 +28,9 @@ ROS-Wrapper
 https://github.com/IntelRealSense/realsense-ros.git
 
 sudo apt-get install ros-noetic-realsense2-camera
+sudo apt-get install ros-noetic-object-recognition-msgs
+sudo apt-get install ros-noetic-libuvc-camera
+sudo apt-get install ros-noetic-octomap-msgs
 
 
 funktioniert nicht aber gute Erklärung =>
