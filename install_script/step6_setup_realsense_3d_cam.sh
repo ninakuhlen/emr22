@@ -43,3 +43,5 @@ cd ~/ws_moveit/src/
 git clone https://github.com/IntelRealSense/realsense-ros.git
 git clone https://github.com/ros-planning/warehouse_ros.git
 
+echo -e "\033[34m Intel Realsense launchen  $ roslaunch realsense2_camera rs_camera.launch  \033[0m "
+
