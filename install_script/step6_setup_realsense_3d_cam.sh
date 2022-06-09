@@ -31,6 +31,9 @@ sudo apt-get install ros-noetic-realsense2-camera
 sudo apt-get install ros-noetic-object-recognition-msgs
 sudo apt-get install ros-noetic-libuvc-camera
 sudo apt-get install ros-noetic-octomap-msgs
+sudo apt-get install ros-noetic-eigen-stl-containers
+sudo apt-get install ros-noetic-random-numbers
+sudo apt-get install ros-noetic-ddynamic_reconfigure
 
 
 funktioniert nicht aber gute Erklärung =>
