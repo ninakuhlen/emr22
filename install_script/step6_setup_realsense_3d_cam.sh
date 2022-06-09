@@ -40,4 +40,6 @@ echo -e "\033[34m Intel Realsense SDK-Tool starten mit: $ realsense-viewer \033[
 
 cd ~/ws_moveit/src/
 # ROS-Wrapper
-sudo git clone https://github.com/IntelRealSense/realsense-ros.git
+git clone https://github.com/IntelRealSense/realsense-ros.git
+git clone https://github.com/ros-planning/warehouse_ros.git
+
