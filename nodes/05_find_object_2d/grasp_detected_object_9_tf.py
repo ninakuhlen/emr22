@@ -99,7 +99,7 @@ print("detected object position")
 # print(rot)
 print(trans)
 # else:
-#    print("  no object_8 found => exit() ")
+#    print("  no object_9 found => exit() ")
 #    exit()
 
 # --- 4. go to object position
@@ -111,7 +111,6 @@ pose_goal.pose.position.x  = trans[0] -0.04 # from tf-Tree
 pose_goal.pose.position.y  = trans[1] -0.02 # from tf-Tree
 pose_goal.pose.position.z  = trans[2]  # from tf-Tree
 pose_goal.pose.position.z = 0.35  # 35cm higher
-
 print(" going to ", pose_goal.pose.position)
 input("confirm moving ur3_arm to this position")
 group.set_pose_target(pose_goal)
@@ -121,11 +120,16 @@ print("suc?", sucess)
 group.stop()
 group.clear_pose_targets()
 
+input("confirm turning wrist3")
+joint_goal = group.get_current_joint_values()
+joint_goal[5] = np.deg2rad(45)       # wrist3
+group.go(joint_goal, wait=True)
+
 
 print("plan a cartesion path")
 waypoints = []
 wpose = group.get_current_pose().pose
-wpose.position.z = -0.6  # First move down (z)
+wpose.position.z = -0.3  # First move down (z)
 waypoints.append(copy.deepcopy(wpose))
 (plan, fraction) = group.compute_cartesian_path(
                                                 waypoints,
@@ -141,7 +145,9 @@ display_trajectory_publisher.publish(display_trajectory)
 input("confirm moving ur3_arm 10cm deeper")
 group.execute(plan, wait=True)
 
-
+input("confirm moving ur3_arm to home position")
+joint_goal = group.get_named_target_values("home")
+group.go(joint_goal, wait=True)
 
 # --- at the end -----
 
