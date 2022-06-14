@@ -2,7 +2,7 @@
 # grasp_detected_object_tf.py
 # 
 # ------------------------------------
-# edited WHS, OJ , 13.6.2022 #
+# edited WHS, OJ , 14.6.2022 #
 # -------------------------------------
 # Pick and Place
 # in Python mit der move_group_api
@@ -50,7 +50,7 @@ rospy.init_node('move_group_python_interface_tutorial',
 robot = moveit_commander.RobotCommander()
 
 # Instantiate the MoveGroupCommander object.
-group_name = "ur5_arm"
+group_name = "ur3_arm"
 group = moveit_commander.MoveGroupCommander(group_name)
 group_name_gripper = "gripper"
 group_gripper = moveit_commander.MoveGroupCommander(group_name_gripper)
@@ -85,7 +85,7 @@ listener = tf.TransformListener()
 
 
 # ---- 1. Move to home position ----
-input("confirm moving ur5_arm to home position")
+input("confirm moving ur3_arm to home position")
 joint_goal = group.get_named_target_values("home")
 group.go(joint_goal, wait=True)
 # print("Reached Joint Goal Home", joint_goal)
@@ -107,26 +107,40 @@ print(trans)
 # trans = [0.36, 0.08, 0.3]  # Test Position 
 print("translation is ",trans)
 pose_goal = group.get_current_pose()
-pose_goal.pose.position.x  = trans[0]  # from tf-Tree
-pose_goal.pose.position.y  = trans[1]  # from tf-Tree
+pose_goal.pose.position.x  = trans[0] -0.04 # from tf-Tree
+pose_goal.pose.position.y  = trans[1] -0.02 # from tf-Tree
 pose_goal.pose.position.z  = trans[2]  # from tf-Tree
-pose_goal.pose.position.z += 0.2  # 20cm higher
+pose_goal.pose.position.z = 0.35  # 35cm higher
 
 print(" going to ", pose_goal.pose.position)
+input("confirm moving ur3_arm to this position")
 group.set_pose_target(pose_goal)
 plan = group.plan()
-
-""" display_trajectory = moveit_msgs.msg.DisplayTrajectory()
-display_trajectory.trajectory_start = robot.get_current_state()
-display_trajectory.trajectory.append(plan)
-display_trajectory_publisher.publish(display_trajectory)
- """
-input("confirm moving ur5_arm to this position")
-
 sucess = group.go(wait=True)
 print("suc?", sucess)
 group.stop()
 group.clear_pose_targets()
+
+
+print("plan a cartesion path")
+waypoints = []
+wpose = group.get_current_pose().pose
+wpose.position.z = -0.6  # First move down (z)
+waypoints.append(copy.deepcopy(wpose))
+(plan, fraction) = group.compute_cartesian_path(
+                                                waypoints,
+                                                0.01,        # eef_step
+                                                0.0)         # jump_threshold
+# Displaying a Trajectory
+display_trajectory = moveit_msgs.msg.DisplayTrajectory()
+display_trajectory.trajectory_start = robot.get_current_state()
+display_trajectory.trajectory.append(plan)
+# Publish
+display_trajectory_publisher.publish(display_trajectory)
+# ==== Execute the calculated path:
+input("confirm moving ur3_arm 10cm deeper")
+group.execute(plan, wait=True)
+
 
 
 # --- at the end -----
