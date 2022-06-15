@@ -56,9 +56,10 @@ group_name_gripper = "gripper"
 group_gripper = moveit_commander.MoveGroupCommander(group_name_gripper)
 
 # Create a Publisher
-display_trajectory_publisher = rospy.Publisher('/move_group/display_planned_path',
-                                               moveit_msgs.msg.DisplayTrajectory,
-                                               queue_size=20)
+display_trajectory_publisher = rospy.Publisher(
+    '/move_group/display_planned_path',
+    moveit_msgs.msg.DisplayTrajectory,
+    queue_size=20)
 
 # ##### Getting Basic Information ###############
 # We can get the name of the reference frame for this robot:
@@ -129,19 +130,20 @@ group.go(joint_goal, wait=True)
 print("plan a cartesion path")
 waypoints = []
 wpose = group.get_current_pose().pose
-wpose.position.z = -0.3  # First move down (z)
+wpose.position.z = -0.10  # move down (z)
 waypoints.append(copy.deepcopy(wpose))
 (plan, fraction) = group.compute_cartesian_path(
                                                 waypoints,
                                                 0.01,        # eef_step
                                                 0.0)         # jump_threshold
-# Displaying a Trajectory
+# Displaying a Trajectory in RViZ
 display_trajectory = moveit_msgs.msg.DisplayTrajectory()
 display_trajectory.trajectory_start = robot.get_current_state()
 display_trajectory.trajectory.append(plan)
 # Publish
 display_trajectory_publisher.publish(display_trajectory)
-# ==== Execute the calculated path:
+
+# Execute the calculated path:
 input("confirm moving ur3_arm 10cm deeper")
 group.execute(plan, wait=True)
 
