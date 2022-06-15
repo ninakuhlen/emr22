@@ -8,9 +8,6 @@ import rospy
 import tf
 import numpy as np  # Scientific computing library for Python
 
-
-
-
 if __name__ == '__main__':
     rospy.init_node('fixed_tf_broadcaster')
     br = tf.TransformBroadcaster()
@@ -19,14 +16,10 @@ if __name__ == '__main__':
         # Hier Abstand camera_link zum world_frame eintragen
         # vorher messen in Meter
         # x, y, z    67cm hohes Stativ
-        # quaternion?
-
         # UR5e 13_06_22
         br.sendTransform((1.30, 0.04, 0.70),
                          (tf.transformations.quaternion_from_euler(0.0 , 0.5, 3.14)),
                          rospy.Time.now(),
                          "camera_link",
-                         "world")
-
-        
+                         "world")        
         rate.sleep()
