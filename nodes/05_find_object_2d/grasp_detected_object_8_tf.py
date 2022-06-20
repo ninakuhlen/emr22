@@ -112,34 +112,39 @@ pose_goal.pose.position.y = trans[1] - 0.02  # from tf-Tree
 pose_goal.pose.position.z = trans[2]  # from tf-Tree
 pose_goal.pose.position.z = 0.35  # 35cm high
 
-# pose_goal.orientation = [1.0, 1.0, 1.0, 1.0 ] # quaternion
-# Drehwinkel um den Vektor ist w => w = 7101 =>  pi/4 = 0.7853..
+# Gripper soll um 45° Drehen um Object zu Greifen
+# da uns die Angabe in Quaternionen schwer fällt, hier ein 
+# Umweg über Euler
+# Drehwinkel um den Vektor ist pi/4 = 0.7853..
 print(" going to pose", pose_goal.pose.position)
 print(" going to orientation quaternion ", pose_goal.pose.orientation)
-# pose_goal.pose.orientation.w = 0
+# pose_goal.pose.orientation ist ein Tupel => nicht veränderbar
+# => Variable quaternion instanzieren
 quaternion = (
     pose_goal.pose.orientation.x,
     pose_goal.pose.orientation.y,
     pose_goal.pose.orientation.z,
     pose_goal.pose.orientation.w)
+# quat 2 eul für bessere Lesbarkeit
 euler_goal_pose_orientation = tf.transformations.euler_from_quaternion(quaternion) 
 print(" going to orientation euler", euler_goal_pose_orientation)
 
+# pi/4 addieren und in Quaternion zurück
 quaternion = tf.transformations.quaternion_from_euler(
     euler_goal_pose_orientation[0],
     euler_goal_pose_orientation[1],
     euler_goal_pose_orientation[2] + pi/4,
     axes='sxyz'  )
 
-euler_goal_pose_orientation = tf.transformations.euler_from_quaternion(quaternion) 
-print(" going to orientation euler neu", euler_goal_pose_orientation)
-
-# WICHTIG!
+# WICHTIG! Ergebnisse => Goal Pose
 pose_goal.pose.orientation.x = quaternion[0]
 pose_goal.pose.orientation.y = quaternion[1]
 pose_goal.pose.orientation.z = quaternion[2]
-pose_goal.pose.orientation.w = quaternion[3]
+pose_goal.pose.orientation.w = quaternion[3]    
 
+# Debug Ausgabe
+euler_goal_pose_orientation = tf.transformations.euler_from_quaternion(quaternion) 
+print(" going to orientation euler neu", euler_goal_pose_orientation)
 
 input("confirm moving ur3_arm to this position")
 group.set_pose_target(pose_goal)
