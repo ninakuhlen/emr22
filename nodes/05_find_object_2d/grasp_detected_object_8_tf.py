@@ -228,7 +228,7 @@ group.stop()
 group.clear_pose_targets()
 
 # --- at the end -----
-input("Remove Box and Wall")  # Otherwise it will stay
+scene.remove_attached_object('robotiq_85_left_finger_tip_link', name=box_name)
 scene.remove_world_object(box_name)
 scene.remove_world_object(wall_name)
-scene.remove_attached_object('robotiq_85_left_finger_tip_link', name=wall_name)
+input("Removed Box and Wall")  # Otherwise it will stay
