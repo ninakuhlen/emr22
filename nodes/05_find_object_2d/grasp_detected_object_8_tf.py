@@ -2,12 +2,11 @@
 # grasp_detected_object_tf.py
 # 
 # ------------------------------------
-# edited WHS, OJ , 21.6.2022 #
+# edited WHS, OJ , 20.6.2022 #
 # -------------------------------------
 # Pick and Place für den realen UR3
 # in Python mit der move_group_api
 # und Kollsionsverhütung mit der Realsense 3D-Kamera
-# added Wall in Planning Scene
 # -----------------------------------------
 #
 # http://docs.ros.org/en/jade/api/moveit_ros_planning_interface/html/classmoveit_1_1planning__interface_1_1MoveGroup.html
@@ -232,3 +231,4 @@ group.clear_pose_targets()
 input("Remove Box and Wall")  # Otherwise it will stay
 scene.remove_world_object(box_name)
 scene.remove_world_object(wall_name)
+scene.remove_attached_object('robotiq_85_left_finger_tip_link', name=wall_name)
