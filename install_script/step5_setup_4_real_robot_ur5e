@@ -27,6 +27,8 @@ $2 roslaunch ur_robot_driver ur5e_bringup.launch robot_ip:=192.168.0.100 kinemat
 dann MOveIt!-Config von fmauch (ohne Gripper)
 $3  roslaunch ur5e_moveit_config ur5e_moveit_planning_execution.launch
 
+roslaucnh ur3_gripper_moveit_config demo_real_ur3.launch sim:=false limited:=true
+
 in Arbeit- not tested yet: unsere Version von DAIRAL  https://github.com/dairal
  $3 roslaucnh ur5_gripper_moveit_config ur5e_real_robot_emr22_moveit_bringup.launch sim:=false limited:=true
  
