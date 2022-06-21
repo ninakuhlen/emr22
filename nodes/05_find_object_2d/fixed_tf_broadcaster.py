@@ -14,6 +14,7 @@ if __name__ == '__main__':
     rate = rospy.Rate(10.0)
     while not rospy.is_shutdown():
         print("Transformation camera_link => object_8  send! ")
+        print(rospy.Time.now())
         # Hier Abstand camera_link zum world_frame eintragen
         # vorher messen in Meter
         # x, y, z    67cm hohes Stativ
