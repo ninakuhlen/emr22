@@ -2,7 +2,7 @@
 # grasp_detected_object_tf.py
 # 
 # ------------------------------------
-# edited WHS, OJ , 20.6.2022 #
+# edited WHS, OJ , 21.6.2022 #
 # -------------------------------------
 # Pick and Place für den realen UR3
 # in Python mit der move_group_api
