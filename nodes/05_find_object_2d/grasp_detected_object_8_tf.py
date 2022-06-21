@@ -99,10 +99,28 @@ box_pose.pose.position.x = trans[0]
 box_pose.pose.position.y = trans[1]
 box_pose.pose.position.z = trans[2]
 box_name = "object"
-scene.add_box(box_name, box_pose, size=(0.08, 0.08, 0.1))
+scene.add_box(box_name, box_pose, size=(0.07, 0.07, 0.05))
 rospy.loginfo(wait_for_state_update(box_name, scene, box_is_known=True))
 
-# --- 4. go to object position
+
+print("=== Adding Wall object to Planning Scene  ===")
+wall_pose = geometry_msgs.msg.PoseStamped()
+wall_pose.header.frame_id = robot.get_planning_frame()
+
+# RViZ export 0 0 -0.342898 0.939373
+wall_pose.pose.orientation.x = 0.0
+wall_pose.pose.orientation.y = 0.0
+wall_pose.pose.orientation.z = -0.342898
+wall_pose.pose.orientation.w = 0.939373
+
+wall_pose.pose.position.x = 0.1 
+wall_pose.pose.position.y = -0.5
+wall_pose.pose.position.z = 0
+wall_name = "wall"
+scene.add_box(wall_name, wall_pose, size=(1.0, 0.05, 1.0))
+rospy.loginfo(wait_for_state_update(wall_name, scene, box_is_known=True))
+
+# --- 4. go to object position and turn gripper
 # rosrun tf tf_echo world robotiq_85_left_finger_link
 # trans = [0.36, 0.08, 0.3]  # Test Position
 print("translation is ", trans)
@@ -160,11 +178,11 @@ group.clear_pose_targets()
 # joint_goal[5] = np.deg2rad(0)  # turn wrist3
 # group.go(joint_goal, wait=True)
 
-# --- 6. go to grip position
+# --- 6. go to grip position 
 print("plan a cartesion path")
 waypoints = []
 wpose = group.get_current_pose().pose
-wpose.position.z -= 0.10  # move down (z)
+wpose.position.z -= 0.09  # move down (z)
 waypoints.append(copy.deepcopy(wpose))
 (plan, fraction) = group.compute_cartesian_path(
                                                 waypoints,
@@ -178,23 +196,38 @@ display_trajectory.trajectory.append(plan)
 display_trajectory_publisher.publish(display_trajectory)
 
 # Execute the calculated path:
-input("confirm moving ur3_arm 10 cm deeper")
+input("confirm moving ur3_arm 9cm deeper")
 group.execute(plan, wait=True)
-
+# It is always good to clear your targets after planning with poses.
+# Note: there is no equivalent function for clear_joint_value_targets()
+group.clear_pose_targets()
 
 # --- 7. Gripping
-input("Confirm: you have to close the gripper with the UR3-Teach-Pad EA Werkzeugausgang 0 auf OFF")
-# für die  Trajektorienplanung das Object an den Gripper attachen
-grasping_group = "ur3_arm"
-touch_links = robot.get_link_names(group=grasping_group)
-print(touch_links)
-#  no worxxxxxxxxxxx  
-#  scene.attach_box('ee_link', box_name, touch_links=touch_links)
 
+# für die  Trajektorienplanung das Object an den Gripper attachen
+grasping_group = "gripper"
+touch_links = ['robotiq_85_left_finger_tip_link', 'robotiq_85_right_finger_tip_link'] 
+# robot.get_link_names(group=grasping_group) => ['robotiq_85_left_knuckle_link']
+print(touch_links)
+# touch links (collision allowed) should be 
+# robotiq_85_left_finger_tip_link  and
+# robotiq_85_right_finger_tip_link
+
+#  no worxxxxxxxxxxx  
+scene.attach_box('robotiq_85_left_finger_tip_link', box_name, touch_links=touch_links)
+rospy.loginfo(wait_for_state_update(box_name, scene, box_is_known=True))
+input("Confirm: you have to close the gripper with the UR3-Teach-Pad EA Werkzeugausgang 0 auf OFF")
 
 # --- 8. go to home position
 input("confirm moving ur3_arm to home position")
 joint_goal = group.get_named_target_values("home")
 group.go(joint_goal, wait=True)
+group.stop()
+# It is always good to clear your targets after planning with poses.
+# Note: there is no equivalent function for clear_joint_value_targets()
+group.clear_pose_targets()
 
 # --- at the end -----
+input("Remove Box and Wall")  # Otherwise it will stay
+scene.remove_world_object(box_name)
+scene.remove_world_object(wall_name)
