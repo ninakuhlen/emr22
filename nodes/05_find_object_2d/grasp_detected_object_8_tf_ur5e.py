@@ -202,20 +202,16 @@ group.execute(plan, wait=True)
 # Note: there is no equivalent function for clear_joint_value_targets()
 group.clear_pose_targets()
 
-# --- 7. Gripping
-
+# --- 7. Gripping - Würfel für die Trajektorienplanung anheften
 # für die  Trajektorienplanung das Object an den Gripper attachen
 grasping_group = "gripper"
 touch_links = ['robotiq_85_left_finger_tip_link', 'robotiq_85_right_finger_tip_link'] 
-# robot.get_link_names(group=grasping_group) => ['robotiq_85_left_knuckle_link']
-print(touch_links)
-# touch links (collision allowed) should be 
+# touch links (collision allowed) should be (see Dairal C++ Version)
 # robotiq_85_left_finger_tip_link  and
 # robotiq_85_right_finger_tip_link
-
-#  no worxxxxxxxxxxx  
 scene.attach_box('robotiq_85_left_finger_tip_link', box_name, touch_links=touch_links)
 rospy.loginfo(wait_for_state_update(box_name, scene, box_is_known=True))
+
 input("Confirm: you have to close the gripper with the UR5-Teach-Pad EA Werkzeugausgang 0 auf OFF")
 
 # --- 8. go to home position
