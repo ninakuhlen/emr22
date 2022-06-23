@@ -147,7 +147,7 @@ quaternion = (
 euler_goal_pose_orientation = tf.transformations.euler_from_quaternion(quaternion) 
 print(" going to orientation euler", euler_goal_pose_orientation)
 
-# pi/4 addieren und in Quaternion zurück
+# Drehwinkel Gripper pi/4 addieren und in Quaternion zurück
 quaternion = tf.transformations.quaternion_from_euler(
     euler_goal_pose_orientation[0],
     euler_goal_pose_orientation[1],
@@ -172,7 +172,7 @@ print("suc?", sucess)
 group.stop()
 group.clear_pose_targets()
 
-# --- 5. turning gripper  - alleine Gelenkwinkel funkt nicht !!!
+# --- 5. turning gripper  - alleine Gelenkwinkel funkt nicht !!! => 4.)
 # input("confirm turning wrist3")
 # joint_goal = group.get_current_joint_values()
 # joint_goal[5] = np.deg2rad(0)  # turn wrist3
@@ -213,7 +213,6 @@ print(touch_links)
 # robotiq_85_left_finger_tip_link  and
 # robotiq_85_right_finger_tip_link
 
-#  no worxxxxxxxxxxx  
 scene.attach_box('robotiq_85_left_finger_tip_link', box_name, touch_links=touch_links)
 rospy.loginfo(wait_for_state_update(box_name, scene, box_is_known=True))
 input("Confirm: you have to close the gripper with the UR3-Teach-Pad EA Werkzeugausgang 0 auf OFF")
