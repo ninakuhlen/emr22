@@ -4,7 +4,7 @@
 # ------------------------------------
 # edited WHS, OJ , 21.6.2022 #
 # -------------------------------------
-# Pick and Place für den realen UR3
+# Pick and Place für den realen UR5
 # in Python mit der move_group_api
 # und Kollsionsverhütung mit der Realsense 3D-Kamera
 # -----------------------------------------
@@ -48,7 +48,7 @@ rospy.init_node('move_group_python_interface_tutorial',
 robot = moveit_commander.RobotCommander()
 
 # Instantiate the MoveGroupCommander object.
-group_name = "ur3_arm"
+group_name = "ur5_arm"
 group = moveit_commander.MoveGroupCommander(group_name)
 group_name_gripper = "gripper"
 group_gripper = moveit_commander.MoveGroupCommander(group_name_gripper)
@@ -75,7 +75,7 @@ print("= End effector: %s" % eef_link)
 group_names = robot.get_group_names()
 
 # ---- 1. Move to home position ----
-input("confirm moving ur3_arm to home position")
+input("confirm moving ur5_arm to home position")
 joint_goal = group.get_named_target_values("home")
 group.go(joint_goal, wait=True)
 
@@ -103,7 +103,7 @@ scene.add_box(box_name, box_pose, size=(0.07, 0.07, 0.05))
 rospy.loginfo(wait_for_state_update(box_name, scene, box_is_known=True))
 
 
-print("=== Adding Wall object to Planning Scene  ===")
+""" print("=== Adding Wall object to Planning Scene  ===")
 wall_pose = geometry_msgs.msg.PoseStamped()
 wall_pose.header.frame_id = robot.get_planning_frame()
 
@@ -118,15 +118,15 @@ wall_pose.pose.position.y = -0.5
 wall_pose.pose.position.z = 0
 wall_name = "wall"
 scene.add_box(wall_name, wall_pose, size=(1.0, 0.05, 1.0))
-rospy.loginfo(wait_for_state_update(wall_name, scene, box_is_known=True))
+rospy.loginfo(wait_for_state_update(wall_name, scene, box_is_known=True)) """
 
 # --- 4. go to object position and turn gripper
 # rosrun tf tf_echo world robotiq_85_left_finger_link
 # trans = [0.36, 0.08, 0.3]  # Test Position
 print("translation is ", trans)
 pose_goal = group.get_current_pose()
-pose_goal.pose.position.x = trans[0] - 0.04  # from tf-Tree
-pose_goal.pose.position.y = trans[1] - 0.02  # from tf-Tree
+pose_goal.pose.position.x = trans[0] + 0.02  # from tf-Tree
+pose_goal.pose.position.y = trans[1] + 0.00  # from tf-Tree
 pose_goal.pose.position.z = trans[2]  # from tf-Tree
 pose_goal.pose.position.z = 0.35  # 35cm high
 
@@ -147,7 +147,7 @@ quaternion = (
 euler_goal_pose_orientation = tf.transformations.euler_from_quaternion(quaternion) 
 print(" going to orientation euler", euler_goal_pose_orientation)
 
-# Drehwinkel Gripper pi/4 addieren und in Quaternion zurück
+# pi/4 addieren und in Quaternion zurück
 quaternion = tf.transformations.quaternion_from_euler(
     euler_goal_pose_orientation[0],
     euler_goal_pose_orientation[1],
@@ -164,7 +164,7 @@ pose_goal.pose.orientation.w = quaternion[3]
 euler_goal_pose_orientation = tf.transformations.euler_from_quaternion(quaternion) 
 print(" going to orientation euler neu", euler_goal_pose_orientation)
 
-input("confirm moving ur3_arm to this position")
+input("confirm moving ur5_arm to this position")
 group.set_pose_target(pose_goal)
 plan = group.plan()
 sucess = group.go(wait=True)
@@ -172,7 +172,7 @@ print("suc?", sucess)
 group.stop()
 group.clear_pose_targets()
 
-# --- 5. turning gripper  - alleine Gelenkwinkel funkt nicht !!! => 4.)
+# --- 5. turning gripper  - alleine Gelenkwinkel funkt nicht !!!
 # input("confirm turning wrist3")
 # joint_goal = group.get_current_joint_values()
 # joint_goal[5] = np.deg2rad(0)  # turn wrist3
@@ -182,7 +182,7 @@ group.clear_pose_targets()
 print("plan a cartesion path")
 waypoints = []
 wpose = group.get_current_pose().pose
-wpose.position.z -= 0.09  # move down (z)
+wpose.position.z -= 0.12  # move down (z)  was -=0.09
 waypoints.append(copy.deepcopy(wpose))
 (plan, fraction) = group.compute_cartesian_path(
                                                 waypoints,
@@ -196,29 +196,26 @@ display_trajectory.trajectory.append(plan)
 display_trajectory_publisher.publish(display_trajectory)
 
 # Execute the calculated path:
-input("confirm moving ur3_arm 9cm deeper")
+input("confirm moving ur5_arm 12 cm deeper")
 group.execute(plan, wait=True)
 # It is always good to clear your targets after planning with poses.
 # Note: there is no equivalent function for clear_joint_value_targets()
 group.clear_pose_targets()
 
-# --- 7. Gripping
-
+# --- 7. Gripping - Würfel für die Trajektorienplanung anheften
 # für die  Trajektorienplanung das Object an den Gripper attachen
 grasping_group = "gripper"
 touch_links = ['robotiq_85_left_finger_tip_link', 'robotiq_85_right_finger_tip_link'] 
-# robot.get_link_names(group=grasping_group) => ['robotiq_85_left_knuckle_link']
-print(touch_links)
-# touch links (collision allowed) should be 
+# touch links (collision allowed) should be (see Dairal C++ Version)
 # robotiq_85_left_finger_tip_link  and
 # robotiq_85_right_finger_tip_link
-
 scene.attach_box('robotiq_85_left_finger_tip_link', box_name, touch_links=touch_links)
 rospy.loginfo(wait_for_state_update(box_name, scene, box_is_known=True))
-input("Confirm: you have to close the gripper with the UR3-Teach-Pad EA Werkzeugausgang 0 auf OFF")
+
+input("Confirm: you have to close the gripper with the UR5-Teach-Pad EA Werkzeugausgang 0 auf OFF")
 
 # --- 8. go to home position
-input("confirm moving ur3_arm to home position")
+input("confirm moving ur5_arm to home position")
 joint_goal = group.get_named_target_values("home")
 group.go(joint_goal, wait=True)
 group.stop()
@@ -227,7 +224,7 @@ group.stop()
 group.clear_pose_targets()
 
 # --- at the end -----
+# scene.remove_world_object(wall_name)
 scene.remove_attached_object('robotiq_85_left_finger_tip_link', name=box_name)
 scene.remove_world_object(box_name)
-scene.remove_world_object(wall_name)
 input("Removed Box and Wall")  # Otherwise it will stay

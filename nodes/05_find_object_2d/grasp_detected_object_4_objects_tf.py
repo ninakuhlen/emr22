@@ -14,6 +14,7 @@
 # usage
 #   ...
 # ----------------------------------------------------------------
+from inspect import Traceback
 import sys
 import copy
 import rospy
@@ -23,11 +24,12 @@ import geometry_msgs.msg
 import numpy as np  # für deg2rad
 from math import pi
 import tf
+trans2 = [0,0,0]
 
 def wait_for_state_update(box_name, scene, box_is_known=False,
                           box_is_attached=False, timeout=4):
     start = rospy.get_time()
-    seconds = rospy.get_time()
+    seconds = rospy.get_time() 
     while (seconds - start < timeout) and not rospy.is_shutdown():
         attached_objects = scene.get_attached_objects([box_name])
         is_attached = len(attached_objects.keys()) > 0
@@ -79,11 +81,75 @@ input("confirm moving ur3_arm to home position")
 joint_goal = group.get_named_target_values("home")
 group.go(joint_goal, wait=True)
 
+#-------------------------------------------------------------------------------------------
+def object_8():
+    input("object_8")
+    try:
+        (trans, rot) = listener.lookupTransform('/world', '/object_8',rospy.Time())
+        print("object 8 found")
+        print(trans)
+        trans2[0]=trans[0]
+        trans2[1]=trans[1]
+        trans2[2]=trans[2]
+        print(trans2)
+    except:
+        pass
+    else: return trans,rot
+
+def object_9():
+    input("object_9")
+    try:
+        (trans, rot) = listener.lookupTransform('/world', '/object_9',rospy.Time())
+        print("object 9 found")
+        print(trans)
+        trans2[0]=trans[0]
+        trans2[1]=trans[1]
+        trans2[2]=trans[2]
+        print(trans2)
+    except:
+        pass
+    else: return trans,rot
+
+def object_10():
+    input("object_10")
+    try:
+        (trans, rot) = listener.lookupTransform('/world', '/object_10',rospy.Time())
+        print("object 10 found")
+        print(trans)
+        trans2[0]=trans[0]
+        trans2[1]=trans[1]
+        trans2[2]=trans[2]
+        print(trans2)
+    except:
+        pass
+    else: return trans,rot
+def object_11():
+    input("object_11")
+    try:
+        (trans, rot) = listener.lookupTransform('/world', '/object_11',rospy.Time())
+        print("object 11 found")
+        print(trans)
+        trans2[0]=trans[0]
+        trans2[1]=trans[1]
+        trans2[2]=trans[2]
+        print(trans2)
+    except:
+        pass
+    else: return trans,rot
+#--------------------------------------------------------------------------------------------
+
+
 # --- 2. get the pose of object_X  from Camera
-print("looking for object_8 ==>")
-(trans, rot) = listener.lookupTransform('/world', '/object_8', rospy.Time())
-print("detected object position")
-print(trans)
+print("looking for objects ==>")
+input("confirm looking for objects")
+try:
+    object_8() or object_9() or object_10() or object_11()
+
+except:
+    pass
+
+print("trans2")
+
 
 # --- 3. Object in Scene eintragen
 # Desktop Plate is not needed because of Depth Cam, Yes!
@@ -95,11 +161,11 @@ rospy.sleep(1.0)  # Wichtig! ohne Pause funkts nicht
 box_pose = geometry_msgs.msg.PoseStamped()
 box_pose.header.frame_id = robot.get_planning_frame()
 box_pose.pose.orientation.w = 1.0
-box_pose.pose.position.x = trans[0]
-box_pose.pose.position.y = trans[1]
-box_pose.pose.position.z = trans[2]
+box_pose.pose.position.x = trans2[0]
+box_pose.pose.position.y = trans2[1]
+box_pose.pose.position.z = trans2[2]
 box_name = "object"
-scene.add_box(box_name, box_pose, size=(0.07, 0.07, 0.05))
+scene.add_box(box_name, box_pose, size=(0.08, 0.08, 0.08))
 rospy.loginfo(wait_for_state_update(box_name, scene, box_is_known=True))
 
 
@@ -115,7 +181,7 @@ wall_pose.pose.orientation.w = 0.939373
 
 wall_pose.pose.position.x = 0.1 
 wall_pose.pose.position.y = -0.5
-wall_pose.pose.position.z = 0
+wall_pose.pose.position.z = 0.3
 wall_name = "wall"
 scene.add_box(wall_name, wall_pose, size=(1.0, 0.05, 1.0))
 rospy.loginfo(wait_for_state_update(wall_name, scene, box_is_known=True))
@@ -123,11 +189,11 @@ rospy.loginfo(wait_for_state_update(wall_name, scene, box_is_known=True))
 # --- 4. go to object position and turn gripper
 # rosrun tf tf_echo world robotiq_85_left_finger_link
 # trans = [0.36, 0.08, 0.3]  # Test Position
-print("translation is ", trans)
+print("translation is ", trans2)
 pose_goal = group.get_current_pose()
-pose_goal.pose.position.x = trans[0] - 0.04  # from tf-Tree
-pose_goal.pose.position.y = trans[1] - 0.02  # from tf-Tree
-pose_goal.pose.position.z = trans[2]  # from tf-Tree
+pose_goal.pose.position.x = trans2[0] - 0.02  # from tf-Tree
+pose_goal.pose.position.y = trans2[1] - 0.02  # from tf-Tree
+pose_goal.pose.position.z = trans2[2]  # from tf-Tree
 pose_goal.pose.position.z = 0.35  # 35cm high
 
 # Gripper soll um 45° Drehen um Object zu Greifen
@@ -147,7 +213,7 @@ quaternion = (
 euler_goal_pose_orientation = tf.transformations.euler_from_quaternion(quaternion) 
 print(" going to orientation euler", euler_goal_pose_orientation)
 
-# Drehwinkel Gripper pi/4 addieren und in Quaternion zurück
+# pi/4 addieren und in Quaternion zurück
 quaternion = tf.transformations.quaternion_from_euler(
     euler_goal_pose_orientation[0],
     euler_goal_pose_orientation[1],
@@ -169,11 +235,6 @@ group.set_pose_target(pose_goal)
 plan = group.plan()
 sucess = group.go(wait=True)
 print("suc?", sucess)
-group.stop()
-group.clear_pose_targets()
-
-# --- 5. turning gripper  - alleine Gelenkwinkel funkt nicht !!! => 4.)
-# input("confirm turning wrist3")
 # joint_goal = group.get_current_joint_values()
 # joint_goal[5] = np.deg2rad(0)  # turn wrist3
 # group.go(joint_goal, wait=True)
@@ -182,7 +243,7 @@ group.clear_pose_targets()
 print("plan a cartesion path")
 waypoints = []
 wpose = group.get_current_pose().pose
-wpose.position.z -= 0.09  # move down (z)
+wpose.position.z -= 0.11  # move down (z)
 waypoints.append(copy.deepcopy(wpose))
 (plan, fraction) = group.compute_cartesian_path(
                                                 waypoints,
@@ -213,6 +274,7 @@ print(touch_links)
 # robotiq_85_left_finger_tip_link  and
 # robotiq_85_right_finger_tip_link
 
+#  no worxxxxxxxxxxx  
 scene.attach_box('robotiq_85_left_finger_tip_link', box_name, touch_links=touch_links)
 rospy.loginfo(wait_for_state_update(box_name, scene, box_is_known=True))
 input("Confirm: you have to close the gripper with the UR3-Teach-Pad EA Werkzeugausgang 0 auf OFF")
@@ -227,7 +289,8 @@ group.stop()
 group.clear_pose_targets()
 
 # --- at the end -----
+
 scene.remove_attached_object('robotiq_85_left_finger_tip_link', name=box_name)
 scene.remove_world_object(box_name)
 scene.remove_world_object(wall_name)
-input("Removed Box and Wall")  # Otherwise it will stay
+input("Remove Box and Wall")  # Otherwise it will stay
