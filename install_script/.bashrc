@@ -135,6 +135,9 @@ export ROS_HOSTNAME=192.168.1.104
 #add python-path
 ### export PYTHONPATH=$PYTHONPATH:~/catkin_ws/src/rtc/rtc_dist-packages
 ### export PATH=$PATH:/home/oj/.local/bin
+# export TURTLEBOT3_MODEL=burger
+# export PYTHONPATH=/opt/ros/noetic/lib/python3/dist-packages:/home/oj/catkin_ws/src/rtc/rtc_dist-packages:~/catkin_ws/src/rtc/rtc_dist-packages
+# source ~/catkin_ws/devel/setup.bash
 
 
 #---- ROS1 - moveit Workspace ----
@@ -151,9 +154,6 @@ source ~/ws_moveit/devel/setup.bash
 #export LC_NUMERIC=en_US.UTF-8  # needed for RViZ
 #source /opt/ros/galactic/setup.bash
 #source ~/dev_ws/install/setup.bash
-export TURTLEBOT3_MODEL=burger
-export PYTHONPATH=/opt/ros/noetic/lib/python3/dist-packages:/home/oj/catkin_ws/src/rtc/rtc_dist-packages:~/catkin_ws/src/rtc/rtc_dist-packages
-source ~/catkin_ws/devel/setup.bash
 
 # History gemeinsam fuer alle SSells
 PROMPT_COMMAND="history -a; history -c; history -r; $PROMPT_COMMAND" 

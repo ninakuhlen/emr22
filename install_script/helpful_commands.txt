@@ -1,0 +1,10 @@
+Error:
+
+    oj@RosePC:~/ws_moveit$ rosrun emr22 starthilfe_ur5.py
+    [rospack] Error: package 'emr22' not found
+
+Helpful:
+    $ history |grep setup
+
+Solution:
+    $ source devel/setup.bash 
