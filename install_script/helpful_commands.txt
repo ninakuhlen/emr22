@@ -1,3 +1,7 @@
+Build only EMR22
+    oj@RosePC:~/ws_moveit$ catkin build emr22
+
+
 Error:
 
     oj@RosePC:~/ws_moveit$ rosrun emr22 starthilfe_ur5.py
@@ -8,3 +12,11 @@ Helpful:
 
 Solution:
     $ source devel/setup.bash 
+
+
+
+P1  turtlesim
+    $ roscore
+    $ rosrun turtlesim turtlesim_node
+    $ rosrun emr22 turtle_p1       => startet    p1_my_cpp_publisher_4turtlesim.cpp
+
