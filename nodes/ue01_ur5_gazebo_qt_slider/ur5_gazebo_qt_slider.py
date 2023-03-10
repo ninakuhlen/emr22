@@ -10,6 +10,7 @@
 
 import sys
 import rospy
+import os
 
 # Qt -------------------------------
 from PyQt5.QtCore import Qt
@@ -20,7 +21,7 @@ from PyQt5.QtWidgets import (QWidget, QLCDNumber, QSlider,
 from std_msgs.msg import Float64
 
 # Vollstaendiger Pfad der Datei zum Speichern der Positionen, "~" funkt nicht
-filename = "/home/oj/ws_moveit/src/emr22/nodes/ue01_ur5_gazebo_qt_slider/pose_ur5.txt"
+filename = "pose_ur5.txt"
 # ####### oj gegen ihren Username ersetzen !!! ##################
 
 
@@ -34,10 +35,10 @@ class UIClass(QWidget):
         self.wrist2_msg = Float64()
         rospy.init_node('ur5_gazebo_qt_slider', anonymous=True)
 
-        self.pos_wrist1_pub = rospy.Publisher('/wrist_1_joint_position_controller/command',
-                                              Float64, queue_size=10)
-        self.pos_wrist2_pub = rospy.Publisher('/wrist_2_joint_position_controller/command',
-                                              Float64, queue_size=10)
+        self.pos_wrist1_pub = rospy.Publisher(
+                              '/wrist_1_joint_position_controller/command',
+                              Float64, queue_size=10)
+     
         self.rate = rospy.Rate(10)
 
         self.path = [[0.0, 0.0]]  # Initial Koordinaten
@@ -95,7 +96,7 @@ class UIClass(QWidget):
         hbox.addWidget(self.pbMore1)
         vbox.addLayout(hbox)
 
-        # ---- Wrist2 -----
+        """ # ---- Wrist2 -----
         #  0.Reihe - Label
         hbox = QHBoxLayout()
         hbox.addWidget(self.lblInfo2)
@@ -126,6 +127,7 @@ class UIClass(QWidget):
         hbox = QHBoxLayout()
         hbox.addWidget(self.lblStatus)
         vbox.addLayout(hbox)
+        """
 
         # Alle Boxen ins Window setzen
         self.setLayout(vbox)
@@ -143,8 +145,6 @@ class UIClass(QWidget):
 
         self.sld2.valueChanged.connect(self.lcd2.display)
         self.sld2.valueChanged.connect(self.SlotPublish)  # publish to ROS
-        self.pbLess2.clicked.connect(self.SlotKlick2)
-        self.pbMore2.clicked.connect(self.SlotKlick2)
         self.pbGo.clicked.connect(self.SlotGoHome)
         self.pbStore.clicked.connect(self.SlotStorePosition)
         self.pbRead.clicked.connect(self.SlotReadPosition)
@@ -161,18 +161,6 @@ class UIClass(QWidget):
             wert = wert+1
             self.sld1.setValue(wert)
 
-    def SlotKlick2(self):   # Wrist2 - Button < oder > gepusht
-        sender = self.sender()
-        self.lblStatus.setText(' X ' + sender.text() + ' was pressed')
-        if sender.text() == '<':
-            wert = self.sld2.value()
-            wert = wert-1
-            self.sld2.setValue(wert)
-        else:
-            wert = self.sld2.value()
-            wert = wert+1
-            self.sld2.setValue(wert)
-
     def SlotGoHome(self):
         self.lblStatus.setText(' Go Home Button klicked ')
         self.sld1.setValue(0)
@@ -182,12 +170,16 @@ class UIClass(QWidget):
         self.lblStatus.setText(' all topics publisht ')
         self.wrist1_msg = self.sld1.value()
         self.pos_wrist1_pub.publish(float(self.wrist1_msg)/10.0)
-        self.wrist2_msg = self.sld2.value()
-        self.pos_wrist2_pub.publish(float(self.wrist2_msg)/10.0)
 
     def SlotStorePosition(self):
+        # Get absolute Path
         self.lblStatus.setText(' Pose stored to file')
-        fobj = open(filename, 'w')
+        myDirPath = os.path.dirname(os.path.abspath(__file__))
+        print(myDirPath)
+        myFilePath = os.path.join(myDirPath, filename)
+        print(myFilePath)
+        fobj = open(myFilePath, 'w')
+
         write_str = "[" + str(self.sld1.value()) + ","\
                     + str(self.sld2.value())\
                     + "] \n"
@@ -195,16 +187,21 @@ class UIClass(QWidget):
         fobj.close()
  
     def SlotReadPosition(self):
+        # Get absolute Path
         self.lblStatus.setText(' Pose read from file ')
+        myDirPath = os.path.dirname(os.path.abspath(__file__))
+        print(myDirPath)
+        myFilePath = os.path.join(myDirPath, filename)
+        print(myFilePath)
+
         # Den vorgegebenen Pfad einlesen, jede Zeile ein Goal
-        with open(filename, 'r') as fin:
+        with open(myFilePath, 'r') as fin:
             for line in fin:
                 self.path.append(eval(line))  # Goal anhaengen
         del self.path[0]  # [0, 0] entfernen (ertes Element )
         rospy.loginfo(str(self.path))
         # setze Slider mit den Werten aus der Datei
         self.sld1.setValue(self.path[0][0])
-        self.sld2.setValue(self.path[0][1])
 
 
 if __name__ == '__main__':
