@@ -44,16 +44,16 @@ Jetzt sollte der Ordner emr22 geclont worden sein.
 
 Nun ggf. erstmal ROS-Noetic installieren, dazu dem Skript 
 die Ausführungsrechte geben und dann ausführen
->$ chmod +x ros_noetic_install_skript.sh
+>$ chmod +x step1_ros_noetic_install_skript.sh
 
->$ ./ros_noetic_install_skript.sh 
+>$ ./step1_ros_noetic_install_skript.sh
 
 4. Danach sämtliche für unseren Roboter benötigte Software-
 Pakete installieren
 
->$ chmod +x  Install_MoveIt_on_ROS1.sh
+>$ chmod +x  step2_Install_MoveIt_on_ROS1.sh
 
->$ ./Install_MoveIt_on_ROS1.sh
+>$ ./step2_Install_MoveIt_on_ROS1.sh
 
 5. ggf. noch die .bashrc - Datei konfigurieren
 >$ gedit ~/.bashrc
