@@ -55,23 +55,22 @@ Pakete installieren
 
 >$ ./step2_Install_MoveIt_on_ROS1.sh
 
-5. ggf. noch die .bashrc - Datei konfigurieren
+5. Das Shell-Script sollte die die .bashrc - Datei konfiguriert haben, ansonsten
 >$ gedit ~/.bashrc
-
 Ergänze die Zeile
 > source ~/ws_moveit/devel/setup.bash
 
-6. Kompilieren mit dem catkin-Build-System
-> cd ~/ws_moveit
-
-> catkin build
-
+Da catkin build bei der frischen Installation (noch) nicht bekannt ist, 
+versuchen Sie den Befehl in einem neuen Terminal zu starten.
+(Shell neu starten oder source ~/.bashrc)
 > source ~/ws_moveit/devel/setup.bash
 
-Falls catkin build nicht bekannt ist, 
-versuchen Sie den Befehl in einem neuen Terminal zu starten.
+6. Jetzt sollte das Kompilieren mit dem catkin-Build-System funktionieren
+> cd ~/ws_moveit
+> catkin build
 
-Falls catkin build während der Kompilation abstürzt, prüfen Sie bitte, ob Ihr Speicher bzw. Sawp-Speicher ausreicht, da die Kompilation von MoveIt hier sehr anspruchsvoll ist. Ggf. den Swap Buffer vergrößern.
+  Falls catkin build während der Kompilation abstürzt, prüfen Sie bitte, ob Ihr Speicher bzw. Sawp-Speicher ausreicht,
+  da die Kompilation von MoveIt hier sehr anspruchsvoll ist. Ggf. den Swap Buffer vergrößern.
 
 7. Nun sollte man die Panda Arm - Demo in RViZ starten können
 
