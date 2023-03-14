@@ -83,19 +83,5 @@ versuchen Sie den Befehl in einem neuen Terminal zu starten.
   >$ ./step4_Install_UR5_Gripper_Moveit_Config_4_Gazebo.sh
 
 9. Nun sollte man die UR5 Gazebo Simulation + RViZ starten können
+  >$ roslaunch ur5_gripper_moveit_config demo_gazebo.launch 
 
->$ roslaunch 
-
-In RViz ggf. ADD Diplay <moveit_ros_visualization>, damit man den Panda Arm auch sieht.
-
-### UR5 und Gripper ###
-
-8. Zum Schluss noch die URDFs für den UR5, den Gripper und die MoveIt-Konfiguration installieren.
-
->$ cd ~/ws_moveit/src/emr22/install_script
-
->$ chmod +x Install_UR5_Gripper_MoveIt _Config_4_Gazebo.sh
-
->$ ./Install_UR5_Gripper_MoveIt _Config_4_Gazebo.sh
-
-TEST
