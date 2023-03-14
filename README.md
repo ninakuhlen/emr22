@@ -72,6 +72,8 @@ versuchen Sie den Befehl in einem neuen Terminal zu starten.
   Das Kompilieren des MoveIt-Paketes kann schonmal 30 Minuten oder länger dauern (je nach PC-Leistung, bei mir 34min 39sec)
   Falls catkin build während der Kompilation abstürzt, prüfen Sie bitte, ob Ihr Speicher bzw. Sawp-Speicher ausreicht,
   da die Kompilation von MoveIt hier sehr anspruchsvoll ist. Ggf. den Swap Buffer vergrößern.
+  
+  
 
 7. Installation der UR5 Simulation in Gazebo
   >$ cd ~/ws_moveit/src/emr22/install_script
