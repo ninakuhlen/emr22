@@ -72,9 +72,19 @@ versuchen Sie den Befehl in einem neuen Terminal zu starten.
   Falls catkin build während der Kompilation abstürzt, prüfen Sie bitte, ob Ihr Speicher bzw. Sawp-Speicher ausreicht,
   da die Kompilation von MoveIt hier sehr anspruchsvoll ist. Ggf. den Swap Buffer vergrößern.
 
-7. Nun sollte man die Panda Arm - Demo in RViZ starten können
+7. Installation der UR5 Simulation in Gazebo
+  >$ cd ~/ws_moveit/src/emr22/install_script
+  >$ chmod +x  step3_Install_UR_URDF_Gazebo.sh
+  >$ ./step3_Install_UR_URDF_Gazebo.sh
 
->$ roslaunch panda_moveit_config demo.launch rviz_tutorial:=true
+8. Installation der MoveIt Gripper Configuration für Gazebo
+  >$ cd ~/ws_moveit/src/emr22/install_script
+  >$ chmod +x  step4_Install_UR5_Gripper_Moveit_Config_4_Gazebo.sh
+  >$ ./step4_Install_UR5_Gripper_Moveit_Config_4_Gazebo.sh
+
+9. Nun sollte man die UR5 Gazebo Simulation + RViZ starten können
+
+>$ roslaunch 
 
 In RViz ggf. ADD Diplay <moveit_ros_visualization>, damit man den Panda Arm auch sieht.
 
