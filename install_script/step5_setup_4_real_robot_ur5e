@@ -16,6 +16,11 @@ $2  roslaunch ur_calibration calibration_correction.launch robot_ip:=192.168.0.1
 Kopieren in   Universal_Robots_ROS_Driver/ur_calibration/etc/ur5e_robot_calibration.yaml
 
 
+  Fehler: funkt nicht
+  Diagnose: mal die IP testen mit ping 192.168.2.3
+  Lösung: Netzwerkkabel einstecken
+
+
 
 $1 roscore
 
