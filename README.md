@@ -69,6 +69,7 @@ versuchen Sie den Befehl in einem neuen Terminal zu starten.
 > cd ~/ws_moveit
 > catkin build
 
+  Das Kompilieren des MoveIt-Paketes kann schonmal 15 Minuten dauern (je nach PC-Leistung)
   Falls catkin build während der Kompilation abstürzt, prüfen Sie bitte, ob Ihr Speicher bzw. Sawp-Speicher ausreicht,
   da die Kompilation von MoveIt hier sehr anspruchsvoll ist. Ggf. den Swap Buffer vergrößern.
 
