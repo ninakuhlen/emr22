@@ -20,3 +20,7 @@ P1  turtlesim
     $ rosrun turtlesim turtlesim_node
     $ rosrun emr22 turtle_p1       => startet    p1_my_cpp_publisher_4turtlesim.cpp
 
+
+Suchen nach Begriif in ganzen Verzeichnis
+grep -r "Begriff" 
+

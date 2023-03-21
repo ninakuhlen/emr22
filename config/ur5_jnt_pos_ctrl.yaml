@@ -1,6 +1,6 @@
 # ur5_jnt_pos_ctrl.yaml
 # Datei zur Konfiguration der PID-Regler des Gazebo-UR5
-
+  
   # Publish all joint states -----------------------------------
   joint_state_controller:
     type: joint_state_controller/JointStateController

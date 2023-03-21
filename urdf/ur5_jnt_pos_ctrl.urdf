@@ -246,6 +246,7 @@
       <mechanicalReduction>1</mechanicalReduction>
     </actuator>
   </transmission>
+
   <transmission name="wrist_2_trans">
     <type>transmission_interface/SimpleTransmission</type>
     <joint name="wrist_2_joint">
@@ -255,6 +256,7 @@
       <mechanicalReduction>1</mechanicalReduction>
     </actuator>
   </transmission>
+  
   <transmission name="wrist_3_trans">
     <type>transmission_interface/SimpleTransmission</type>
     <joint name="wrist_3_joint">
@@ -273,5 +275,6 @@
     <origin rpy="0.0 0.0 0.0" xyz="0.0 0.0 0.0"/>
   </joint>
 </robot>
+
 
 
