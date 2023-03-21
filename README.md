@@ -44,49 +44,47 @@ Jetzt sollte der Ordner emr22 geclont worden sein.
 
 Nun ggf. erstmal ROS-Noetic installieren, dazu dem Skript 
 die Ausführungsrechte geben und dann ausführen
->$ chmod +x ros_noetic_install_skript.sh
+>$ chmod +x step1_ros_noetic_install_skript.sh
 
->$ ./ros_noetic_install_skript.sh 
+>$ ./step1_ros_noetic_install_skript.sh
 
 4. Danach sämtliche für unseren Roboter benötigte Software-
 Pakete installieren
 
->$ chmod +x  Install_MoveIt_on_ROS1.sh
+>$ chmod +x  step2_Install_MoveIt_on_ROS1.sh
 
->$ ./Install_MoveIt_on_ROS1.sh
+>$ ./step2_Install_MoveIt_on_ROS1.sh
 
-5. ggf. noch die .bashrc - Datei konfigurieren
+5. Das Shell-Script sollte die die .bashrc - Datei konfiguriert haben, ansonsten
 >$ gedit ~/.bashrc
-
 Ergänze die Zeile
 > source ~/ws_moveit/devel/setup.bash
 
-6. Kompilieren mit dem catkin-Build-System
-> cd ~/ws_moveit
-
-> catkin build
-
+Da catkin build bei der frischen Installation (noch) nicht bekannt ist, 
+versuchen Sie den Befehl in einem neuen Terminal zu starten.
+(Shell neu starten oder source ~/.bashrc)
 > source ~/ws_moveit/devel/setup.bash
 
-Falls catkin build nicht bekannt ist, 
-versuchen Sie den Befehl in einem neuen Terminal zu starten.
+6. Jetzt sollte das Kompilieren mit dem catkin-Build-System funktionieren
+> cd ~/ws_moveit
+> catkin build
 
-Falls catkin build während der Kompilation abstürzt, prüfen Sie bitte, ob Ihr Speicher bzw. Sawp-Speicher ausreicht, da die Kompilation von MoveIt hier sehr anspruchsvoll ist. Ggf. den Swap Buffer vergrößern.
+  Das Kompilieren des MoveIt-Paketes kann schonmal 30 Minuten oder länger dauern (je nach PC-Leistung, bei mir 34min 39sec)
+  Falls catkin build während der Kompilation abstürzt, prüfen Sie bitte, ob Ihr Speicher bzw. Sawp-Speicher ausreicht,
+  da die Kompilation von MoveIt hier sehr anspruchsvoll ist. Ggf. den Swap Buffer vergrößern.
+  
+  
 
-7. Nun sollte man die Panda Arm - Demo in RViZ starten können
+7. Installation der UR5 Simulation in Gazebo
+  >$ cd ~/ws_moveit/src/emr22/install_script
+  >$ chmod +x  step3_Install_UR_URDF_Gazebo.sh
+  >$ ./step3_Install_UR_URDF_Gazebo.sh
 
->$ roslaunch panda_moveit_config demo.launch rviz_tutorial:=true
+8. Installation der MoveIt Gripper Configuration für Gazebo
+  >$ cd ~/ws_moveit/src/emr22/install_script
+  >$ chmod +x  step4_Install_UR5_Gripper_Moveit_Config_4_Gazebo.sh
+  >$ ./step4_Install_UR5_Gripper_Moveit_Config_4_Gazebo.sh
 
-In RViz ggf. ADD Diplay <moveit_ros_visualization>, damit man den Panda Arm auch sieht.
+9. Nun sollte man die UR5 Gazebo Simulation + RViZ starten können
+  >$ roslaunch ur5_gripper_moveit_config demo_gazebo.launch 
 
-### UR5 und Gripper ###
-
-8. Zum Schluss noch die URDFs für den UR5, den Gripper und die MoveIt-Konfiguration installieren.
-
->$ cd ~/ws_moveit/src/emr22/install_script
-
->$ chmod +x Install_UR5_Gripper_MoveIt _Config_4_Gazebo.sh
-
->$ ./Install_UR5_Gripper_MoveIt _Config_4_Gazebo.sh
-
-TEST

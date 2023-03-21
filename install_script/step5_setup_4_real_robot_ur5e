@@ -16,6 +16,11 @@ $2  roslaunch ur_calibration calibration_correction.launch robot_ip:=192.168.0.1
 Kopieren in   Universal_Robots_ROS_Driver/ur_calibration/etc/ur5e_robot_calibration.yaml
 
 
+  Fehler: funkt nicht
+  Diagnose: mal die IP testen mit ping 192.168.2.3
+  Lösung: Netzwerkkabel einstecken
+
+
 
 $1 roscore
 
@@ -23,11 +28,15 @@ $1 roscore
 dann Roboter Bringup 
 $2 roslaunch ur_robot_driver ur5e_bringup.launch robot_ip:=192.168.0.100 kinematics_config:=$(rospack find ur_calibration)/etc/ur5e_robot_calibration.yaml
 
+  Fehler: Variable 'speed_slider_mask' is currently controlled by another RTDE client. The input recipe can't be used as configured
+  Lösung: ROS_Bridge UR_Cap löschen
+
+
 
 dann MOveIt!-Config von fmauch (ohne Gripper)
 $3  roslaunch ur5e_moveit_config ur5e_moveit_planning_execution.launch
 
-roslaucnh ur3_gripper_moveit_config demo_real_ur3.launch sim:=false limited:=true
+roslaunch ur3_gripper_moveit_config demo_real_ur3.launch sim:=false limited:=true
 
 in Arbeit- not tested yet: unsere Version von DAIRAL  https://github.com/dairal
  $3 roslaucnh ur5_gripper_moveit_config ur5e_real_robot_emr22_moveit_bringup.launch sim:=false limited:=true
