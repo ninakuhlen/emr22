@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # --- ur5_gazebo_qt_slider.py ------
 # Qt-Gui with Slider to move UR5 in Gazebo
-# Version vom 11.4.2022 by OJ
+# Version vom 21.3.2023 by OJ
 # ----------------------------
 # usage:
 # $ roslaunch emr22 ur5_gazebo_pid.launch
@@ -20,9 +20,8 @@ from PyQt5.QtWidgets import (QWidget, QLCDNumber, QSlider,
                              QLabel)
 from std_msgs.msg import Float64
 
-# Vollstaendiger Pfad der Datei zum Speichern der Positionen, "~" funkt nicht
+# Name der Datei zum Speichern der Positionen
 filename = "pose_ur5.txt"
-# ####### oj gegen ihren Username ersetzen !!! ##################
 
 
 class UIClass(QWidget):
@@ -32,13 +31,17 @@ class UIClass(QWidget):
         self.initUI()
 
         self.wrist1_msg = Float64()
-        self.wrist2_msg = Float64()
+        # self.wrist2_msg = Float64()
         rospy.init_node('ur5_gazebo_qt_slider', anonymous=True)
 
         self.pos_wrist1_pub = rospy.Publisher(
                               '/wrist_1_joint_position_controller/command',
                               Float64, queue_size=10)
-     
+        """self.pos_wrist2_pub = rospy.Publisher(
+                              '/wrist_2_joint_position_controller/command',
+                              Float64, queue_size=10)
+        """
+
         self.rate = rospy.Rate(10)
 
         self.path = [[0.0, 0.0]]  # Initial Koordinaten
@@ -56,17 +59,6 @@ class UIClass(QWidget):
         self.sld1.setValue(LCDstartWert)
         self.pbLess1 = QPushButton('<')
         self.pbMore1 = QPushButton('>')
-
-        # --- Wrist 2 ---
-        self.lblInfo2 = QLabel('Wrist 2  * 10')
-        self.lcd2 = QLCDNumber(self)
-        self.lcd2.display(LCDstartWert)
-        self.sld2 = QSlider(Qt.Horizontal, self)
-        self.sld2.setMaximum(30)
-        self.sld2.setMinimum(-30)
-        self.sld2.setValue(LCDstartWert)
-        self.pbLess2 = QPushButton('<')
-        self.pbMore2 = QPushButton('>')
 
         # --- Buttons ---
         self.pbGo = QPushButton(' Go Home ')
@@ -96,39 +88,8 @@ class UIClass(QWidget):
         hbox.addWidget(self.pbMore1)
         vbox.addLayout(hbox)
 
-        """ # ---- Wrist2 -----
-        #  0.Reihe - Label
-        hbox = QHBoxLayout()
-        hbox.addWidget(self.lblInfo2)
-        vbox.addLayout(hbox)
-        # 1.Reihe
-        hbox = QHBoxLayout()
-        hbox.addWidget(self.lcd2)
-        vbox.addLayout(hbox)
-        # 2.Reihe
-        hbox = QHBoxLayout()
-        hbox.addWidget(self.sld2)
-        vbox.addLayout(hbox)
-
-        # 3.Reihe
-        hbox = QHBoxLayout()
-        hbox.addWidget(self.pbLess2)
-        hbox.addWidget(self.pbMore2)
-        vbox.addLayout(hbox)
-
-        # 4.Reihe
-        hbox = QHBoxLayout()
-        hbox.addWidget(self.pbGo)
-        hbox.addWidget(self.pbStore)
-        hbox.addWidget(self.pbRead)
-        vbox.addLayout(hbox)
-
-        # 5.Reihe
-        hbox = QHBoxLayout()
-        hbox.addWidget(self.lblStatus)
-        vbox.addLayout(hbox)
-        """
-
+        # ---- Wrist2 -----
+        
         # Alle Boxen ins Window setzen
         self.setLayout(vbox)
 
@@ -142,12 +103,6 @@ class UIClass(QWidget):
         self.sld1.valueChanged.connect(self.SlotPublish)  # publish to ROS
         self.pbLess1.clicked.connect(self.SlotKlick1)
         self.pbMore1.clicked.connect(self.SlotKlick1)
-
-        self.sld2.valueChanged.connect(self.lcd2.display)
-        self.sld2.valueChanged.connect(self.SlotPublish)  # publish to ROS
-        self.pbGo.clicked.connect(self.SlotGoHome)
-        self.pbStore.clicked.connect(self.SlotStorePosition)
-        self.pbRead.clicked.connect(self.SlotReadPosition)
 
     def SlotKlick1(self):  # Wrist1 - Button < oder > gepusht
         sender = self.sender()
@@ -164,7 +119,7 @@ class UIClass(QWidget):
     def SlotGoHome(self):
         self.lblStatus.setText(' Go Home Button klicked ')
         self.sld1.setValue(0)
-        self.sld2.setValue(0)
+        # self.sld2.setValue(0)
 
     def SlotPublish(self):
         self.lblStatus.setText(' all topics publisht ')
@@ -181,7 +136,7 @@ class UIClass(QWidget):
         fobj = open(myFilePath, 'w')
 
         write_str = "[" + str(self.sld1.value()) + ","\
-                    + str(self.sld2.value())\
+                    + str(0)\
                     + "] \n"
         fobj.write(write_str)
         fobj.close()
@@ -198,10 +153,11 @@ class UIClass(QWidget):
         with open(myFilePath, 'r') as fin:
             for line in fin:
                 self.path.append(eval(line))  # Goal anhaengen
-        del self.path[0]  # [0, 0] entfernen (ertes Element )
+        del self.path[0]  # [0, 0] entfernen (erstes Element )
         rospy.loginfo(str(self.path))
         # setze Slider mit den Werten aus der Datei
         self.sld1.setValue(self.path[0][0])
+        # self.sld2.setValue(self.path[0][1])
 
 
 if __name__ == '__main__':
