@@ -1,6 +1,9 @@
 #!/usr/bin/env python3
 # --- ue03_ur5_gazebo_qt_slider_trajectory.py ------
 # Qt-Gui with Slider to move UR5 in Gazebo
+#
+#   MoveIt-Gazebo-Variante
+#
 # uses trajectory controller 
 # like rqt 
 # Version vom 25.4.2022 by OJ

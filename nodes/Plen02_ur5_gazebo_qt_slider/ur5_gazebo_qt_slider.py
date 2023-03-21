@@ -4,7 +4,8 @@
 # Version vom 21.3.2023 by OJ
 # ----------------------------
 # usage:
-# $ roslaunch emr22 ur5_gazebo_pid.launch
+# $ roslaunch emr22 ur5_gazebo_bringup.launch
+# ==== Gazebo Variante von Dairal, ohne MoveIt! ===
 # $ rosrun emr22 ur5_gazebo_qt_slider.py
 # ----------------------------
 
