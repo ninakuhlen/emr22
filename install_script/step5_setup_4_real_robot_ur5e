@@ -15,6 +15,13 @@ rm -r universal_robots
 # rm -r ur_kinematics
 # rm -r ur_description
 # rm -r ur_gazebo
+# install dependencies
+
+$ sudo apt update -qq
+$ rosdep update
+$ rosdep install --from-paths src --ignore-src -y
+
+
 catkin clean
 cd ~/ws_moveit
 catkin build
