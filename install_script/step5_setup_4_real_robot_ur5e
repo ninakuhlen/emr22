@@ -9,12 +9,7 @@ git clone -b calibration_devel https://github.com/fmauch/universal_robot.git fma
 
 cd ~/ws_moveit/src
 rm -r universal_robots
-# rm -r ur10_moveit_config
-# rm -r ur3_moveit_config
-# rm -r ur5_moveit_config
-# rm -r ur_kinematics
-# rm -r ur_description
-# rm -r ur_gazebo
+
 # install dependencies
 
 $ sudo apt update -qq
@@ -25,6 +20,17 @@ $ rosdep install --from-paths src --ignore-src -y
 catkin clean
 cd ~/ws_moveit
 catkin build
+
+# bei Kompilerfehler ggf. ~/.bashrc konfigurieren
+# MoveIt!
+export PYTHONPATH=/opt/ros/noetic/lib/python3/dist-packages:~/ws_moveit/src/emr22/scripts
+export ROS_PACKAGE_PATH=~/ws_moveit/src:/opt/ros/noetic/share
+#export ROS_MASTER_URI=http://localhost:11311
+export ROS_MASTER_URI=http://192.168.1.100:11311
+export ROS_HOSTNAME=192.168.1.10
+export ROS_HOSTNAME=127.0.0.1
+
+$ source ~/.bashrc
 
 
 # Kallibrieren (nur bei Neuinstallation)
