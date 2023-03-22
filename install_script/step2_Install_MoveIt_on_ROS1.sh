@@ -5,7 +5,7 @@
 # Installing MoveIt! - Noetic 
 # auf einem Rechner mit Ubuntu 20.04 Focal Fossa  
 # OJ fuer robotik.bocholt@w-hs.de
-# SS2022
+# SS2023
 # geaendert am 27.1.2022
 # vgl. https://ros-planning.github.io/moveit_tutorials/doc/getting_started/getting_started.html 
 
