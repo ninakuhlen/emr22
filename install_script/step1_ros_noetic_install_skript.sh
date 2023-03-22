@@ -52,8 +52,9 @@ cd ~/ws_moveit/src
 git clone https://github.com/ProfJust/emr22.git
 
 cd ~/ws_moveit/
-catkin build
 source devel/setup.bash
+catkin build
+
 
 # echo -e "\033[34m  Falls Fehlermeldung nach Erstinstallation von ROS, bitte einmal das Terminal schliessen und wieder öffnen  \033[0m"
 
