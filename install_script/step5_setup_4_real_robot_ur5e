@@ -5,12 +5,22 @@ git clone https://github.com/UniversalRobots/Universal_Robots_ROS_Driver
 git clone -b calibration_devel https://github.com/fmauch/universal_robot.git fmauch_universal_robot
 
 
-doppeltes universal_robot Directory löschen (gibt es jetzt untzer fmauch)
+# doppeltes universal_robot Directory löschen (gibt es jetzt auch unter fmauch)
 
+cd universal_robot
+rm -r universal_robots
+rm -r ur10_moveit_config
+rm -r ur3_moveit_config
+rm -r ur5_moveit_config
+rm -r ur_kinematics
+rm -r ur_description
+rm -r ur_gazebo
 catkin clean
+cd ~/ws_moveit
+catkin build
 
 
-Kallibrieren (nur bei Neuinstallation)
+#Kallibrieren (nur bei Neuinstallation)
 $2  roslaunch ur_calibration calibration_correction.launch robot_ip:=192.168.0.100  target_filename:="${HOME}/ur5e_robot_calibration.yaml"
 =>> Calibration correction done  
 Kopieren in   Universal_Robots_ROS_Driver/ur_calibration/etc/ur5e_robot_calibration.yaml
