@@ -1,24 +1,48 @@
-hier soll noch ein Shell Script entstehen für den realen UR5e
+# hier soll noch ein Shell Script entstehen für den realen UR5e
 
 cd ~/ws_moveit/src/
 git clone https://github.com/UniversalRobots/Universal_Robots_ROS_Driver
 git clone -b calibration_devel https://github.com/fmauch/universal_robot.git fmauch_universal_robot
 
 
-doppeltes universal_robot Directory löschen (gibt es jetzt untzer fmauch)
+# doppeltes universal_robot Directory löschen (gibt es jetzt auch unter fmauch)
+
+cd ~/ws_moveit/src
+rm -r universal_robots
+
+# install dependencies
+
+$ sudo apt update -qq
+$ rosdep update
+$ rosdep install --from-paths src --ignore-src -y
+
 
 catkin clean
+cd ~/ws_moveit
+catkin build
+
+# bei Kompilerfehler ggf. ~/.bashrc konfigurieren
+# MoveIt!
+export PYTHONPATH=/opt/ros/noetic/lib/python3/dist-packages:~/ws_moveit/src/emr22/scripts
+export ROS_PACKAGE_PATH=~/ws_moveit/src:/opt/ros/noetic/share
+#export ROS_MASTER_URI=http://localhost:11311
+export ROS_MASTER_URI=http://192.168.1.100:11311
+export ROS_HOSTNAME=192.168.1.10
+export ROS_HOSTNAME=127.0.0.1
+
+$ source ~/.bashrc
 
 
-Kallibrieren (nur bei Neuinstallation)
-$2  roslaunch ur_calibration calibration_correction.launch robot_ip:=192.168.0.100  target_filename:="${HOME}/ur5e_robot_calibration.yaml"
-=>> Calibration correction done  
-Kopieren in   Universal_Robots_ROS_Driver/ur_calibration/etc/ur5e_robot_calibration.yaml
+# Kallibrieren (nur bei Neuinstallation)
+$2  
+roslaunch ur_calibration calibration_correction.launch robot_ip:=192.168.0.100  target_filename:="${HOME}/ur5e_robot_calibration.yaml"
+#=>> Calibration correction done  
+# Kopieren in   Universal_Robots_ROS_Driver/ur_calibration/etc/ur5e_robot_calibration.yaml
 
 
-  Fehler: funkt nicht
-  Diagnose: mal die IP testen mit ping 192.168.2.3
-  Lösung: Netzwerkkabel einstecken
+#  Fehler: funkt nicht
+# Diagnose: mal die IP testen mit ping 192.168.2.3
+#  Lösung: Netzwerkkabel einstecken
 
 
 
