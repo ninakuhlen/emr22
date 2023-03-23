@@ -1,8 +1,10 @@
 <!-- ur5_gazebo_moveIt_bringup.launch -->
-<!-- Launches Gazebo, UR5-control and MoveIt!
+<!-- Launches Gazebo with UR5, UR5-control and MoveIt!
 
 OJ 23.3.23
   
+NO_WORX UNTIL 23.3.23, has to be completed
+
 -->
 
 <!-- Part1: universal robot repository 
@@ -71,7 +73,7 @@ OJ 23.3.23
     <!-- Given the published joint states, publish tf for the robot links 
         <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" respawn="true" output="screen" />
     -->
-    
+
     <!-- Run the main MoveIt executable without trajectory execution (we do not have controllers configured by default) -->
         <include file="$(find ur5_moveit_config)/launch/move_group.launch">
             <arg name="limited" default="$(arg limited)"/>
