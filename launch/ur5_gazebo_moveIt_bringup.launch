@@ -1,0 +1,94 @@
+<!-- ur5_gazebo_moveIt_bringup.launch -->
+<!-- Launches Gazebo, UR5-control and MoveIt!
+
+OJ 23.3.23
+  
+-->
+
+<!-- Part1: universal robot repository 
+     roslauch ur_gazebo ur5.launch -->
+<launch>
+  <arg name="limited" default="false"  doc="If true, limits joint range [-PI, PI] on all joints." />
+  <arg name="paused" default="false" doc="Starts gazebo in paused mode" />
+  <arg name="gui" default="true" doc="Starts gazebo gui" />
+  
+  <!-- startup simulated world -->
+  <include file="$(find gazebo_ros)/launch/empty_world.launch">
+    <arg name="world_name" default="worlds/empty.world"/>
+    <arg name="paused" value="$(arg paused)"/>
+    <arg name="gui" value="$(arg gui)"/>
+  </include>
+
+  <!-- send robot urdf to param server -->
+  <include file="$(find ur_description)/launch/ur5_upload.launch">
+    <arg name="limited" value="$(arg limited)"/>
+  </include>
+
+  <!-- push robot_description to factory and spawn robot in gazebo -->
+  <node name="spawn_gazebo_model" pkg="gazebo_ros" type="spawn_model" args="-urdf -param robot_description -model robot -z 0.1" respawn="false" output="screen" />
+
+  <include file="$(find ur_gazebo)/launch/controller_utils.launch"/>
+
+  <!-- start this controller -->
+  <rosparam file="$(find ur_gazebo)/controller/arm_controller_ur5.yaml" command="load"/>
+  <node name="arm_controller_spawner" pkg="controller_manager" type="controller_manager" args="spawn arm_controller" respawn="false" output="screen"/>
+
+  <!-- load other controllers -->
+  <node name="ros_control_controller_manager" pkg="controller_manager" type="controller_manager" respawn="false" output="screen" args="load joint_group_position_controller" />
+
+
+
+<!-- Part2: universal robot repository 
+     roslauch ur_moveit_config ur5_moveit_planimg_execution.launch sim:=true-->
+  <!-- By default, we do not start a database (it can be large) -->
+    <arg name="db" default="false" />
+    <arg name="sim" default="true" />
+  <!-- By default, we are not in debug mode -->
+    <arg name="debug" default="false" />
+       
+  <!-- Remap follow_joint_trajectory -->
+    <remap if="$(arg sim)" from="/follow_joint_trajectory" to="/arm_controller/follow_joint_trajectory"/>
+  
+ 
+<!-- Part3: universal robot repository 
+     roslauch ur_moveit_config demo.launch rviz_tutorial:=true-->
+
+    <!-- Load the URDF, SRDF and other .yaml configuration files on the param server -->
+        <include file="$(find ur5_moveit_config)/launch/planning_context.launch">
+            <arg name="load_robot_description" value="true"/>
+            <arg name="limited" value="$(arg limited)"/>
+        </include>
+
+    <!-- If needed, broadcast static tf for robot root -->
+        
+
+    <!-- We do not have a robot connected, so publish fake joint states -->
+        <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher">
+            <param name="/use_gui" value="false"/> 
+            <rosparam param="/source_list">[/move_group/fake_controller_joint_states]</rosparam>
+        </node>
+        
+    <!-- Given the published joint states, publish tf for the robot links 
+        <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" respawn="true" output="screen" />
+    -->
+    
+    <!-- Run the main MoveIt executable without trajectory execution (we do not have controllers configured by default) -->
+        <include file="$(find ur5_moveit_config)/launch/move_group.launch">
+            <arg name="limited" default="$(arg limited)"/>
+            <arg name="allow_trajectory_execution" value="true"/>  
+            <arg name="fake_execution" value="true"/>
+            <arg name="info" value="true"/>
+            <arg name="debug" value="$(arg debug)"/>
+        </include>
+
+    <!-- Run Rviz and load the default config to see the state of the move_group node -->
+        <include file="$(find ur5_moveit_config)/launch/moveit_rviz.launch">
+            <arg name="config" value="true"/>
+            <arg name="debug" value="$(arg debug)"/>
+        </include>
+
+    <!-- If database loading was enabled, start mongodb as well -->
+        <include file="$(find ur5_moveit_config)/launch/default_warehouse_db.launch" if="$(arg db)"/>
+
+
+</launch>
