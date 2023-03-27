@@ -1,10 +1,12 @@
 <!-- ur5_gazebo_moveIt_bringup.launch -->
 <!-- Launches Gazebo with UR5, UR5-control and MoveIt!
 
-OJ 23.3.23
-  
-NO_WORX UNTIL 23.3.23, has to be completed
+  requires full unviversal robot repository 
+  and MoveIt! installation
 
+OJ 27.3.23
+  
+WORX SINCE 27.3.23
 -->
 
 <!-- Part1: universal robot repository 
@@ -29,6 +31,7 @@ NO_WORX UNTIL 23.3.23, has to be completed
   <!-- push robot_description to factory and spawn robot in gazebo -->
   <node name="spawn_gazebo_model" pkg="gazebo_ros" type="spawn_model" args="-urdf -param robot_description -model robot -z 0.1" respawn="false" output="screen" />
 
+  <!-- mit node robot_state_publisher -->
   <include file="$(find ur_gazebo)/launch/controller_utils.launch"/>
 
   <!-- start this controller -->
@@ -38,22 +41,14 @@ NO_WORX UNTIL 23.3.23, has to be completed
   <!-- load other controllers -->
   <node name="ros_control_controller_manager" pkg="controller_manager" type="controller_manager" respawn="false" output="screen" args="load joint_group_position_controller" />
 
-
-
-<!-- Part2: universal robot repository 
-     roslauch ur_moveit_config ur5_moveit_planimg_execution.launch sim:=true-->
-  <!-- By default, we do not start a database (it can be large) -->
-    <arg name="db" default="false" />
-    <arg name="sim" default="true" />
-  <!-- By default, we are not in debug mode -->
-    <arg name="debug" default="false" />
-       
-  <!-- Remap follow_joint_trajectory -->
-    <remap if="$(arg sim)" from="/follow_joint_trajectory" to="/arm_controller/follow_joint_trajectory"/>
-  
- 
-<!-- Part3: universal robot repository 
+<!-- Part2: universal robot repository - moveIt!-Configuration  (UR-Repo, ohne Gripper)
      roslauch ur_moveit_config demo.launch rviz_tutorial:=true-->
+    
+    <!-- By default, we do not start a database (it can be large) -->
+     <arg name="db" default="false" />
+    <!-- By default, we are not in debug mode -->
+     <arg name="debug" default="false" />
+    
 
     <!-- Load the URDF, SRDF and other .yaml configuration files on the param server -->
         <include file="$(find ur5_moveit_config)/launch/planning_context.launch">
@@ -61,8 +56,7 @@ NO_WORX UNTIL 23.3.23, has to be completed
             <arg name="limited" value="$(arg limited)"/>
         </include>
 
-    <!-- If needed, broadcast static tf for robot root -->
-        
+    <!-- If needed, broadcast static tf for robot root -->        
 
     <!-- We do not have a robot connected, so publish fake joint states -->
         <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher">
@@ -71,17 +65,12 @@ NO_WORX UNTIL 23.3.23, has to be completed
         </node>
         
     <!-- Given the published joint states, publish tf for the robot links 
-        <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" respawn="true" output="screen" />
-    -->
+        <node name="robot_state_publisher" pkg="robot_state_publisher"
+              type="robot_state_publisher" respawn="true" output="screen" />
 
-    <!-- Run the main MoveIt executable without trajectory execution (we do not have controllers configured by default) -->
-        <include file="$(find ur5_moveit_config)/launch/move_group.launch">
-            <arg name="limited" default="$(arg limited)"/>
-            <arg name="allow_trajectory_execution" value="true"/>  
-            <arg name="fake_execution" value="true"/>
-            <arg name="info" value="true"/>
-            <arg name="debug" value="$(arg debug)"/>
-        </include>
+    ##### Error: roslaunch file contains multiple nodes named [/robot_state_publisher].
+    Gibt es schon in controller_utils.launch 
+    -->     
 
     <!-- Run Rviz and load the default config to see the state of the move_group node -->
         <include file="$(find ur5_moveit_config)/launch/moveit_rviz.launch">
@@ -91,6 +80,31 @@ NO_WORX UNTIL 23.3.23, has to be completed
 
     <!-- If database loading was enabled, start mongodb as well -->
         <include file="$(find ur5_moveit_config)/launch/default_warehouse_db.launch" if="$(arg db)"/>
+    
+    <!-- Part3: universal robot repository 
+       roslauch ur_moveit_config ur5_moveit_planimg_execution.launch sim:=true-->
+         <arg name="sim" default="true" />
+      <!-- Remap follow_joint_trajectory -->
+         <remap if="$(arg sim)" from="/follow_joint_trajectory" to="/arm_controller/follow_joint_trajectory"/>
 
 
+        <!-- Run the main MoveIt executable without trajectory execution (we do not have controllers configured by default) 
+        <include file="$(find ur5_moveit_config)/launch/move_group.launch">
+            <arg name="limited" default="$(arg limited)"/>
+            <arg name="debug" value="$(arg debug)"/>
+            <arg name="allow_trajectory_execution" value="true"/>  
+            <arg name="fake_execution" value="true"/>
+            <arg name="info" value="true"/>  -->        
+
+<!-- Part3: universal robot repository 
+     roslauch ur_moveit_config ur5_moveit_planing_execution.launch sim:=true-->
+
+     <!-- Launch moveit -->
+          <include file="$(find ur5_moveit_config)/launch/move_group.launch">
+             <arg name="limited" default="$(arg limited)"/>
+             <arg name="debug" default="$(arg debug)" />
+          </include>
+      
+       
+ 
 </launch>

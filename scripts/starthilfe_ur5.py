@@ -3,8 +3,8 @@
 # GUI to control all the Launch Files etc. in the emr22 course
 # edited WHS, OJ , 21.2.2022 #
 
-from PyQt5.QtWidgets import (QWidget,QApplication,  QPushButton)
-from PyQt5.QtCore import Qt
+from PyQt5.QtWidgets import (QWidget, QApplication,  QPushButton)
+# from PyQt5.QtCore import Qt
 import sys
 import os
 
@@ -18,13 +18,19 @@ class MainWindow(QWidget):
         self.myPb_roscore.setGeometry(10, 10, 300, 40)  # x,y,w,h
         self.myPb_roscore.clicked.connect(self.slot_roscore)
 
+        # --- roslaunch emr22 ur5_gazebo_bringup.launch---
+        self.myPb_gazebo_ur5 = QPushButton(self)
+        self.myPb_gazebo_ur5.setText('Starte UR5 in Gazebo')
+        self.myPb_gazebo_ur5.setGeometry(10, 50, 300, 40)  # x,y,w,h
+        self.myPb_gazebo_ur5.clicked.connect(self.slot_ur5_gazebo)
+
         # --- roslaunch ---
         self.myPb_gazebo_ur5 = QPushButton(self)
         self.myPb_gazebo_ur5.setText('Starte UR5 in Gazebo und MoveIt!')
-        self.myPb_gazebo_ur5.setGeometry(10, 50, 300, 40)  # x,y,w,h
-        self.myPb_gazebo_ur5.clicked.connect(self.slot_ur5)
+        self.myPb_gazebo_ur5.setGeometry(10, 90, 300, 40)  # x,y,w,h
+        self.myPb_gazebo_ur5.clicked.connect(self.slot_ur5_moveit)
 
-        self.myPb_depth = QPushButton(self)
+        """ self.myPb_depth = QPushButton(self)
         self.myPb_depth.setText('Starte UR5, Gazebo, Moveit mit Depth-Cam')
         self.myPb_depth.setGeometry(10, 90, 300, 40)  # x,y,w,h
         self.myPb_depth.clicked.connect(self.slot_ur5_depth)
@@ -52,6 +58,7 @@ class MainWindow(QWidget):
         self.myPb_astra.setText(' Astra Orbbec und find_object_2D - real')
         self.myPb_astra.setGeometry(10, 250, 300, 40)  # x,y,w,h
         self.myPb_astra.clicked.connect(self.slot_astra_cam)
+        """
 
         # --- Window konfigurieren und starten
         self.setGeometry(300, 300, 400, 300)
@@ -62,10 +69,13 @@ class MainWindow(QWidget):
     def slot_roscore(self):
         os.system('gnome-terminal -- bash -c "roscore; exec bash"')
 
-    def slot_ur5(self):
-        os.system('gnome-terminal -- bash -c "roslaunch ur5_gripper_moveit_config demo_gazebo_pick_and_place.launch; exec bash"')
+    def slot_ur5_gazebo(self):
+        os.system('gnome-terminal -- bash -c "roslaunch emr22 ur5_gazebo_bringup.launch; exec bash"')
 
-    def slot_ur5_depth(self):
+    def slot_ur5_moveit(self):
+        os.system('gnome-terminal -- bash -c "roslaunch emr22 ur5_gazebo_moveIt_bringup.launch; exec bash"')
+
+    """def slot_ur5_depth(self):
         os.system('gnome-terminal -- bash -c "roslaunch ur5_gripper_moveit_config demo_gazebo_pick_and_place_depth.launch; exec bash"')
 
     def slot_pick_place(self):
@@ -80,6 +90,7 @@ class MainWindow(QWidget):
 
     def slot_astra_cam(self):
         os.system('gnome-terminal -- bash -c "roslaunch emr22 astra_find_object_2d.launch"')
+    """
 
 
 if __name__ == '__main__':
