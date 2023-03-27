@@ -14,19 +14,19 @@ class MainWindow(QWidget):
         super(MainWindow, self).__init__(parent)
         # --- roscore ---
         self.myPb_roscore = QPushButton(self)
-        self.myPb_roscore.setText('Starte ROS-Master')
+        self.myPb_roscore.setText('1 - Starte ROS-Master')
         self.myPb_roscore.setGeometry(10, 10, 300, 40)  # x,y,w,h
         self.myPb_roscore.clicked.connect(self.slot_roscore)
 
         # --- roslaunch emr22 ur5_gazebo_bringup.launch---
         self.myPb_gazebo_ur5 = QPushButton(self)
-        self.myPb_gazebo_ur5.setText('Starte UR5 in Gazebo')
+        self.myPb_gazebo_ur5.setText('2 - Starte UR5 in Gazebo')
         self.myPb_gazebo_ur5.setGeometry(10, 50, 300, 40)  # x,y,w,h
         self.myPb_gazebo_ur5.clicked.connect(self.slot_ur5_gazebo)
 
         # --- roslaunch ---
         self.myPb_gazebo_ur5 = QPushButton(self)
-        self.myPb_gazebo_ur5.setText('Starte UR5 in Gazebo und MoveIt!')
+        self.myPb_gazebo_ur5.setText('3- Starte UR5 in Gazebo und MoveIt!')
         self.myPb_gazebo_ur5.setGeometry(10, 90, 300, 40)  # x,y,w,h
         self.myPb_gazebo_ur5.clicked.connect(self.slot_ur5_moveit)
 
