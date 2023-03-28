@@ -13,15 +13,15 @@ echo -e "\033[34m ----- robotik.bocholt@w-hs.de -- SS22 - UR5 für Gazebo instal
 # echo -e "\033[34m ----- ..und Workspace ws_moveit (catkin build) einrichten ---------- \033[0m "
 
 cd ~/ws_moveit/src
-git clone https://github.com/ProfJust/universal_robot.git -b melodic-devel
+git clone https://github.com/ProfJust/universal_robot.git -b gazebo
 # Laut Issue #537 https://github.com/ros-industrial/universal_robot/issues/537 soll diese Paket auch für ROS-Noetic funktionieren. 
 
 # Gripper Robotiq
-git clone https://github.com/filesmuggler/robotiq.git
+git clone https://github.com/ProfJust/robotiq.git -b gazebo
 
 
 # --- fertige MoveIt Config aus dem Assitenten --
-git clone https://github.com/dairal/ur5_gripper_moveit_config
+https://github.com/ProfJust/ur5_gripper_moveit_config.git -b gazebo
 
 # --- ros_control --- 
 sudo apt-get install ros-$ROS_DISTRO-ros-control ros-$ROS_DISTRO-ros-controllers
