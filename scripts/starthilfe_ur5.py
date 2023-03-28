@@ -88,7 +88,7 @@ class MainWindow(QWidget):
         os.system('gnome-terminal -- bash -c "roslaunch emr22 ur5_gazebo_moveIt_bringup.launch; exec bash"')
 
     def slot_ur5_grip_moveit(self):
-        os.system('gnome-terminal -- bash -c "roslaunch ur5_gripper_moveit_config demo_gazebo.launch; exec bash"')
+        os.system('gnome-terminal -- bash -c "roslaunch ur5_gripper_moveit_config demo_gazebo_pick_and_place.launch; exec bash"')
 
     def slot_pick_place(self):
         os.system('gnome-terminal -- bash -c "rosrun emr22 move_group_api_test.py; exec bash"')
