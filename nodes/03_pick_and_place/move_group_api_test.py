@@ -12,7 +12,8 @@
 # https://roboticscasual.com/ros-tutorial-pick-and-place-task-with-the-moveit-c-interface/
 # -----------------------------------------
 # usage
-#   $1 roslaunch ur5_gripper_moveit_config demo_gazebo_pick_and_place.launch
+#   was $1 roslaunch ur5_gripper_moveit_config demo_gazebo_pick_and_place.launch
+#   now $1 roslaunch emr22 ur5_gazebo_moveIt_bringup.launch
 # 
 #   $2 rosrun emr22 pick_and_place.....py
 # ----------------------------------------------------------------
@@ -103,13 +104,14 @@ joint_goal[5] = 0.001          # wrist3
 group.go(joint_goal, wait=True)
 print("Reached Joint Goal Home", joint_goal)
 
-# --- 2. Open the gripper
+"""# --- 2. Open the gripper
 # input("\n Open Gripper => Enter")
 joint_gripper = group_gripper.get_current_joint_values()
 print("Gripper Angle is", joint_gripper)
 joint_gripper[0] = 0.001  # complete open is 0.0007  closed is pi/4
 group_gripper.go(joint_gripper, wait=True)
 group_gripper.stop()
+"""
 
 # --- 3. Place the TCP above the blue box
 # input(" Go close to blue box => Enter")
@@ -151,7 +153,7 @@ plan = group.go(wait=True)
 group.stop()
 group.clear_pose_targets()
 
-# --- 5. Close the gripper
+"""# --- 5. Close the gripper
 input("\n Close Gripper => Enter")
 joint_gripper = group_gripper.get_current_joint_values()
 print("Gripper Angle is", joint_gripper)
@@ -159,6 +161,7 @@ print("Gripper Angle is", joint_gripper)
 joint_gripper[0] = pi/11  # 0.07
 group_gripper.go(joint_gripper, wait=True)
 group_gripper.stop()
+"""
 
 # --- 6. Move the TCP close to the object 0.2m up
 input(" Lift blue box => Enter")
@@ -205,13 +208,14 @@ joint_goal[5] = np.deg2rad(50)      # wrist3
 group.go(joint_goal, wait=True)
 print("Reached Goal above plate", joint_goal)
 
-# --- 8. Open the gripper
+"""# --- 8. Open the gripper
 # input("\n Open Gripper => Enter")
 joint_gripper = group_gripper.get_current_joint_values()
 print("Gripper Angle is", joint_gripper)
 joint_gripper[0] = 0.001  # complete open is 0.0007  closed is pi/4
 group_gripper.go(joint_gripper, wait=True)
 group_gripper.stop()
+"""
 
 # --- at the end -----
 # input("Remove Box")  # Otherwise it will stay

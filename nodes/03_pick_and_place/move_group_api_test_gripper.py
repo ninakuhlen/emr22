@@ -13,6 +13,7 @@
 # -----------------------------------------
 # usage
 #   $1 roslaunch ur5_gripper_moveit_config demo_gazebo_pick_and_place.launch
+#   
 # 
 #   $2 rosrun emr22 pick_and_place.....py
 # ----------------------------------------------------------------
@@ -50,9 +51,9 @@ rospy.init_node('move_group_python_interface_tutorial',
 robot = moveit_commander.RobotCommander()
 
 # Instantiate the MoveGroupCommander object.
-group_name = "manipulator"  # was "ur5_arm"
+group_name = "ur5_arm" # "manipulator" 
 group = moveit_commander.MoveGroupCommander(group_name)
-group_name_gripper = "endeffector"  # was "gripper"
+group_name_gripper =  "gripper" # "endeffector" 
 group_gripper = moveit_commander.MoveGroupCommander(group_name_gripper)
 
 # Create a Publisher.
@@ -110,6 +111,8 @@ print("Gripper Angle is", joint_gripper)
 joint_gripper[0] = 0.001  # complete open is 0.0007  closed is pi/4
 group_gripper.go(joint_gripper, wait=True)
 group_gripper.stop()
+input(" Go to position above blue box => Enter")
+
 
 # --- 3. Place the TCP above the blue box
 # input(" Go close to blue box => Enter")
@@ -159,6 +162,7 @@ print("Gripper Angle is", joint_gripper)
 joint_gripper[0] = pi/11  # 0.07
 group_gripper.go(joint_gripper, wait=True)
 group_gripper.stop()
+
 
 # --- 6. Move the TCP close to the object 0.2m up
 input(" Lift blue box => Enter")
@@ -212,6 +216,7 @@ print("Gripper Angle is", joint_gripper)
 joint_gripper[0] = 0.001  # complete open is 0.0007  closed is pi/4
 group_gripper.go(joint_gripper, wait=True)
 group_gripper.stop()
+
 
 # --- at the end -----
 # input("Remove Box")  # Otherwise it will stay
