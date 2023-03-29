@@ -51,7 +51,7 @@ $1 roscore
 
 
 dann Roboter Bringup 
-$2 roslaunch ur_robot_driver ur5e_bringup.launch robot_ip:=192.168.X.XXX kinematics_config:=$(rospack find ur_calibration)/etc/ur5e_robot_calibration.yaml
+$2 roslaunch ur_robot_driver ur5e_bringup.launch robot_ip:=192.168.X.XXX kinematics_config:=$(rospack find ur_calibration)/etc/urX_robot_calibration.yaml
 
   Fehler: Variable 'speed_slider_mask' is currently controlled by another RTDE client. The input recipe can't be used as configured
   Lösung: ROS_Bridge UR_Cap löschen
