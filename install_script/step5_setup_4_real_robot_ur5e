@@ -8,7 +8,7 @@ git clone -b calibration_devel https://github.com/fmauch/universal_robot.git fma
 # doppeltes universal_robot Directory löschen (gibt es jetzt auch unter fmauch)
 
 cd ~/ws_moveit/src
-rm -r universal_robots
+rm -r universal_robot
 
 # install dependencies
 
