@@ -35,8 +35,9 @@ wstool merge -t . https://raw.githubusercontent.com/ros-planning/moveit/master/m
 wstool remove  moveit_tutorials  # this is cloned in the next section
 wstool update -t .
 
-git clone https://github.com/ros-planning/moveit_tutorials.git -b master
-git clone https://github.com/ros-planning/panda_moveit_config.git -b noetic-devel
+# SS23 not needed
+# git clone https://github.com/ros-planning/moveit_tutorials.git -b master
+# git clone https://github.com/ros-planning/panda_moveit_config.git -b noetic-devel
 
 rosdep install -y --from-paths . --ignore-src --rosdistro noetic
 
