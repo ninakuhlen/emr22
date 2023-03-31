@@ -1,8 +1,8 @@
 # ros_noetic_install_skript.sh
 # ROS Noetic auf einem Rechner mit Ubuntu 20.04 Focal Fossa  installieren
 # OJ fuer robotik.bocholt@w-hs.de
-# SS2022
-# geaendert am 31.3.2022 source devel/setup.bash
+# SS2023
+# geaendert am 31.3.2023 source devel/setup.bash
 # erst nach catkin_make, da es sonst den Ordner noch nicht gibt
 
 #!/bin/bash
