@@ -8,12 +8,13 @@ git clone -b calibration_devel https://github.com/fmauch/universal_robot.git fma
 # doppeltes universal_robot Directory löschen (gibt es jetzt auch unter fmauch)
 
 cd ~/ws_moveit/src
-rm -r universal_robots
+rm -r universal_robot
 
 # install dependencies
 
 $ sudo apt update -qq
 $ rosdep update
+$ cd ~/ws_moveit
 $ rosdep install --from-paths src --ignore-src -y
 
 
@@ -50,7 +51,7 @@ $1 roscore
 
 
 dann Roboter Bringup 
-$2 roslaunch ur_robot_driver ur5e_bringup.launch robot_ip:=192.168.0.100 kinematics_config:=$(rospack find ur_calibration)/etc/ur5e_robot_calibration.yaml
+$2 roslaunch ur_robot_driver ur5e_bringup.launch robot_ip:=192.168.X.XXX kinematics_config:=$(rospack find ur_calibration)/etc/urX_robot_calibration.yaml
 
   Fehler: Variable 'speed_slider_mask' is currently controlled by another RTDE client. The input recipe can't be used as configured
   Lösung: ROS_Bridge UR_Cap löschen
@@ -77,5 +78,7 @@ $4  roslaunch ur5e_moveit_config moveit_rviz.launch rviz_config:=$(rospack find 
 siehe auch
 http://wiki.ros.org/Industrial/Tutorials/Create_a_MoveIt_Pkg_for_an_Industrial_Robot
 https://industrial-training-master.readthedocs.io/en/melodic/_source/session3/Build-a-Moveit!-Package.html#using-moveit-with-physical-hardware
+
+
 
 

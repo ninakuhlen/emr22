@@ -8,7 +8,7 @@
 #!/bin/bash
 # script to setup your catkin_ws-Workspace
 
-echo -e "\033[34m ---------- robotik.bocholt@w-hs.de -- WS20 - ROS installieren und Workspace einrichten  ------------ \033[0m "
+echo -e "\033[34m ---------- robotik.bocholt@w-hs.de -- SS23 - ROS installieren und Workspace einrichten  ------------ \033[0m "
 
 sudo apt-get dist-upgrade
 
@@ -37,15 +37,6 @@ sudo rosdep init
 rosdep update
 
 
-#echo -e "\033[34m ---------- Erstelle catkin_ws  ------------ \033[0m "
-#mkdir -p ~/catkin_ws/src
-#cd ~/catkin_ws/src
-#git clone https://github.com/ProfJust/rtc.git
-
-#cd ~/catkin_ws/
-#catkin_make
-#source devel/setup.bash
-
 echo -e "\033[34m ---------- Erstelle ws_moveit ------------ \033[0m "
 mkdir -p ~/ws_moveit/src
 cd ~/ws_moveit/src
@@ -53,10 +44,10 @@ git clone https://github.com/ProfJust/emr22.git
 
 cd ~/ws_moveit/
 source devel/setup.bash
-catkin build
+# catkin build
 
 
 # echo -e "\033[34m  Falls Fehlermeldung nach Erstinstallation von ROS, bitte einmal das Terminal schliessen und wieder öffnen  \033[0m"
 
-echo -e "\033[34m  catkin_ws is installed - now install your packages  \033[0m"
+echo -e "\033[34m  ws_moveit and .bashrc is ready  - now install your packages  \033[0m"
 

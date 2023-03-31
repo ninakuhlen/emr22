@@ -6,10 +6,10 @@
 # auf einem Rechner mit Ubuntu 20.04 Focal Fossa  
 # OJ fuer robotik.bocholt@w-hs.de
 # SS2023
-# geaendert am 27.1.2022
+# geaendert am 30.3.2023
 # vgl. https://ros-planning.github.io/moveit_tutorials/doc/getting_started/getting_started.html 
 
-echo -e "\033[34m ----- robotik.bocholt@w-hs.de -- SS22 - MoveIt! installieren.. ----- \033[0m "
+echo -e "\033[34m ----- robotik.bocholt@w-hs.de -- SS23 - MoveIt! installieren.. ----- \033[0m "
 echo -e "\033[34m ----- ..und Workspace ws_moveit (catkin build) einrichten ---------- \033[0m "
 
 cd ~/ws_moveit
@@ -35,8 +35,9 @@ wstool merge -t . https://raw.githubusercontent.com/ros-planning/moveit/master/m
 wstool remove  moveit_tutorials  # this is cloned in the next section
 wstool update -t .
 
-git clone https://github.com/ros-planning/moveit_tutorials.git -b master
-git clone https://github.com/ros-planning/panda_moveit_config.git -b noetic-devel
+# SS23 not needed
+# git clone https://github.com/ros-planning/moveit_tutorials.git -b master
+# git clone https://github.com/ros-planning/panda_moveit_config.git -b noetic-devel
 
 rosdep install -y --from-paths . --ignore-src --rosdistro noetic
 
