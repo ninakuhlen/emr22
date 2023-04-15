@@ -15,26 +15,69 @@
 #include <geometry_msgs/Twist.h>
 #include <stdlib.h> //wegen rand() und srand()
 
-// Funktion zum lesen einer Taste ohne Enter - s.u.
-int getch(void);
+#include <ncurses.h> // neue Bibliothek für Tastatureingabe //**********p1
+
+using namespace std;
+using namespace ros;
 
 //---------------------------------------------
 int main (int argc, char **argv){
 	// ROS initialisieren , Weitergabe der Startparameter
-	ros::init(argc, argv,"publish_velocity");
+	init(argc, argv,"publish_velocity");
 	// Eine eigenen Knoten instanzieren
-	ros::NodeHandle myNh; 
+	NodeHandle myNh; 
 	// Die Template-Funktion mit dem Datentyp der Parameter versehen
-	ros::Publisher myPub = myNh.advertise<geometry_msgs::Twist>("turtle1/cmd_vel",1000);  
-	ros::Rate rate(2); // Senderate 2Hz
+	Publisher myPub = myNh.advertise<geometry_msgs::Twist>("turtle1/cmd_vel",1000);  
+	Rate rate(2); // Senderate 2Hz
 
 	srand(time(0)); //Zufallsgenerator seeden
 
-	while(ros::ok()){  //Endlosschleife bis rosshutdown
+	initscr(); // initalisieren von ncurses library
+  cbreak();
+  noecho();
+
+  int ch;
+
+  while(ok()) {
+    ch = getch();
+
+    if (ch == 'q' || ch == 'Q') {
+      break;
+    }
+
+    geometry_msgs::Twist myMsg;
+
+    switch (ch) {
+      case 'w': // vorwärts bewegen
+        myMsg.linear.x = 0.5;
+        break;
+      case 's': // rückwärts bewegen
+        myMsg.linear.x = -0.6;
+        break;
+      case 'a': // links drehen
+        myMsg.angular.z = 0.5;
+        break;
+      case 'd': // rechts drehen
+        myMsg.angular.z = -0.5;
+        break;
+	  }
+
+    refresh();
+
+    // senden der msg
+		myPub.publish(myMsg);
+  }
+
+  endwin();
+
+  return 0;
+}
+
+	/*while(ros::ok()){  //Endlosschleife bis rosshutdown
 		// Instanziere Message
 		geometry_msgs:: Twist myMsg;
 		
-		myMsg.linear.x  =     double(rand())/double(RAND_MAX);	
+		/*myMsg.linear.x  =     double(rand())/double(RAND_MAX);	
 		myMsg.angular.z = 2 * double(rand())/double(RAND_MAX);
 
 		// senden der msg
@@ -47,9 +90,31 @@ int main (int argc, char **argv){
 		
 		// Warte bis zur nächsten Sendung
 		rate.sleep();
-	}
-}
+		*/
 
+		/*int ch = getch();
+    switch (ch) {
+      case 'w': // vorwärts bewegen
+        myMsg.linear.x = 0.1;
+        break;
+      case 's': // rückwärts bewegen
+        myMsg.linear.x = -0.1;
+        break;
+      case 'a': // links drehen
+        myMsg.angular.z = 0.5;
+        break;
+      case 'd': // rechts drehen
+        myMsg.angular.z = -0.5;
+        break;
+      case 'q': // Programm beenden
+        /*endwin()*/; // ncurses beenden
+        /*return 0;
+      default:
+        break;
+	}*/
+  /*}
+}
+/*
 //-----------------------------------------------------------
 // Funktion zum holen eine Taste ohne Enter 
 //vgl. https://www.c-plusplus.net/forum/272087-full
@@ -76,3 +141,10 @@ int getch(void){
   return c; // gibt -1 zurück, wenn kein Zeichen gelesen wurde
 }
 		
+*/
+ /*myPub.publish(myMsg);
+
+    ROS_INFO("Sende Werte für velocity linear %f angular %f",
+             myMsg.linear.x, myMsg.angular.z);
+
+    rate.sleep();*/

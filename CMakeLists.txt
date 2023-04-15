@@ -40,7 +40,7 @@ find_package(catkin REQUIRED COMPONENTS
 # find_package(Boost REQUIRED COMPONENTS system)
 find_package(PythonLibs 3 REQUIRED)
 find_package(Eigen3 REQUIRED)
-
+find_package(Curses REQUIRED)
 
 ###################################
 ## catkin specific configuration ##
@@ -85,13 +85,14 @@ catkin_package(
 include_directories(
   include
    ${catkin_INCLUDE_DIRS}/emr22/src
+   ${CURSES_INCLUDE_DIR}
 )
 
 ## Declare  C++ executables
 add_executable(hello    src/hello_ros_node.cpp  )
 add_executable(turtle_pub  src/turtle_publisher.cpp  )
 add_executable(turtle_sub  src/turtle_subscriber.cpp )
-add_executable(turtle_p1  src/p1_my_cpp_publisher_4turtlesim.cpp )
+add_executable(turtle_p1 src/p1_my_cpp_publisher_4turtlesim.cpp )
 add_executable(adaim_pick_place  src/adaim_pick_and_place.cpp )
 add_executable(adaim_pick_place_collision  src/adaim_pick_and_place_collision.cpp )
 add_executable(adaim_pick_place_depth  src/adaim_pick_and_place_collision_depth_camera.cpp )
@@ -104,6 +105,7 @@ target_link_libraries(hello ${catkin_LIBRARIES} )
 target_link_libraries(turtle_pub ${catkin_LIBRARIES} )
 target_link_libraries(turtle_sub ${catkin_LIBRARIES} )
 target_link_libraries(turtle_p1 ${catkin_LIBRARIES} )
+target_link_libraries(turtle_p1 ${CURSES_LIBRARIES} )
 target_link_libraries(adaim_pick_place ${catkin_LIBRARIES} )
 target_link_libraries(adaim_pick_place_collision ${catkin_LIBRARIES} )
 target_link_libraries(adaim_pick_place_depth ${catkin_LIBRARIES} )
