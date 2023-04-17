@@ -38,10 +38,9 @@ class UIClass(QWidget):
         self.pos_wrist1_pub = rospy.Publisher(
                               '/wrist_1_joint_position_controller/command',
                               Float64, queue_size=10)
-        """self.pos_wrist2_pub = rospy.Publisher(
+        self.pos_wrist2_pub = rospy.Publisher(
                               '/wrist_2_joint_position_controller/command',
                               Float64, queue_size=10)
-        """
 
         self.rate = rospy.Rate(10)
 
@@ -60,6 +59,19 @@ class UIClass(QWidget):
         self.sld1.setValue(LCDstartWert)
         self.pbLess1 = QPushButton('<')
         self.pbMore1 = QPushButton('>')
+
+        self.lblInfo2 = QLabel('Wrist 2  * 10')
+        LCDstartWert2 = 0
+
+        # --- Wrist 2---
+        self.lcd2 = QLCDNumber(self)
+        self.lcd2.display(LCDstartWert)
+        self.sld2 = QSlider(Qt.Horizontal, self)
+        self.sld2.setMaximum(30)
+        self.sld2.setMinimum(-30)
+        self.sld2.setValue(LCDstartWert)
+        self.pbLess2 = QPushButton('<')
+        self.pbMore2 = QPushButton('>')
 
         # --- Buttons ---
         self.pbGo = QPushButton(' Go Home ')
@@ -90,6 +102,23 @@ class UIClass(QWidget):
         vbox.addLayout(hbox)
 
         # ---- Wrist2 -----
+            #  0.Reihe - Label
+        hbox = QHBoxLayout()
+        hbox.addWidget(self.lblInfo2)
+        vbox.addLayout(hbox)
+        # 1.Reihe
+        hbox = QHBoxLayout()
+        hbox.addWidget(self.lcd2)
+        vbox.addLayout(hbox)
+        # 2.Reihe
+        hbox = QHBoxLayout()
+        hbox.addWidget(self.sld2)
+        vbox.addLayout(hbox)
+        # 3.Reihe
+        hbox = QHBoxLayout()
+        hbox.addWidget(self.pbLess2)
+        hbox.addWidget(self.pbMore2)
+        vbox.addLayout(hbox)
         
         # Alle Boxen ins Window setzen
         self.setLayout(vbox)
@@ -104,6 +133,11 @@ class UIClass(QWidget):
         self.sld1.valueChanged.connect(self.SlotPublish)  # publish to ROS
         self.pbLess1.clicked.connect(self.SlotKlick1)
         self.pbMore1.clicked.connect(self.SlotKlick1)
+        
+        self.sld2.valueChanged.connect(self.lcd2.display)
+        self.sld2.valueChanged.connect(self.SlotPublish)  # publish to ROS
+        self.pbLess2.clicked.connect(self.SlotKlick2)
+        self.pbMore2.clicked.connect(self.SlotKlick2)
 
     def SlotKlick1(self):  # Wrist1 - Button < oder > gepusht
         sender = self.sender()
@@ -117,6 +151,18 @@ class UIClass(QWidget):
             wert = wert+1
             self.sld1.setValue(wert)
 
+    def SlotKlick2(self):  # Wrist2 - Button < oder > gepusht
+        sender = self.sender()
+        # self.lblStatus2.setText(' X ' + sender.text() + ' was pressed')
+        if sender.text() == '<':
+            wert = self.sld2.value()
+            wert = wert-1
+            self.sld2.setValue(wert)
+        else:
+            wert = self.sld2.value()
+            wert = wert+1
+            self.sld2.setValue(wert)
+
     def SlotGoHome(self):
         self.lblStatus.setText(' Go Home Button klicked ')
         self.sld1.setValue(0)
@@ -124,8 +170,12 @@ class UIClass(QWidget):
 
     def SlotPublish(self):
         self.lblStatus.setText(' all topics publisht ')
+        
         self.wrist1_msg = self.sld1.value()
         self.pos_wrist1_pub.publish(float(self.wrist1_msg)/10.0)
+        
+        self.wrist2_msg = self.sld2.value()
+        self.pos_wrist2_pub.publish(float(self.wrist2_msg)/10.0)
 
     def SlotStorePosition(self):
         # Get absolute Path
