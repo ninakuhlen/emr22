@@ -27,7 +27,7 @@ int main (int argc, char **argv){
     int int_var;
    
     printf("\n Demo für das getten und setten von ROS-Parametern \n");
-	//ros::param::set("/integer_param", 5);
+	ros::param::set("/integer_param", 5);
 
     // alternativ auch setzen über Shell $ rosparam set integer_param 7
     // oder Launch-File

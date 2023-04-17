@@ -6,10 +6,10 @@
 #
 # uses trajectory controller 
 # like rqt 
-# Version vom 25.4.2022 by OJ
+# Version vom 17.4.2023 by OJ
 # ----------------------------
 # usage:
-# $ rosrun emr22 starthilfe_ur5  => UR5 in Gazebo und MoveIt!
+# $ rosrun emr22 starthilfe_ur5  => UR5 in Gazebo mit MoveIt
 # $ rosrun emr22 ue03_ur5_gazebo_qt_slider_trajectory.py
 # ----------------------------
 
