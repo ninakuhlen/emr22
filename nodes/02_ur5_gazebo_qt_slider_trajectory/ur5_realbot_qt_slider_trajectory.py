@@ -143,20 +143,30 @@ class UIClass(QWidget):
         self.sld1.setValue(0)
 
     def SlotPublish(self):
-        self.lblStatus.setText(' alle Topics publisht ')
+        self.lblStatus.setText(' alle Topics werden gepublisht ')
         self.msg = JointTrajectory()
         self.jt_ur5 = JointTrajectory()
         self.jt_ur5.joint_names = ['elbow_joint', 'shoulder_lift_joint',
                                    'shoulder_pan_joint', 'wrist_1_joint',
                                    'wrist_2_joint', 'wrist_3_joint']
 
+       
+        # Erst schauen wo der UR5 steht
+        positions_cur = self.get_joint_positions()
+        print("Current Joint Positions")
+        print(positions_cur)       
+
+        # dann hier noch die aktuellen Positionen nutzen, statt irgendwelcher Konstanten
         jtpt = JointTrajectoryPoint()
         jtpt.positions = [1.2, -1.54, 0.0,
                           self.sld1.value()/10.0, -1.58, -0.0]
+        
+        
 
         jtpt.time_from_start = rospy.Duration.from_sec(2)
         # je länger desto langsamer
         # https://www.programcreek.com/python/example/123228/trajectory_msgs.msg.JointTrajectory
+        # example 7
         # siehe auch http://wiki.ros.org/pr2_controllers/Tutorials/Moving%20the%20arm%20using%20the%20Joint%20Trajectory%20Action
 
         self.jt_ur5.points.append(jtpt)
