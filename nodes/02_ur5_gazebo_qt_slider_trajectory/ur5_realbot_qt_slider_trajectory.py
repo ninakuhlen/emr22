@@ -3,7 +3,7 @@
 # Qt-Gui with Slider to move UR5 in Gazebo
 # uses trajectory controller 
 # like rqt 
-# Version vom 25.4.2022 by OJ
+# Version vom 19.4.2023 by OJ
 # ----------------------------
 # usage:
 # $ rosrun emr22 starthilfe_ur5  => UR5 in Gazebo und MoveIt!
@@ -17,6 +17,7 @@
 
 import sys
 import rospy
+import os  # für  os.path.abspath(__file__)
 
 # Qt -------------------------------
 from PyQt5.QtCore import Qt
@@ -27,8 +28,14 @@ from PyQt5.QtWidgets import (QWidget, QLCDNumber, QSlider,
 from trajectory_msgs.msg import JointTrajectory, JointTrajectoryPoint
 
 # Vollstaendiger Pfad der Datei zum Speichern der Positionen, "~" funkt nicht
-filename = "/home/oj/ws_moveit/src/emr22/nodes/ue03_ur5_gazebo_qt_slider_trajectory/pose_ur5.txt"
+# filename = "/home/oj/ws_moveit/src/emr22/nodes/ue03_ur5_gazebo_qt_slider_trajectory/pose_ur5.txt"
 # ####### oj gegen ihren Username ersetzen !!! ##################
+
+# Oder so ??
+myFilePath = os.path.dirname(os.path.abspath(__file__))
+print(myFilePath)
+filename = os.path.join(myFilePath, "pose_ur5.txt")
+
 
 
 class UIClass(QWidget):
