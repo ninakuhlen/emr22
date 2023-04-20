@@ -3,7 +3,7 @@
 # Qt-Gui with Slider to move UR5 in Gazebo
 # uses trajectory controller 
 # like rqt 
-# Version vom 19.4.2023 by OJ
+# Version vom 20.4.2023 by OJ
 # ----------------------------
 # usage:
 # $ rosrun emr22 starthilfe_ur5  => UR5 in Gazebo und MoveIt!
@@ -26,19 +26,21 @@ from PyQt5.QtWidgets import (QWidget, QLCDNumber, QSlider,
                              QHBoxLayout, QApplication,
                              QLabel)
 from trajectory_msgs.msg import JointTrajectory, JointTrajectoryPoint
+from control_msgs.msg import JointTrajectoryControllerState
 
-# Vollstaendiger Pfad der Datei zum Speichern der Positionen, "~" funkt nicht
-# filename = "/home/oj/ws_moveit/src/emr22/nodes/ue03_ur5_gazebo_qt_slider_trajectory/pose_ur5.txt"
-# ####### oj gegen ihren Username ersetzen !!! ##################
-
-# Oder so ??
+# Vollstaendiger Pfad der Datei zum Speichern der Positionen
 myFilePath = os.path.dirname(os.path.abspath(__file__))
 print(myFilePath)
 filename = os.path.join(myFilePath, "pose_ur5.txt")
 
 
-
 class UIClass(QWidget):
+    JointPos = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+    def cbGetJointPos(self, rx_data):
+        # rospy.loginfo(rospy.get_caller_id() + " I heard %s", rx_data.actual.positions)
+        self.JointPos  = rx_data.actual.positions
+        # print(self.JointPos)
+
     def __init__(self):  # Konstrukor
         # Konstruktor der Elternklasse aufrufen
         super(UIClass, self).__init__()
@@ -49,9 +51,11 @@ class UIClass(QWidget):
         rospy.init_node('ue03_ur5_gazebo_qt_slider_trajectory', anonymous=True)
 
         self.wrist1_pub = rospy.Publisher('/scaled_pos_joint_traj_controller/command',
-                                              JointTrajectory, queue_size=10)
+                                              JointTrajectory, queue_size=10)        
+        # Joint Positions des RealBot holen
+        rospy.Subscriber('/scaled_pos_joint_traj_controller/state' ,JointTrajectoryControllerState, self.cbGetJointPos)
+        
         self.rate = rospy.Rate(10)
-
         self.path = [[0.0, 0.0]]  # Initial Koordinaten
 
     def initUI(self):    # GUI - Instanziierung der Widgets
@@ -69,9 +73,9 @@ class UIClass(QWidget):
         self.pbMore1 = QPushButton('>')
 
         # --- Buttons ---
-        self.pbGo = QPushButton(' Go Home ')
+        self.pbGo = QPushButton(' set Slider ZeroPosition')
         self.pbStore = QPushButton(' Store Pose ')
-        self.pbRead = QPushButton(' Read  Pose ')
+        self.pbRead = QPushButton(' Go to stored Pose ')
 
         self.lblStatus = QLabel('Status - Ausgabe')
 
@@ -141,7 +145,8 @@ class UIClass(QWidget):
     def SlotGoHome(self):
         self.lblStatus.setText(' Go Home Button klicked ')
         self.sld1.setValue(0)
-
+        self.SlotPublish()
+ 
     def SlotPublish(self):
         self.lblStatus.setText(' alle Topics werden gepublisht ')
         self.msg = JointTrajectory()
@@ -152,17 +157,20 @@ class UIClass(QWidget):
 
        
         # Erst schauen wo der UR5 steht
-        positions_cur = self.get_joint_positions()
         print("Current Joint Positions")
-        print(positions_cur)       
+        print(self.JointPos)       
 
-        # dann hier noch die aktuellen Positionen nutzen, statt irgendwelcher Konstanten
-        jtpt = JointTrajectoryPoint()
-        jtpt.positions = [1.2, -1.54, 0.0,
-                          self.sld1.value()/10.0, -1.58, -0.0]
+        # hier die aktuellen Positionen nutzen, statt irgendwelcher Konstanten
+        # rostopic info /scaled_pos_joint_traj_controller/state
+        # ACHTUNG! [0] und [2] vertauscht
+        jtpt = JointTrajectoryPoint()        
+        jtpt.positions = [self.JointPos[2],  # elbow_joint
+                          self.JointPos[1],  # shoulder_lift_joint
+                          self.JointPos[0],  # shoulder_pan_joint
+                          self.JointPos[3] + self.sld1.value()/10.0,
+                          self.JointPos[4],
+                          self.JointPos[5]]  
         
-        
-
         jtpt.time_from_start = rospy.Duration.from_sec(2)
         # je länger desto langsamer
         # https://www.programcreek.com/python/example/123228/trajectory_msgs.msg.JointTrajectory
@@ -202,3 +210,4 @@ if __name__ == '__main__':
 
     except rospy.ROSInterruptException:
         pass
+
