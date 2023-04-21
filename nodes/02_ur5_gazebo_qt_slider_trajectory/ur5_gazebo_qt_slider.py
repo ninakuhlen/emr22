@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 # --- ur5_gazebo_qt_slider.py ------
 # Qt-Gui with Slider to move UR5 in Gazebo
-# Version vom 21.3.2023 by OJ
+# Version vom 21.4.2023 by OJ
+# mit Ausgabe der Joiint-Position
 # ----------------------------
 # usage:
 # $ roslaunch emr22 ur5_gazebo_bringup.launch
@@ -20,12 +21,19 @@ from PyQt5.QtWidgets import (QWidget, QLCDNumber, QSlider,
                              QHBoxLayout, QApplication,
                              QLabel)
 from std_msgs.msg import Float64
+from control_msgs.msg import JointControllerState
 
 # Name der Datei zum Speichern der Positionen
 filename = "pose_ur5.txt"
 
 
 class UIClass(QWidget):
+    JointPos = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+
+    def cbGetJointPos(self, rx_data):
+        self.JointPos[3] = rx_data.process_value
+        # print(self.JointPos)
+
     def __init__(self):  # Konstrukor
         # Konstruktor der Elternklasse aufrufen
         super(UIClass, self).__init__()
@@ -46,6 +54,10 @@ class UIClass(QWidget):
 
         self.path = [[0.0, 0.0]]  # Initial Koordinaten
 
+        # Joint Positions des GazeboBot holen
+        rospy.Subscriber('/wrist_1_joint_position_controller/state',
+                         JointControllerState, self.cbGetJointPos)
+
     def initUI(self):    # GUI - Instanziierung der Widgets
         self.lblInfo1 = QLabel('Wrist 1  * 10')
         LCDstartWert = 0
@@ -65,11 +77,11 @@ class UIClass(QWidget):
 
         # --- Wrist 2---
         self.lcd2 = QLCDNumber(self)
-        self.lcd2.display(LCDstartWert)
+        self.lcd2.display(LCDstartWert2)
         self.sld2 = QSlider(Qt.Horizontal, self)
         self.sld2.setMaximum(30)
         self.sld2.setMinimum(-30)
-        self.sld2.setValue(LCDstartWert)
+        self.sld2.setValue(LCDstartWert2)
         self.pbLess2 = QPushButton('<')
         self.pbMore2 = QPushButton('>')
 
@@ -102,7 +114,7 @@ class UIClass(QWidget):
         vbox.addLayout(hbox)
 
         # ---- Wrist2 -----
-            #  0.Reihe - Label
+        #  0.Reihe - Label
         hbox = QHBoxLayout()
         hbox.addWidget(self.lblInfo2)
         vbox.addLayout(hbox)
@@ -119,7 +131,7 @@ class UIClass(QWidget):
         hbox.addWidget(self.pbLess2)
         hbox.addWidget(self.pbMore2)
         vbox.addLayout(hbox)
-        
+
         # Alle Boxen ins Window setzen
         self.setLayout(vbox)
 
@@ -133,7 +145,7 @@ class UIClass(QWidget):
         self.sld1.valueChanged.connect(self.SlotPublish)  # publish to ROS
         self.pbLess1.clicked.connect(self.SlotKlick1)
         self.pbMore1.clicked.connect(self.SlotKlick1)
-        
+
         self.sld2.valueChanged.connect(self.lcd2.display)
         self.sld2.valueChanged.connect(self.SlotPublish)  # publish to ROS
         self.pbLess2.clicked.connect(self.SlotKlick2)
@@ -176,6 +188,8 @@ class UIClass(QWidget):
         
         self.wrist2_msg = self.sld2.value()
         self.pos_wrist2_pub.publish(float(self.wrist2_msg)/10.0)
+
+        print(self.JointPos)
 
     def SlotStorePosition(self):
         # Get absolute Path
