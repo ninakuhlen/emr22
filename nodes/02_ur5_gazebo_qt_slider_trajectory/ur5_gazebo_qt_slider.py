@@ -30,8 +30,12 @@ filename = "pose_ur5.txt"
 class UIClass(QWidget):
     JointPos = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
 
-    def cbGetJointPos(self, rx_data):
+    def cbGetJointPos1(self, rx_data):
         self.JointPos[3] = rx_data.process_value
+        # print(self.JointPos)
+    
+    def cbGetJointPos2(self, rx_data):
+        self.JointPos[4] = rx_data.process_value
         # print(self.JointPos)
 
     def __init__(self):  # Konstrukor
@@ -40,7 +44,7 @@ class UIClass(QWidget):
         self.initUI()
 
         self.wrist1_msg = Float64()
-        # self.wrist2_msg = Float64()
+        self.wrist2_msg = Float64()
         rospy.init_node('ur5_gazebo_qt_slider', anonymous=True)
 
         self.pos_wrist1_pub = rospy.Publisher(
@@ -56,7 +60,9 @@ class UIClass(QWidget):
 
         # Joint Positions des GazeboBot holen
         rospy.Subscriber('/wrist_1_joint_position_controller/state',
-                         JointControllerState, self.cbGetJointPos)
+                         JointControllerState, self.cbGetJointPos1)
+        rospy.Subscriber('/wrist_2_joint_position_controller/state',
+                         JointControllerState, self.cbGetJointPos2)
 
     def initUI(self):    # GUI - Instanziierung der Widgets
         self.lblInfo1 = QLabel('Wrist 1  * 10')
